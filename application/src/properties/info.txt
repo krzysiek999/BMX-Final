@@ -1,0 +1,4 @@
+https://bmxlife.pl/czesci/;h2.title;span.price
+https://www.avebmx.pl/czesci/;div.product-name;div.product-price
+https://manyfestbmx.pl/;h2.h3.product-title;span.product-price
+https://allday.pl/;
