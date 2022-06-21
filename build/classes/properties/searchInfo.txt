@@ -1,0 +1,3 @@
+bmxlife;https://bmxlife.pl/czesci/;div#products-container;li;a;href
+avebmx;https://www.avebmx.pl/czesci/;div.row;div.col-lg-3.col-md-6.col-6;a;abs:href
+manyfestbmx;https://manyfestbmx.pl/;div.products.row.products-grid;a.thumbnail.product-thumbnail;a;href

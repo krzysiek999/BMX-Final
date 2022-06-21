@@ -1,0 +1,3 @@
+bColor:UIManager.getColor("Panel.background");
+tExist:false;
+pTExist:false;
