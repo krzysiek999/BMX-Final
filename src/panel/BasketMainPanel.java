@@ -58,7 +58,7 @@ public class BasketMainPanel extends javax.swing.JPanel {
         browserButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("search"));
         compareButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("compare"));
         comparisonPanelButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("comparisonPanel"));
-        compareButton.setEnabled(false);
+        setButtonEnabled(false);
         
         shopTabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -80,6 +80,13 @@ public class BasketMainPanel extends javax.swing.JPanel {
         compareButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("compare"));
         comparisonPanelButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("comparisonPanel"));
         this.repaint();
+    }
+    
+    public void setButtonEnabled(boolean value)
+    {
+        this.compareButton.setEnabled(value);
+        this.browserButton.setEnabled(value);
+        this.comparisonPanelButton.setEnabled(value);
     }
     
     public MainPanel getMainPanel()
@@ -449,10 +456,10 @@ public class BasketMainPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(shopTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(shopTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(36, 36, 36))
         );
     }// </editor-fold>//GEN-END:initComponents
 

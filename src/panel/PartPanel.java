@@ -11,10 +11,13 @@ import classes.ShopResearcher;
 //import frame.PartFrame;
 import frame.*;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +27,8 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.PlainDocument;
@@ -43,50 +48,56 @@ public class PartPanel extends javax.swing.JPanel {
     JTextArea textArea = new JTextArea(20, 20); 
     JScrollPane scrollPane = new JScrollPane();
     private JButton backButton, basketButton, addBasketButton;  
+    FlowLayout buttonLayout = new FlowLayout(25);
+    JPanel buttonPanel = new JPanel(buttonLayout);
+    JPanel scrollPanel = new JPanel();
+    BoxLayout mainLayout;
+    
     
     String resourceLanguage;
     //ResourceBundle languageChoice;
     
-    PartFrame frame;
+    //PartFrame frame;
     MainFrame mainFrame;
     BasketMainFrame basketFrame; 
     DefaultTableModel tableModel;
     JTable table;
+    InnerActionHandler actionHandler = new InnerActionHandler();
     
-    
-    public PartPanel(ShopResearcher researcher, MainFrame frame, PartFrame thisFrame) 
+    public PartPanel(ShopResearcher researcher, MainFrame frame) 
     {
         
         this.researcher = researcher;
-        this.frame = thisFrame;
+        //this.frame = thisFrame;
         this.mainFrame = frame;
         this.basketFrame = frame.getMainPanel().getBasketFrame();
-        
         this.basketFrame.setResearcher(researcher);
+        mainLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.setLayout(mainLayout);
         
         
-        //this.resourceLanguage = "properties/" + mainFrame.getLanguage();
-        //languageChoice = ResourceBundle.getBundle(this.resourceLanguage);
-        
-        InnerActionHandler actionHandler = new InnerActionHandler();
         
         backButton = new JButton(mainFrame.getResourceBundle().getString("back"));
         basketButton = new JButton(mainFrame.getResourceBundle().getString("basket"));
         addBasketButton = new JButton(mainFrame.getResourceBundle().getString("addBasket"));
+        
         addBasketButton.addActionListener(actionHandler);
         backButton.addActionListener(actionHandler);
         basketButton.addActionListener(actionHandler);
         
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        addBasketButton.setEnabled(false);
+        basketButton.setEnabled(false);
+       // scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(800, 800));
+        scrollPane.setPreferredSize(new Dimension(frame.getElementOneWidth(),600));
         
         this.add(new JLabel(researcher.getShopName()));
-        this.add(new JLabel("  "));
-        this.add(backButton);
-        this.add(addBasketButton);
-        this.add(basketButton);
+        buttonPanel.setPreferredSize(new Dimension(50,5));
+        buttonPanel.add(backButton);
+        buttonPanel.add(addBasketButton);
+        buttonPanel.add(basketButton);
         
+        this.add(buttonPanel);
         setLabel();
     }
     
@@ -100,10 +111,11 @@ public class PartPanel extends javax.swing.JPanel {
         
         tableModel = shopPanel.getJTableModel();
         table = shopPanel.getTable();
+        table.getSelectionModel().addListSelectionListener(actionHandler);
 
         scrollPane.getViewport().add(shopPanel,0);
-        this.add(scrollPane);
-
+        scrollPanel.add(scrollPane);
+        this.add(scrollPanel);
     }
     
     public void setButtonText()
@@ -130,7 +142,7 @@ public class PartPanel extends javax.swing.JPanel {
 
         public ShopPanel() 
         {
-        this.setSize(500, 500);
+        this.setSize(300, 500);
         tableModel.setRowCount(0);
         table = new JTable(tableModel);
         
@@ -165,7 +177,7 @@ public class PartPanel extends javax.swing.JPanel {
         
     }
     
-    class InnerActionHandler implements ActionListener
+    class InnerActionHandler implements ActionListener, ListSelectionListener
     {
         
         //BasketMainPanel basketPanel = basketFrame.getPanel();
@@ -178,17 +190,10 @@ public class PartPanel extends javax.swing.JPanel {
         
             if(e.getSource().equals(backButton)) 
             {
-                mainFrame.setVisible(true);
-                frame.dispose();
+                mainFrame.setActivePanel(mainFrame.getMainLabel());
             }
             else if(e.getSource().equals(basketButton))
             {
-             /*   basketFrame.getPanel().getTabPane().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-               if(basketFrame.getPanel().getTabPane().getTabCount() != 0) basketFrame.getPanel().addElementToBasket("", "", null, false);
-            }
-        });*/
                 if(!basketFrame.isVisible()) basketFrame.setVisible(true);
                 else basketFrame.setVisible(false);
             }
@@ -212,10 +217,7 @@ public class PartPanel extends javax.swing.JPanel {
                             break;
                         }
                     }
-
                     if(existance) basketFrame.getPanel().addTab(researcher.getShopName());
-                        
-                    
                 }
                 
                if(table.getSelectedRow() != -1)
@@ -226,7 +228,12 @@ public class PartPanel extends javax.swing.JPanel {
                }
             }
         }
-        
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            basketButton.setEnabled(true);
+            addBasketButton.setEnabled(true);
+        }
     }
     
     /**

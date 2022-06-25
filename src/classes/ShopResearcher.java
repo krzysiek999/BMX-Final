@@ -266,9 +266,11 @@ ArrayList<ShopProduct> products = new ArrayList<>();
     
     public void initializePartPanel()
     {
-        partFrame = new PartFrame(this, this.frame);
-        partFrame.setVisible(true);
-        frame.dispose();
+        //partFrame = new PartFrame(this, this.frame);
+        //partFrame.setVisible(true);
+        //frame.dispose();
+        frame.setPartPanel(this);
+        frame.setActivePanel(frame.getPartLabel());
     }
     
     public String getShopName()

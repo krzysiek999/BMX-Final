@@ -30,7 +30,7 @@ public class PartFrame extends javax.swing.JFrame {
     
     public PartFrame(ShopResearcher researcher, MainFrame frame) {
         
-        this.panel = new PartPanel(researcher, frame, this);
+        //this.panel = new PartPanel(researcher, frame, this);
         this.setBounds(xPosition, yPosition, width, height);
         this.getContentPane().add(panel);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

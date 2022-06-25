@@ -151,7 +151,7 @@ public class MainPanel extends javax.swing.JPanel {
 
         shopLabel.setText("Sklepy:");
         add(shopLabel);
-        shopLabel.setBounds(20, 650, 60, 16);
+        shopLabel.setBounds(20, 650, 60, 14);
 
         buttonGroup.add(bmxlifeCheckBox);
         bmxlifeCheckBox.setText("BmxLife");
@@ -161,7 +161,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(bmxlifeCheckBox);
-        bmxlifeCheckBox.setBounds(90, 660, 110, 20);
+        bmxlifeCheckBox.setBounds(90, 660, 110, 23);
 
         buttonGroup.add(manyfestCheckBox);
         manyfestCheckBox.setText("ManyfestBmx");
@@ -171,7 +171,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(manyfestCheckBox);
-        manyfestCheckBox.setBounds(200, 630, 130, 20);
+        manyfestCheckBox.setBounds(200, 630, 130, 23);
 
         buttonGroup.add(avebmxCheckBox);
         avebmxCheckBox.setText("AveBmx");
@@ -181,7 +181,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(avebmxCheckBox);
-        avebmxCheckBox.setBounds(90, 630, 110, 20);
+        avebmxCheckBox.setBounds(90, 630, 110, 23);
 
         buttonGroup.add(alldayCheckBox);
         alldayCheckBox.setText("AlldayBmx");
@@ -191,7 +191,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(alldayCheckBox);
-        alldayCheckBox.setBounds(200, 660, 130, 20);
+        alldayCheckBox.setBounds(200, 660, 130, 23);
 
         hubguardsButton.setText("HUBGUARDY");
         hubguardsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -356,6 +356,11 @@ public class MainPanel extends javax.swing.JPanel {
         framesButton.setBounds(340, 230, 90, 30);
 
         gripsButton.setText("GRIPY");
+        gripsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gripsButtonActionPerformed(evt);
+            }
+        });
         add(gripsButton);
         gripsButton.setBounds(260, 20, 90, 30);
 
@@ -456,6 +461,10 @@ public class MainPanel extends javax.swing.JPanel {
     private void pedalsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedalsButtonActionPerformed
         setPartName("pedaly");
     }//GEN-LAST:event_pedalsButtonActionPerformed
+
+    private void gripsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gripsButtonActionPerformed
+        setPartName("gripy");
+    }//GEN-LAST:event_gripsButtonActionPerformed
 
     public BasketMainFrame getBasketFrame()
     {

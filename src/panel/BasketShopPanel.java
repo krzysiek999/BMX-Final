@@ -9,6 +9,9 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -27,7 +30,7 @@ public class BasketShopPanel extends javax.swing.JPanel {
     
     boolean singleSelection = true;
     
-    int width = 380, height = 500;
+    int width = 380, height = 400;
     
     BasketMainPanel basketPanel;
     
@@ -47,7 +50,12 @@ public class BasketShopPanel extends javax.swing.JPanel {
         table = new JTable(tableModel);
         table.setDefaultEditor(Object.class, null);
         table.setRowHeight(ROW_HEIGHT);
-
+        this.table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                basketPanel.setButtonEnabled(true);
+            }
+        });
         
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(200);

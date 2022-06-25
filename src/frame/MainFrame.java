@@ -6,6 +6,7 @@ package frame;
 
 
 import classes.FilesHandler;
+import classes.ShopResearcher;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -28,7 +29,7 @@ import panel.*;
  */
 public class MainFrame extends javax.swing.JFrame {
     
-    final String MAIN_PANEL = "Main Panel", SETTING_PANEL = "Setting Panel", COMPARISON_PANEL = "Comparison Panel", LOADING_PANEL = "Loading Panel", WEAR_PANEL = "Wear Panel";
+    final String MAIN_PANEL = "Main Panel", SETTING_PANEL = "Setting Panel", COMPARISON_PANEL = "Comparison Panel", LOADING_PANEL = "Loading Panel", WEAR_PANEL = "Wear Panel", PART_PANEL = "Part Panel";
     
     private boolean tableExist = false, productTableExist = false;
     
@@ -47,6 +48,7 @@ public class MainFrame extends javax.swing.JFrame {
     SearchPanel searchPanel;
     ComparisonPanel comparisonPanel;
     SettingsPanel settingsPanel;
+    PartPanel partPanel;
     
     
     MainPanel mainPanel;
@@ -105,12 +107,25 @@ public class MainFrame extends javax.swing.JFrame {
         loadingPanel = new LoadingPanel(this);
         wearPanel = new WearPanel(this);
         
+        
         this.centerPanel.add(mainPanel, MAIN_PANEL);
         this.centerPanel.add(settingsPanel, SETTING_PANEL);
         this.centerPanel.add(comparisonPanel, COMPARISON_PANEL);
         this.centerPanel.add(wearPanel, WEAR_PANEL);
         this.centerPanel.add(loadingPanel, LOADING_PANEL);
         
+        
+    }
+    
+    public void setPartPanel(ShopResearcher researcher)
+    {
+        this.partPanel = new PartPanel(researcher, this);
+        this.centerPanel.add(partPanel, PART_PANEL);
+    }
+    
+    public String getPartLabel()
+    {
+        return this.PART_PANEL;
     }
     
     public void saveTableExistConfig(String value)
