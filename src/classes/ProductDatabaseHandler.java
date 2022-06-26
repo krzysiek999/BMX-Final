@@ -50,7 +50,8 @@ public class ProductDatabaseHandler extends DatabaseHandler{
         try { 
            statement = connection.createStatement();
            StringBuilder sql = new StringBuilder("CREATE TABLE ").append(this.tableName).append(" (ID int, ")
-                   .append("productName VARCHAR(255), ").append(" price VARCHAR(255), ").append(" URL VARCHAR(255))");
+                   .append("productName VARCHAR(255), ").append(" price VARCHAR(255), ").append(" URL VARCHAR(255), ")
+                   .append(" imageURL VARCHAR(255))");
             
          statement.executeUpdate(sql.toString());
          statement.close();
@@ -61,11 +62,12 @@ public class ProductDatabaseHandler extends DatabaseHandler{
     }
 
     @Override
-    public void insertElement(String productName, String price, String url) {
+    public void insertElement(String productName, String price, String url, String imageURL) {
         try {
            statement = connection.createStatement();
-           StringBuilder request = new StringBuilder("INSERT INTO ").append(this.tableName).append("(ID, productName, price, URL) VALUES (").
-                                   append(index).append(", ").append(productName).append(", ").append(price).append(", ").append(url).append(");");
+           StringBuilder request = new StringBuilder("INSERT INTO ").append(this.tableName).append("(ID, productName, price, URL, imageURL) VALUES (")
+                                   .append(index).append(", ").append(productName).append(", ").append(price).append(", ").append(url)
+                                   .append(", ").append(imageURL).append(");");
            
            statement.executeUpdate(request.toString()); 
            statement.close();
@@ -82,6 +84,22 @@ public class ProductDatabaseHandler extends DatabaseHandler{
 	    StringBuilder query = new StringBuilder("SELECT URL FROM ").append(tableName).append(" WHERE productName = ").append(productName).append(";");
             rsSearchElement = statement.executeQuery(query.toString());
             if(rsSearchElement.next()) result = rsSearchElement.getString("URL");
+            statement.close();
+            } catch(SQLException s){		
+                s.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        return result;
+    }
+    
+    public String getImageURL(String productName){
+        String result = "";
+        try{
+            statement = connection.createStatement();
+	    StringBuilder query = new StringBuilder("SELECT imageURL FROM ").append(tableName).append(" WHERE productName = ").append(productName).append(";");
+            rsSearchElement = statement.executeQuery(query.toString());
+            if(rsSearchElement.next()) result = rsSearchElement.getString("imageURL");
             statement.close();
             } catch(SQLException s){		
                 s.printStackTrace();

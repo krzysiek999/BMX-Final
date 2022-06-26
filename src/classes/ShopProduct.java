@@ -11,18 +11,19 @@ package classes;
 public class ShopProduct {
     
     String productName, productPrice, URL;
-    String[] details = new String[3];
+    String[] details = new String[4];
     
-    public ShopProduct(String productName, String productPrice, String URL) {
+    public ShopProduct(String productName) {
         details[0] = productName;
-        details[1] = productPrice;
-        details[2] = URL;
     }
     
     public String[] getProductDetails(){
         return details;
     }
     
+    public void setImageURL(String imageURL){
+        details[3] = imageURL;
+    }
     
     public void setProductName(String name){
         details[0] = name;

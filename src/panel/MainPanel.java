@@ -496,6 +496,7 @@ public class MainPanel extends javax.swing.JPanel {
                     System.out.println(part[2]);
                     System.out.println(part[3]);
                     System.out.println(part[4]);
+                    System.out.println(part[5]);
                     break;
                 }
                 
@@ -537,7 +538,7 @@ public class MainPanel extends javax.swing.JPanel {
         String[] parts = getHTMLElements(namePart,shopNumber,1);
         
         String html = parts[0];
-        String[] htmlElements = {parts[1],parts[2],parts[3],parts[4]};
+        String[] htmlElements = {parts[1],parts[2],parts[3],parts[4],parts[5]};
         shopResearcher = new ShopResearcher(html, nameShop, 2);
         if(!this.getFrame().productTableExists()) 
         {

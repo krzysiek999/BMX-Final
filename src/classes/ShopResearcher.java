@@ -33,8 +33,7 @@ private MainFrame frame;
 private boolean browserActivated = false;
 PartFrame partFrame; 
 
-int productIndexURL = 0;
-int productIndex = 0;
+int productIndexURL = 0, productIndex = 0, productImageIndex = 0;
 
 ProductDatabaseHandler productDatabase = new ProductDatabaseHandler();
 
@@ -113,7 +112,7 @@ ArrayList<ShopProduct> products = new ArrayList<>();
     public void initializeArrayOfElements(String[] htmlElements)
     {
      
-     this.htmlElements = new String[4];
+     this.htmlElements = new String[5];
      
      for(int i = 0;i < htmlElements.length; i++)
      {
@@ -136,6 +135,7 @@ ArrayList<ShopProduct> products = new ArrayList<>();
 
         productIndex=0;
         productIndexURL=0;
+        productImageIndex=0;
         
         if(initialized)
         {
@@ -154,8 +154,9 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                     Elements productName = div.select(htmlElements[0]);
                     Elements productPrice = div.select(htmlElements[1]);
                     Elements productURL = div.select(htmlElements[2]); 
-        
-                    Elements[] categoryElements =  {productName, productPrice, productURL};     
+                    Elements imageURL = div.select(htmlElements[4]);
+                    
+                    Elements[] categoryElements =  {productName, productPrice, productURL, imageURL};     
                     
                     for(int i=0;i<categoryElements.length;i++){
                      //j=0;
@@ -163,18 +164,24 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                         for(Element element: categoryElements[i]){
                             switch (i){
                                     case 0 ->  {
-                                        products.add(new ShopProduct(element.text(), "", ""));
+                                        products.add(new ShopProduct(element.text()));
                                     }
                                     case 1 ->  {
                                         products.get(productIndex).setProductPrice(element.text());
                                         System.out.println("HAHAL: " + products.get(productIndex).getProductDetails()[1]);
                                         productIndex += 1;
                                     }
-                                    case 2 -> {
+                                    case 2 -> {  
                                                 products.get(productIndexURL).setProductURL(element.attr("href"));
                                                 if(getShopName().equals("avebmx")) products.get(productIndexURL).setProductURL("https://www.avebmx.pl" + element.attr("href"));
-                                                productIndexURL += 1;
+                                                System.out.println("L" + productIndexURL + " " + element.attr("href"));
+                                                productIndexURL += 1;                           
                                     } 
+                                    case 3 -> {
+                                                products.get(productImageIndex).setImageURL(element.attr("src"));
+                                                System.out.println("I: " + productImageIndex + " " + element.attr("src"));
+                                                productImageIndex += 1;
+                                    }
                             }
                             
                         }
@@ -198,13 +205,15 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                     String nameDatabase;;
                     String priceDatabase;
                     String URLDatabase;
+                    String imageURLDatabase;
                     
                     for(int saveCounter=0;saveCounter<products.size();saveCounter++)
                     {
                         nameDatabase = "'" + products.get(saveCounter).getProductDetails()[0] + "'";
                         priceDatabase = "'" + products.get(saveCounter).getProductDetails()[1] + "'";
                         URLDatabase = "'" + products.get(saveCounter).getProductDetails()[2] + "'";
-                        productDatabase.insertElement(nameDatabase,priceDatabase,URLDatabase);
+                        imageURLDatabase = "'" + products.get(saveCounter).getProductDetails()[3] + "'";
+                        productDatabase.insertElement(nameDatabase, priceDatabase, URLDatabase, imageURLDatabase);
                     }
                     
                     productDatabase.closeConnection();
@@ -266,9 +275,6 @@ ArrayList<ShopProduct> products = new ArrayList<>();
     
     public void initializePartPanel()
     {
-        //partFrame = new PartFrame(this, this.frame);
-        //partFrame.setVisible(true);
-        //frame.dispose();
         frame.setPartPanel(this);
         frame.setActivePanel(frame.getPartLabel());
     }
