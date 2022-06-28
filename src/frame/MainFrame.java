@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import panel.*;
 
 
+
 /**
  *
  * @author sluja
@@ -33,7 +34,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private boolean tableExist = false, productTableExist = false;
     
-   final int WIDTH = 1000, HEIGHT = 800, FIRST_ELEMENT_WIDTH = 750, FIRST_ELEMENT_HEIGHT = 750;
+   final int WIDTH = 1300, HEIGHT = 1000, FIRST_ELEMENT_WIDTH = 950, FIRST_ELEMENT_HEIGHT = 900, SECOND_ELEMENT_WIDTH = 300, SECOND_ELEMENT_HEIGTH = 900;
    
     
     int xPosition = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - WIDTH/2;
@@ -54,7 +55,7 @@ public class MainFrame extends javax.swing.JFrame {
     MainPanel mainPanel;
     JPanel panel = new JPanel();
     JPanel centerPanel = new JPanel();
-    JPanel featurePanel = new JPanel();
+    FeaturePanel featurePanel;
     
     JMenuBar menuBar;
 
@@ -71,6 +72,9 @@ public class MainFrame extends javax.swing.JFrame {
     
     public MainFrame(String language)
     {
+        setLanguage(language);
+        setMenu();
+        featurePanel = new FeaturePanel(this);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setBounds(xPosition,yPosition,WIDTH,HEIGHT);
         this.panel.setLayout(mainFrameLayout);
@@ -80,15 +84,23 @@ public class MainFrame extends javax.swing.JFrame {
         this.add(panel);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         this.setResizable(false);
-        setLanguage(language);
-        setMenu();
+        
     }
     public void setProductTableExist(boolean value){
         this.productTableExist = value;
     }
     
+    
     public void setTableExist(boolean value){
         this.tableExist = value;
+    }
+    
+    public int getElementTwoWidth(){
+        return this.SECOND_ELEMENT_WIDTH;
+    }
+    
+    public int getElementTwoHeigth(){
+        return this.SECOND_ELEMENT_HEIGTH;
     }
     
     public boolean productTableExists(){
@@ -136,7 +148,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void setMenu()
     {
-        menuPanel = new MenuPanel(resource.getString("userButton"));
+        menuPanel = new MenuPanel(resource.getString("userButton"),this);
         menuBar = new JMenuBar();
         menuBar.add(menuPanel);
         this.setJMenuBar(menuBar);
@@ -319,92 +331,10 @@ public class MainFrame extends javax.swing.JFrame {
         this.repaint();
     }
     
-     class MenuPanel extends JMenu implements ActionListener
-{
-
-//Declaring variables
-    private String nameOfMenu;
-    
-    JMenuItem basketButton, setMainPanelVisibleButton, settingsButton, comparisonButton, exitButton;
-    MainFrame frame;
-    JMenu menu = new JMenu();
-
-    
-    public MenuPanel(String name) 
+    public MenuPanel getMenuPanel()
     {
-        super(name);
-        this.nameOfMenu = name;
-        addMenuElement();
+        return this.menuPanel;
     }
-    
-    
-    public void addMenuElement()
-    {
-        basketButton = new JMenuItem(resource.getString("purchaseBasket"));
-        settingsButton = new JMenuItem(resource.getString("settings"));
-        comparisonButton = new JMenuItem(resource.getString("compareButton"));
-        exitButton = new JMenuItem(resource.getString("exit"));
-        setMainPanelVisibleButton = new JMenuItem(resource.getString("mainPanel"));
-        
-        basketButton.addActionListener(this);
-        settingsButton.addActionListener(this);
-        comparisonButton.addActionListener(this);
-        exitButton.addActionListener(this);
-        setMainPanelVisibleButton.addActionListener(this);
-        
-        this.add(setMainPanelVisibleButton);
-        this.addSeparator();
-        this.add(basketButton);
-        this.addSeparator();
-        this.add(settingsButton);
-        this.addSeparator();
-        this.add(comparisonButton);
-        this.addSeparator();
-        this.add(exitButton);
-    }
-    
-    
-    
-    public void setButtonText()
-    {
-        this.basketButton.setText(resource.getString("purchaseBasket"));
-        this.settingsButton.setText(resource.getString("settings"));
-        this.comparisonButton.setText(resource.getString("compareButton"));
-        this.exitButton.setText(resource.getString("exit"));
-        this.setMainPanelVisibleButton.setText(resource.getString("mainPanel"));
-        this.setText(resource.getString("userButton"));
-        this.repaint();
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) 
-    {
-       
-        
-        if(e.getSource() == basketButton)
-        {
-            if(getMainPanel().getBasketFrame().isVisible()) getMainPanel().getBasketFrame().setVisible(false);
-            else getMainPanel().getBasketFrame().setVisible(true);
-        }
-        else if(e.getSource() == setMainPanelVisibleButton && !getMainPanel().isVisible()) 
-        {
-            setActivePanel(getMainLabel());
-            setCompareButtonVisible(false);
-        }
-        else if(e.getSource() == settingsButton)
-        {
-            setActivePanel(getSettingsLabel());
-            setCompareButtonVisible(false);
-        }
-        else if(e.getSource() == comparisonButton)
-        {
-            setActivePanel(getComparisonLabel());
-            setCompareButtonVisible(true);
-        }
-        else if(e.getSource() == exitButton) System.exit(0);  
-    } 
-}
-
     
     /**
      * This method is called from within the constructor to initialize the form.

@@ -147,11 +147,11 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(barsButton);
-        barsButton.setBounds(380, 60, 140, 30);
+        barsButton.setBounds(500, 100, 140, 30);
 
         shopLabel.setText("Sklepy:");
         add(shopLabel);
-        shopLabel.setBounds(20, 650, 60, 14);
+        shopLabel.setBounds(20, 850, 60, 14);
 
         buttonGroup.add(bmxlifeCheckBox);
         bmxlifeCheckBox.setText("BmxLife");
@@ -161,7 +161,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(bmxlifeCheckBox);
-        bmxlifeCheckBox.setBounds(90, 660, 110, 23);
+        bmxlifeCheckBox.setBounds(90, 860, 110, 23);
 
         buttonGroup.add(manyfestCheckBox);
         manyfestCheckBox.setText("ManyfestBmx");
@@ -171,7 +171,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(manyfestCheckBox);
-        manyfestCheckBox.setBounds(200, 630, 130, 23);
+        manyfestCheckBox.setBounds(200, 830, 130, 23);
 
         buttonGroup.add(avebmxCheckBox);
         avebmxCheckBox.setText("AveBmx");
@@ -181,7 +181,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(avebmxCheckBox);
-        avebmxCheckBox.setBounds(90, 630, 110, 23);
+        avebmxCheckBox.setBounds(90, 830, 110, 23);
 
         buttonGroup.add(alldayCheckBox);
         alldayCheckBox.setText("AlldayBmx");
@@ -191,7 +191,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(alldayCheckBox);
-        alldayCheckBox.setBounds(200, 660, 130, 23);
+        alldayCheckBox.setBounds(200, 860, 130, 23);
 
         hubguardsButton.setText("HUBGUARDY");
         hubguardsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -200,7 +200,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(hubguardsButton);
-        hubguardsButton.setBounds(470, 460, 130, 30);
+        hubguardsButton.setBounds(600, 670, 130, 30);
 
         chainwheelsButton.setText("ZĘBATKI");
         chainwheelsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -209,7 +209,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(chainwheelsButton);
-        chainwheelsButton.setBounds(180, 430, 120, 30);
+        chainwheelsButton.setBounds(260, 530, 120, 30);
 
         chainButton.setText("ŁAŃCUCHY");
         chainButton.addActionListener(new java.awt.event.ActionListener() {
@@ -218,7 +218,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(chainButton);
-        chainButton.setBounds(150, 370, 110, 30);
+        chainButton.setBounds(160, 440, 110, 30);
 
         steersButton.setText("STERY");
         steersButton.addActionListener(new java.awt.event.ActionListener() {
@@ -227,7 +227,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(steersButton);
-        steersButton.setBounds(470, 240, 90, 30);
+        steersButton.setBounds(560, 270, 90, 30);
 
         pegsButton.setText("PEGI");
         pegsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +236,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(pegsButton);
-        pegsButton.setBounds(50, 420, 100, 30);
+        pegsButton.setBounds(80, 600, 100, 30);
 
         barendsButton.setText("BARENDY");
         barendsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +245,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(barendsButton);
-        barendsButton.setBounds(550, 50, 120, 30);
+        barendsButton.setBounds(180, 30, 120, 30);
 
         forksButton.setText("WIDELCE");
         forksButton.addActionListener(new java.awt.event.ActionListener() {
@@ -254,7 +254,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(forksButton);
-        forksButton.setBounds(410, 350, 100, 30);
+        forksButton.setBounds(510, 510, 100, 30);
 
         hubsButton.setText("PIASTY");
         hubsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +263,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(hubsButton);
-        hubsButton.setBounds(480, 420, 100, 30);
+        hubsButton.setBounds(620, 630, 100, 30);
 
         spokesButton.setText("SZPRYCHY");
         spokesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -272,7 +272,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(spokesButton);
-        spokesButton.setBounds(440, 530, 120, 30);
+        spokesButton.setBounds(580, 740, 120, 30);
 
         seatsButton.setText("SIODEŁKO");
         seatsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -281,7 +281,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(seatsButton);
-        seatsButton.setBounds(200, 230, 120, 30);
+        seatsButton.setBounds(290, 320, 120, 30);
 
         stemsButton.setText("MOSTKI");
         stemsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +290,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(stemsButton);
-        stemsButton.setBounds(420, 150, 100, 30);
+        stemsButton.setBounds(550, 230, 100, 30);
 
         supportsButton.setText("SUPPORTY");
         supportsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -299,7 +299,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(supportsButton);
-        supportsButton.setBounds(300, 390, 130, 30);
+        supportsButton.setBounds(350, 590, 130, 30);
 
         cranksButton.setText("KORBY");
         cranksButton.addActionListener(new java.awt.event.ActionListener() {
@@ -308,7 +308,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(cranksButton);
-        cranksButton.setBounds(270, 470, 100, 30);
+        cranksButton.setBounds(300, 640, 100, 30);
 
         rimsButton.setText("OBRĘCZE");
         rimsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -317,7 +317,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(rimsButton);
-        rimsButton.setBounds(120, 490, 110, 30);
+        rimsButton.setBounds(100, 530, 110, 30);
 
         tyresButton.setText("OPONY");
         tyresButton.addActionListener(new java.awt.event.ActionListener() {
@@ -326,7 +326,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(tyresButton);
-        tyresButton.setBounds(560, 370, 90, 30);
+        tyresButton.setBounds(700, 460, 90, 30);
 
         seatpostsButton.setText("SZTYCE");
         seatpostsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -335,7 +335,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(seatpostsButton);
-        seatpostsButton.setBounds(210, 280, 110, 30);
+        seatpostsButton.setBounds(310, 390, 110, 30);
 
         pedalsButton.setText("PEDAŁY");
         pedalsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +344,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(pedalsButton);
-        pedalsButton.setBounds(310, 320, 100, 30);
+        pedalsButton.setBounds(380, 430, 100, 30);
 
         framesButton.setText("RAMY");
         framesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -353,7 +353,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(framesButton);
-        framesButton.setBounds(340, 230, 90, 30);
+        framesButton.setBounds(460, 320, 90, 30);
 
         gripsButton.setText("GRIPY");
         gripsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -362,11 +362,11 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
         add(gripsButton);
-        gripsButton.setBounds(260, 20, 90, 30);
+        gripsButton.setBounds(310, 30, 90, 30);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bmxIconR.PNG"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bmxIcon2.png"))); // NOI18N
         add(jLabel3);
-        jLabel3.setBounds(10, 10, 620, 640);
+        jLabel3.setBounds(90, -70, 810, 1050);
     }// </editor-fold>//GEN-END:initComponents
 
     private void barsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barsButtonActionPerformed

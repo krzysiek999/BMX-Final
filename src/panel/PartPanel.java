@@ -5,6 +5,7 @@
  */
 package panel;
 
+import classes.ImageHandler;
 import classes.ShopProduct;
 import classes.ShopResearcher;
 //import frame.MainFrame;
@@ -15,9 +16,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,13 +25,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -63,6 +60,7 @@ public class PartPanel extends javax.swing.JPanel {
     DefaultTableModel tableModel;
     JTable table;
     InnerActionHandler actionHandler = new InnerActionHandler();
+    ImageHandler imageHandler = new ImageHandler();
     
     public PartPanel(ShopResearcher researcher, MainFrame frame) 
     {
@@ -89,7 +87,7 @@ public class PartPanel extends javax.swing.JPanel {
         basketButton.setEnabled(false);
        // scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(frame.getElementOneWidth(),600));
+        scrollPane.setPreferredSize(new Dimension(frame.getElementOneWidth(),800));
         
         this.add(new JLabel(researcher.getShopName()));
         buttonPanel.setPreferredSize(new Dimension(50,5));
@@ -133,10 +131,16 @@ public class PartPanel extends javax.swing.JPanel {
         JLabel partLabel = new JLabel();
         JLabel priceLabel = new JLabel();
         
-        final String[] TABLE_COLUMNS = {"Number","Part","Price"};
-        private static final int ROW_HEIGHT = 40;
+        final String[] TABLE_COLUMNS = {"Number","Part","Price","Image"};
+        private static final int ROW_HEIGHT = 100;
         
-        final DefaultTableModel tableModel = new DefaultTableModel(TABLE_COLUMNS, 3);
+        final DefaultTableModel tableModel = new DefaultTableModel(TABLE_COLUMNS, 4){
+            @Override
+            public Class<?> getColumnClass(int column) {
+                if (column==3) return ImageIcon.class;
+                return Object.class;
+            }
+        };
         JTable table;
        
 
@@ -150,9 +154,10 @@ public class PartPanel extends javax.swing.JPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(20);
+        columnModel.getColumn(0).setPreferredWidth(40);
         columnModel.getColumn(1).setPreferredWidth(300);
-        columnModel.getColumn(2).setPreferredWidth(350);
+        columnModel.getColumn(2).setPreferredWidth(250);
+        columnModel.getColumn(3).setPreferredWidth(300);
         
         }
         
@@ -160,9 +165,14 @@ public class PartPanel extends javax.swing.JPanel {
         {
             
             for(int i = 0; i < arrayL.size(); i++) 
-                tableModel.addRow(new String[]{"" + (i+1), arrayL.get(i).getProductDetails()[0], arrayL.get(i).getProductDetails()[1]});
+            {
+                imageHandler.setImage(arrayL.get(i).getProductDetails()[3]);
+                imageHandler.resizeImage();
+                //System.out.println("IMAGEICON: " + arrayL.get(i).getProductDetails()[3]);
+                Object[] data = {"" + (i+1), arrayL.get(i).getProductDetails()[0], arrayL.get(i).getProductDetails()[1], imageHandler.getImage()};
+                tableModel.addRow(data);
+            }
             this.add(table);
-            
         }
         
         public DefaultTableModel getJTableModel()

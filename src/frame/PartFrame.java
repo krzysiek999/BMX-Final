@@ -8,7 +8,7 @@ package frame;
 import classes.ShopResearcher;
 import java.awt.Toolkit;
 import panel.PartPanel;
-import panel.ShopPanel;
+
 
 /**
  *
