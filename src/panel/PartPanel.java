@@ -30,6 +30,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+
+
 /**
  *
  * @author krzys
@@ -49,7 +51,7 @@ public class PartPanel extends javax.swing.JPanel {
     JPanel buttonPanel = new JPanel(buttonLayout);
     JPanel scrollPanel = new JPanel();
     BoxLayout mainLayout;
-    
+    ShopPanel shopPanel;
     
     String resourceLanguage;
     //ResourceBundle languageChoice;
@@ -84,7 +86,6 @@ public class PartPanel extends javax.swing.JPanel {
         basketButton.addActionListener(actionHandler);
         
         addBasketButton.setEnabled(false);
-        basketButton.setEnabled(false);
        // scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(frame.getElementOneWidth(),800));
@@ -99,11 +100,15 @@ public class PartPanel extends javax.swing.JPanel {
         setLabel();
     }
     
+    public JButton getAddBasketButton(){
+        return this.addBasketButton;
+    }
+    
     private void setLabel()
     {
         ArrayList<ShopProduct> arrayInformation = researcher.getInformations();
         
-        ShopPanel shopPanel = new ShopPanel();
+        shopPanel = new ShopPanel();
         
         shopPanel.setLabel(arrayInformation);
         
@@ -123,6 +128,22 @@ public class PartPanel extends javax.swing.JPanel {
         this.addBasketButton.setText(mainFrame.getResourceBundle().getString("addBasket"));
         this.repaint();  
     }
+    
+    public JTable getJTable(){
+        return this.table;
+    }
+    
+    public int getTablePriceColumn(){
+        return this.shopPanel.getPriceColumn();
+    }
+
+    public void updatePrice(int row, String value){
+        this.getJTable().setValueAt(value, row, this.shopPanel.getPriceColumn());
+    }
+    
+    public JButton getBasketButton(){
+        return this.basketButton;
+    }
 
     
     class ShopPanel extends JPanel
@@ -130,6 +151,8 @@ public class PartPanel extends javax.swing.JPanel {
         JLabel numberLabel = new JLabel();
         JLabel partLabel = new JLabel();
         JLabel priceLabel = new JLabel();
+        
+        private final int NUMBER_COLUMN = 0, PART_COLUMN = 1, PRICE_COLUMN = 2, IMAGE_COLUMN = 3;
         
         final String[] TABLE_COLUMNS = {"Number","Part","Price","Image"};
         private static final int ROW_HEIGHT = 100;
@@ -161,6 +184,10 @@ public class PartPanel extends javax.swing.JPanel {
         
         }
         
+        public int getPriceColumn(){
+            return this.PRICE_COLUMN;
+        }
+        
         public void setLabel(ArrayList<ShopProduct> arrayL)
         {
             
@@ -168,8 +195,7 @@ public class PartPanel extends javax.swing.JPanel {
             {
                 imageHandler.setImage(arrayL.get(i).getProductDetails()[3]);
                 imageHandler.resizeImage();
-                //System.out.println("IMAGEICON: " + arrayL.get(i).getProductDetails()[3]);
-                Object[] data = {"" + (i+1), arrayL.get(i).getProductDetails()[0], arrayL.get(i).getProductDetails()[1], imageHandler.getImage()};
+                Object[] data = {"" + (i+1), arrayL.get(i).getProductDetails()[0], arrayL.get(i).getProductDetails()[1], imageHandler.getImage()};                
                 tableModel.addRow(data);
             }
             this.add(table);
@@ -201,6 +227,7 @@ public class PartPanel extends javax.swing.JPanel {
             if(e.getSource().equals(backButton)) 
             {
                 mainFrame.setActivePanel(mainFrame.getMainLabel());
+                mainFrame.getFeaturePanel().getAddBasketButton().setEnabled(false);
             }
             else if(e.getSource().equals(basketButton))
             {
@@ -233,6 +260,7 @@ public class PartPanel extends javax.swing.JPanel {
                if(table.getSelectedRow() != -1)
                {
                    String nameOfPart = table.getModel().getValueAt(table.getSelectedRow(), 1).toString();
+                   nameOfPart.replaceAll("'", "");
                    String price = table.getModel().getValueAt(table.getSelectedRow(), 2).toString();
                    basketFrame.getPanel().addElementToBasket(nameOfPart, price, researcher);
                }
@@ -241,8 +269,8 @@ public class PartPanel extends javax.swing.JPanel {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            basketButton.setEnabled(true);
             addBasketButton.setEnabled(true);
+            mainFrame.getFeaturePanel().getAddBasketButton().setEnabled(true);
         }
     }
     

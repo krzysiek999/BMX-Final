@@ -197,6 +197,11 @@ public class DatabaseHandler implements DatabaseInterference{
     public void insertElement(String productName, String category, String shopName, String imageURL) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void updateElement(int id, String value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
    
    
    

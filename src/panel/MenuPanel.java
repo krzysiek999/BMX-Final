@@ -25,7 +25,8 @@ public class MenuPanel extends JMenu implements ActionListener
     JMenuItem basketButton, setMainPanelVisibleButton, settingsButton, comparisonButton, exitButton;
     MainFrame frame;
     JMenu menu = new JMenu();
-
+    private String actionName = "";
+    Object previousButton = new JButton();
     
     public MenuPanel(String name, MainFrame frame) 
     {
@@ -77,8 +78,17 @@ public class MenuPanel extends JMenu implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) 
     {
-       String actionName = ((JButton)e.getSource()).getText();
-        
+       
+       Object source = e.getSource();
+       if(source instanceof JButton) actionName = ((JButton)e.getSource()).getText();
+       else actionName = ((JMenuItem)e.getSource()).getText();
+       
+       if(!frame.getActivePanel().equals(frame.getMainLabel()) && actionName.equals(previousButton)/*&& (e.getSource() != previousButton || actionName.equals(((JButton)e.getSource()).getText().equals(previousButton.getText())))*/) 
+       {
+           this.frame.setActivePanel(this.frame.getMainLabel());
+           return;
+       }
+       
         if(e.getSource() == basketButton || actionName.equals(frame.getResourceBundle().getString("basket")))
         {
             if(this.frame.getMainPanel().getBasketFrame().isVisible()) this.frame.getMainPanel().getBasketFrame().setVisible(false);
@@ -101,5 +111,8 @@ public class MenuPanel extends JMenu implements ActionListener
         }
         else if(e.getSource() == exitButton || actionName.equals(frame.getResourceBundle().getString("exit"))) System.exit(0);  
         
+        if(source instanceof JButton) previousButton = ((JButton)e.getSource()).getText();
+        else previousButton = ((JMenuItem)e.getSource()).getText();
+
     } 
 }

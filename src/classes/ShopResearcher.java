@@ -153,8 +153,14 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                     Elements div = doc.select(htmlElements[3]);
                     Elements productName = div.select(htmlElements[0]);
                     Elements productPrice = div.select(htmlElements[1]);
-                    Elements productURL = div.select(htmlElements[2]); 
-                    Elements imageURL = div.select(htmlElements[4]);
+                    Elements productURL = div.select(htmlElements[2]);
+                    Elements imageURL;
+                    if(frame.getMainPanel().getShopName().equals("manyfestbmx")) {
+                        imageURL = doc.select(htmlElements[4]);
+                        
+                        System.out.println("GOOOOOOOOOOOOOWNO: " + imageURL.toString());
+                    }
+                    else imageURL = div.select(htmlElements[4]);
                     
                     Elements[] categoryElements =  {productName, productPrice, productURL, imageURL};     
                     
@@ -209,6 +215,7 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                     
                     for(int saveCounter=0;saveCounter<products.size();saveCounter++)
                     {
+                        products.get(saveCounter).setProductName(products.get(saveCounter).getProductDetails()[0].replace("'", "")); 
                         nameDatabase = "'" + products.get(saveCounter).getProductDetails()[0] + "'";
                         priceDatabase = "'" + products.get(saveCounter).getProductDetails()[1] + "'";
                         URLDatabase = "'" + products.get(saveCounter).getProductDetails()[2] + "'";
@@ -277,6 +284,7 @@ ArrayList<ShopProduct> products = new ArrayList<>();
     {
         frame.setPartPanel(this);
         frame.setActivePanel(frame.getPartLabel());
+        frame.getFeaturePanel().discountApply();
     }
     
     public String getShopName()
