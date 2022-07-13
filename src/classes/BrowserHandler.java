@@ -50,7 +50,7 @@ public class BrowserHandler {
     {
         try{
         this.nameOfShop = nameOfShop;
-        shopNumber = mainPanel.getResearcher().getShopNumber(nameOfShop);
+        shopNumber = mainPanel.getResearcher(this.nameOfShop).getShopNumber(nameOfShop);
         if(shopNumber<0) throw new Exception();
         }catch(Exception ex)
         {
@@ -61,7 +61,8 @@ public class BrowserHandler {
     public void setHTML(){
         StringBuilder sqlNamePart = new StringBuilder();
         sqlNamePart.append("'").append(this.nameOfPart).append("'");
-        this.html = this.mainPanel.getResearcher().getProductDatabaseHandler().getProductURL(sqlNamePart.toString());
+        this.html = this.mainPanel.getResearcher(this.nameOfShop).getProductDatabaseHandler().getProductURL(sqlNamePart.toString());
+        System.out.println("NAZWA CZĘŚCI: " + this.nameOfPart);
         System.out.println("HTML: " + this.html);
     }
     

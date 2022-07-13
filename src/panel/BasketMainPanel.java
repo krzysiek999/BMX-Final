@@ -478,8 +478,11 @@ public class BasketMainPanel extends javax.swing.JPanel {
 
             try{
                 int numberOfTab = this.getTabPane().getSelectedIndex();
+                System.out.println("NUMER PANELU: " + numberOfTab);
+                System.out.println("NAZWA SKLEPU XD: " + basketTabPanel.get(numberOfTab).getShopName());
                 int selectedRow = basketTabPanel.get(numberOfTab).getTable().getSelectedRow();
                 browser.setNameOfPart(basketTabPanel.get(numberOfTab).getTable().getModel().getValueAt(selectedRow, 0).toString());
+                browser.setShop(basketTabPanel.get(numberOfTab).getShopName());
                 browser.setHTML();
                 browser.openBrowser();
             }catch(IndexOutOfBoundsException ex)
@@ -519,7 +522,7 @@ public class BasketMainPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String name = "'" + basketTabPanel.get(0).getTable().getModel().getValueAt(0, 0).toString() + "'";
         //System.out.println("HAHA: " + this.mainPanel.getDatabaseHandler().searchAllElements(this.mainPanel.getDatabaseHandler().getTableTitle()).get(0)[1]);
-        System.out.println("imageURL: " + this.mainPanel.getResearcher().getProductDatabaseHandler().getImageURL(name));
+        //System.out.println("imageURL: " + this.mainPanel.getResearcher().getProductDatabaseHandler().getImageURL(name));
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

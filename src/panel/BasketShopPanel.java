@@ -22,7 +22,14 @@ import javax.swing.table.TableColumnModel;
 public class BasketShopPanel extends javax.swing.JPanel {
 
     final private String[] TABLE_COLUMNS = {"Nazwa","Cena"};
-    final private DefaultTableModel tableModel = new DefaultTableModel(TABLE_COLUMNS, 2);
+    final private DefaultTableModel tableModel = new DefaultTableModel(TABLE_COLUMNS, 2){
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+       //all cells false
+       return false;
+    }
+};
     final private int ROW_HEIGHT = 60;
     JTable table;
     private String nameOfShop;

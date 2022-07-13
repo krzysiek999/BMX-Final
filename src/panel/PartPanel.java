@@ -104,6 +104,10 @@ public class PartPanel extends javax.swing.JPanel {
         return this.addBasketButton;
     }
     
+    public ShopResearcher getResearcher(){
+        return this.researcher;
+    }
+    
     private void setLabel()
     {
         ArrayList<ShopProduct> arrayInformation = researcher.getInformations();
@@ -175,6 +179,7 @@ public class PartPanel extends javax.swing.JPanel {
         
         table.setRowHeight(ROW_HEIGHT);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setDefaultEditor(Object.class, null);
         
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(40);

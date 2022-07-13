@@ -83,7 +83,7 @@ public class MenuPanel extends JMenu implements ActionListener
        if(source instanceof JButton) actionName = ((JButton)e.getSource()).getText();
        else actionName = ((JMenuItem)e.getSource()).getText();
        
-       if(!frame.getActivePanel().equals(frame.getMainLabel()) && actionName.equals(previousButton)/*&& (e.getSource() != previousButton || actionName.equals(((JButton)e.getSource()).getText().equals(previousButton.getText())))*/) 
+       if(!frame.getActivePanel().equals(frame.getMainLabel()) && actionName.equals(previousButton) && !actionName.equals(frame.getResourceBundle().getString("basket"))) 
        {
            this.frame.setActivePanel(this.frame.getMainLabel());
            return;

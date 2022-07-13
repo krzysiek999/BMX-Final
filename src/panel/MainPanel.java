@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,12 +35,16 @@ public class MainPanel extends javax.swing.JPanel {
     private int shopNumber = 0;
     
     private BasketMainFrame basketFrame;
-    ShopResearcher shopResearcher;
+    ShopResearcher shopResearcher = new ShopResearcher();
     private boolean partSearched = false;
+    private boolean firstInitialized = true;
     
     //Initialize database handler
     private DatabaseHandler databaseHandler = new DatabaseHandler();
     
+    ArrayList<ShopResearcher> arrayOfResearcher = new ArrayList<ShopResearcher>();
+    
+    private int shopIndex = 0;
     
     
     
@@ -537,21 +542,29 @@ public class MainPanel extends javax.swing.JPanel {
        {
         String[] parts = getHTMLElements(namePart,shopNumber,1);
         
+        //shopResearcher.setHTML(parts[0]);
+        //shopResearcher.setShopName(nameShop);
         String html = parts[0];
         String[] htmlElements = {parts[1],parts[2],parts[3],parts[4],parts[5]};
+        
         shopResearcher = new ShopResearcher(html, nameShop, 2);
-        if(!this.getFrame().productTableExists()) 
-        {
-            shopResearcher.createTable();
-            this.getFrame().getFilesHandler().writeToFile("true;", 2);
-        }
-        else shopResearcher.getProductDatabaseHandler().deleteAllElements(shopResearcher.getProductDatabaseHandler().getTableTitle());
+        shopIndex += 1;
+        
+            if(!this.getFrame().productTableExists() && firstInitialized) 
+            {
+                shopResearcher.createTable();
+                this.getFrame().getFilesHandler().writeToFile("true;", 2);   
+            }
+            else if(firstInitialized) shopResearcher.getProductDatabaseHandler().deleteAllElements(shopResearcher.getProductDatabaseHandler().getTableTitle());
+
         shopResearcher.setFrame(this.frame);
         shopResearcher.setCategory(namePart);
         shopResearcher.setConnection();
         shopResearcher.initializeArrayOfElements(htmlElements);
         shopResearcher.searchHTMLElements();
         shopResearcher.initializePartPanel();
+        arrayOfResearcher.add(shopResearcher);
+        firstInitialized = false;
         partSearched = true;
        }
        
@@ -565,9 +578,12 @@ public class MainPanel extends javax.swing.JPanel {
            return this.partSearched;
        }
        
-       public ShopResearcher getResearcher()
+       public ShopResearcher getResearcher(String nameOfShop)
        {
-           return this.shopResearcher;
+           for(int index = 0; index < arrayOfResearcher.size(); index++){
+               if(arrayOfResearcher.get(index).getShopName().equals(nameOfShop)) return this.arrayOfResearcher.get(index);
+           }
+           return null;
        }
        
        private void setPartName(String name)

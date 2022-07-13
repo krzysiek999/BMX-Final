@@ -329,10 +329,7 @@ public class MainFrame extends javax.swing.JFrame {
         return this.settingsPanel;
     }
     
-    public PartFrame getPartFrame()
-    {
-        return this.getMainPanel().getResearcher().getPartFrame();
-    }
+   
     
     
     
@@ -343,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.getComparisonPanel().setButtonText();
         this.getSettingsPanel().setButtonText();
         this.getMainPanel().setButtonText();
-        if(this.getMainPanel().getSearchState()) this.getPartFrame().setButtonText();
+        //if(this.getMainPanel().getSearchState()) this.getPartFrame().setButtonText();
         this.repaint();
     }
     

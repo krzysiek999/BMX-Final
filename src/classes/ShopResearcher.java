@@ -155,12 +155,15 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                     Elements productPrice = div.select(htmlElements[1]);
                     Elements productURL = div.select(htmlElements[2]);
                     Elements imageURL;
+                    String imageAttribute;
                     if(frame.getMainPanel().getShopName().equals("manyfestbmx")) {
-                        imageURL = doc.select(htmlElements[4]);
-                        
-                        System.out.println("GOOOOOOOOOOOOOWNO: " + imageURL.toString());
+                        imageURL = doc.select(htmlElements[4]).select("img[data-full-size-image-url]");
+                        imageAttribute = "data-src";
                     }
-                    else imageURL = div.select(htmlElements[4]);
+                    else {
+                        imageURL = div.select(htmlElements[4]);
+                        imageAttribute = "src";
+                    }
                     
                     Elements[] categoryElements =  {productName, productPrice, productURL, imageURL};     
                     
@@ -173,7 +176,7 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                                         products.add(new ShopProduct(element.text()));
                                     }
                                     case 1 ->  {
-                                        products.get(productIndex).setProductPrice(element.text());
+                                        products.get(productIndex).setProductPrice(element.text().replaceAll(",", "."));
                                         System.out.println("HAHAL: " + products.get(productIndex).getProductDetails()[1]);
                                         productIndex += 1;
                                     }
@@ -184,8 +187,8 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                                                 productIndexURL += 1;                           
                                     } 
                                     case 3 -> {
-                                                products.get(productImageIndex).setImageURL(element.attr("src"));
-                                                System.out.println("I: " + productImageIndex + " " + element.attr("src"));
+                                                products.get(productImageIndex).setImageURL(element.attr(imageAttribute));
+                                                System.out.println("I: " + productImageIndex + " " + element.attr(imageAttribute));
                                                 productImageIndex += 1;
                                     }
                             }
@@ -284,7 +287,7 @@ ArrayList<ShopProduct> products = new ArrayList<>();
     {
         frame.setPartPanel(this);
         frame.setActivePanel(frame.getPartLabel());
-        frame.getFeaturePanel().discountApply();
+        //frame.getFeaturePanel().discountApply();
     }
     
     public String getShopName()

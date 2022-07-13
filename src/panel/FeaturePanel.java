@@ -24,7 +24,7 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
     private MainFrame mainFrame;
     private ProductDatabaseHandler productDatabaseHandler;
     
-    Pattern pattern = Pattern.compile("[-]?[0-9]*\\.?[0-9]+");
+    Pattern pattern = Pattern.compile("[-]?[0-9]*\\.,?[0-9]+");
     Matcher matcher;
     
     double newPrice = 0, oldPrice = 0;
@@ -64,7 +64,7 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
                  amountOfProduct = this.mainFrame.getPartPanel().getJTable().getRowCount();
         
         for(int counter=0; counter < amountOfProduct; counter++){
-            matcher = pattern.matcher((String)mainFrame.getMainPanel().getResearcher().getProductDatabaseHandler().getPrice(counter));
+            matcher = pattern.matcher((String)mainFrame.getMainPanel().getResearcher(this.mainFrame.getPartPanel().getResearcher().getShopName()).getProductDatabaseHandler().getPrice(counter));
             while(matcher.find()) oldPrice = Float.parseFloat(matcher.group());
             discount = 100 - (int)discountSpinner.getModel().getValue();
             newPrice = oldPrice * ((float)discount/100.0);
