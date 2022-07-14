@@ -16,8 +16,12 @@ public class WearPanel extends javax.swing.JPanel {
     /**
      * Creates new form WearPanel
      */
+    private String page, html;
+    MainFrame frame;
+    
     public WearPanel(MainFrame frame) {
        
+        this.frame = frame;
         this.setPreferredSize(new Dimension(frame.getElementOneWidth(), frame.getElementOneHeight()));
         initComponents();
     }
@@ -31,21 +35,21 @@ public class WearPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        helmetButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 800));
         setLayout(null);
 
-        jButton1.setText("KASKI");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        helmetButton.setText("KASKI");
+        helmetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                helmetButtonActionPerformed(evt);
             }
         });
-        add(jButton1);
-        jButton1.setBounds(50, 40, 120, 30);
+        add(helmetButton);
+        helmetButton.setBounds(50, 40, 120, 30);
 
         jButton2.setText("OCHRANIACZE");
         add(jButton2);
@@ -58,20 +62,32 @@ public class WearPanel extends javax.swing.JPanel {
             }
         });
         add(jButton3);
-        jButton3.setBounds(50, 130, 75, 22);
+        jButton3.setBounds(50, 130, 73, 23);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void helmetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helmetButtonActionPerformed
+        setHTML("kaski");
+       // frame.getMainPanel().setResearcher(true);
+    }//GEN-LAST:event_helmetButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    public void setPage(String page){
+        this.page = page;
+    }
+    
+    public void setHTML(String part){
+        this.html = this.page + part;
+    }
+    
+    public String getHTML(){
+        return this.html;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton helmetButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables

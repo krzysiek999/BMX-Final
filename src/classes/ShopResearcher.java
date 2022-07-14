@@ -37,6 +37,7 @@ int productIndexURL = 0, productIndex = 0, productImageIndex = 0;
 
 ProductDatabaseHandler productDatabase = new ProductDatabaseHandler();
 
+
 private String browserPartName = "", browserHTML = "";
 
 String[] shopArray = {"bmxlife","avebmx","manyfestbmx","allday"};
@@ -44,6 +45,7 @@ String[] shopArray = {"bmxlife","avebmx","manyfestbmx","allday"};
 private String [][] informationArray = new String[100][2];
 
 ArrayList<ShopProduct> products = new ArrayList<>();
+ArrayList<String> pagesArray = new ArrayList<>();
 
     public ShopResearcher()
     {
@@ -95,6 +97,18 @@ ArrayList<ShopProduct> products = new ArrayList<>();
         this.html = html;
     }
     
+    public void searchPage(String nameOfPart){
+        Elements partPage = doc.select("div.category-miniature.no-image > p > a[href]");
+        for(Element e : partPage)
+        {
+            if(e.absUrl("href").contains(nameOfPart)){
+                setHTML(e.absUrl("href"));
+                return;
+            }
+        }
+        System.out.println("ALLDAY: " + partPage);
+    }
+    
     
     public void setConnection()
     {
@@ -139,11 +153,25 @@ ArrayList<ShopProduct> products = new ArrayList<>();
         
         if(initialized)
         {
+            Elements pages = new Elements();
+            int indexSearchPage = 0;
             if (getShopName().equals("avebmx")) 
             {
-               Elements pages = doc.select("a.page");
+               pages = doc.select("a.page");
                if(pages.size() > 0) numberOfPages = Integer.parseInt(pages.get(pages.size()-2).text());
                else numberOfPages = 1;
+                System.out.println("NR STRON: " + numberOfPages);
+            }
+            else if(getShopName().equals("allday"))
+            {
+                pages = doc.select("ul.page-list.clearfix.text-xs-center");
+                if(pages.size() > 0) numberOfPages = pages.size();//Integer.parseInt(pages.get(pages.size()-1).text());
+                else numberOfPages = 1;
+                for(int index = 1; index < pages.size(); index++)
+                {
+                    pagesArray.add(pages.select("a").get(index).absUrl("href"));
+                    System.out.println("NR STRON ALLDAY: " + pages.select("a").get(index).absUrl("href"));
+                }
                 System.out.println("NR STRON: " + numberOfPages);
             }
             
@@ -162,6 +190,7 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                     }
                     else {
                         imageURL = div.select(htmlElements[4]);
+                        System.out.println("IMAGEEEEEE: " + imageURL);
                         imageAttribute = "src";
                     }
                     
@@ -203,6 +232,12 @@ ArrayList<ShopProduct> products = new ArrayList<>();
                         this.html = this.html.substring(0, htmlLength-1);
                         this.html = this.html + addPageNumber;
                         System.out.println("xd: " + this.html);
+                        setConnection();
+                    }
+                    else if(getShopName().equals("allday")){
+                        setHTML(pagesArray.get(indexSearchPage));
+                        if(indexSearchPage == pagesArray.size() - 1) indexSearchPage = pagesArray.size() - 1;
+                        else indexSearchPage++;
                         setConnection();
                     }
                 }    

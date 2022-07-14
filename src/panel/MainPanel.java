@@ -45,6 +45,7 @@ public class MainPanel extends javax.swing.JPanel {
     ArrayList<ShopResearcher> arrayOfResearcher = new ArrayList<ShopResearcher>();
     
     private int shopIndex = 0;
+    private boolean partSelection = false;
     
     
     
@@ -375,7 +376,6 @@ public class MainPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void barsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barsButtonActionPerformed
-   
         setPartName("kierownice");
     }//GEN-LAST:event_barsButtonActionPerformed
 
@@ -416,7 +416,9 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_supportsButtonActionPerformed
 
     private void stemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stemsButtonActionPerformed
-        // TODO add your handling code here:
+        String stemName = "wsporniki";
+        if(getShopName().equals("manyfestbmx")) stemName = "mosty";
+        setPartName(stemName);
     }//GEN-LAST:event_stemsButtonActionPerformed
 
     private void seatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatsButtonActionPerformed
@@ -436,7 +438,9 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_forksButtonActionPerformed
 
     private void barendsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barendsButtonActionPerformed
-        // TODO add your handling code here:
+        String barendsName = "barendy";
+        if(getShopName().equals("allday")) barendsName = "korki";
+        setPartName(barendsName);
     }//GEN-LAST:event_barendsButtonActionPerformed
 
     private void pegsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pegsButtonActionPerformed
@@ -456,11 +460,13 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_chainwheelsButtonActionPerformed
 
     private void hubguardsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hubguardsButtonActionPerformed
-        // TODO add your handling code here:
+        String hubguardName = "hubguardy";
+        if(getShopName().equals("allday") || getShopName().equals("manyfestbmx")) hubguardName = "hubguard";
+        setPartName(hubguardName);
     }//GEN-LAST:event_hubguardsButtonActionPerformed
 
     private void seatpostsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatpostsButtonActionPerformed
-        // TODO add your handling code here:
+        setPartName("sztyce");
     }//GEN-LAST:event_seatpostsButtonActionPerformed
 
     private void pedalsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedalsButtonActionPerformed
@@ -502,6 +508,8 @@ public class MainPanel extends javax.swing.JPanel {
                     System.out.println(part[3]);
                     System.out.println(part[4]);
                     System.out.println(part[5]);
+                    System.out.println(part[6]);
+                    frame.getWearPanel().setPage(part[6]);
                     break;
                 }
                 
@@ -533,29 +541,34 @@ public class MainPanel extends javax.swing.JPanel {
            return part;
        }
     
-       private void setResearcher()
+       public void setResearcher(boolean partSelection)
        {
-           setResearcher(nameOfPart, nameOfShop, shopNumber);
+           setResearcher(nameOfPart, nameOfShop, shopNumber, partSelection);
        }
        
-       private void setResearcher(String namePart, String nameShop, int shopNumber)
+       private void setResearcher(String namePart, String nameShop, int shopNumber, boolean partSelection)
        {
         String[] parts = getHTMLElements(namePart,shopNumber,1);
         
         //shopResearcher.setHTML(parts[0]);
         //shopResearcher.setShopName(nameShop);
-        String html = parts[0];
+        String html;
+        if(partSelection) html = parts[0];
+        else html = frame.getWearPanel().getHTML();
         String[] htmlElements = {parts[1],parts[2],parts[3],parts[4],parts[5]};
         
         shopResearcher = new ShopResearcher(html, nameShop, 2);
-        shopIndex += 1;
         
-            if(!this.getFrame().productTableExists() && firstInitialized) 
-            {
-                shopResearcher.createTable();
-                this.getFrame().getFilesHandler().writeToFile("true;", 2);   
-            }
-            else if(firstInitialized) shopResearcher.getProductDatabaseHandler().deleteAllElements(shopResearcher.getProductDatabaseHandler().getTableTitle());
+        if(nameOfShop.equals("allday")){
+            shopResearcher.setConnection();
+            shopResearcher.searchPage(nameOfPart);
+        }
+        
+        if(!this.getFrame().productTableExists() && firstInitialized) {
+            shopResearcher.createTable();
+            this.getFrame().getFilesHandler().writeToFile("true;", 2);   
+        }
+        else if(firstInitialized) shopResearcher.getProductDatabaseHandler().deleteAllElements(shopResearcher.getProductDatabaseHandler().getTableTitle());
 
         shopResearcher.setFrame(this.frame);
         shopResearcher.setCategory(namePart);
@@ -589,7 +602,7 @@ public class MainPanel extends javax.swing.JPanel {
        private void setPartName(String name)
        {
            this.nameOfPart = name;
-           if(avebmxCheckBox.isSelected() || bmxlifeCheckBox.isSelected() || manyfestCheckBox.isSelected() || alldayCheckBox.isSelected()) setResearcher(nameOfPart,nameOfShop,shopNumber);
+           if(avebmxCheckBox.isSelected() || bmxlifeCheckBox.isSelected() || manyfestCheckBox.isSelected() || alldayCheckBox.isSelected()) setResearcher(nameOfPart,nameOfShop,shopNumber,true);
        }
        
        public String getPartName()

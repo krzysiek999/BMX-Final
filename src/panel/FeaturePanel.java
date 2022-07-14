@@ -115,6 +115,11 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         discountSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
 
         accessoriesButton.setText("jButton1");
+        accessoriesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accessoriesButtonActionPerformed(evt);
+            }
+        });
 
         tabsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -213,6 +218,10 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
     private void addBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBasketButtonActionPerformed
         mainFrame.getPartPanel().getAddBasketButton().doClick();
     }//GEN-LAST:event_addBasketButtonActionPerformed
+
+    private void accessoriesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accessoriesButtonActionPerformed
+        mainFrame.setActivePanel(mainFrame.getWearPanelLabel());
+    }//GEN-LAST:event_accessoriesButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
