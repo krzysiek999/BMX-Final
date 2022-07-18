@@ -46,7 +46,7 @@ public class MainPanel extends javax.swing.JPanel {
     
     private int shopIndex = 0;
     private boolean partSelection = false;
-    
+    ArrayList<ShopResearcher> usedShopArray = new ArrayList<ShopResearcher>();
     
     
     public MainPanel( MainFrame frame, boolean tableExists) {
@@ -71,7 +71,6 @@ public class MainPanel extends javax.swing.JPanel {
     
     public void setButtonText()
     {
-        this.shopLabel.setText(this.getFrame().getResourceBundle().getString("shop"));
         this.barendsButton.setText(this.getFrame().getResourceBundle().getString("barends"));
         this.barsButton.setText(this.getFrame().getResourceBundle().getString("bars"));
         this.stemsButton.setText(this.getFrame().getResourceBundle().getString("stems"));
@@ -118,11 +117,6 @@ public class MainPanel extends javax.swing.JPanel {
 
         buttonGroup = new javax.swing.ButtonGroup();
         barsButton = new javax.swing.JButton();
-        shopLabel = new javax.swing.JLabel();
-        bmxlifeCheckBox = new javax.swing.JCheckBox();
-        manyfestCheckBox = new javax.swing.JCheckBox();
-        avebmxCheckBox = new javax.swing.JCheckBox();
-        alldayCheckBox = new javax.swing.JCheckBox();
         hubguardsButton = new javax.swing.JButton();
         chainwheelsButton = new javax.swing.JButton();
         chainButton = new javax.swing.JButton();
@@ -154,50 +148,6 @@ public class MainPanel extends javax.swing.JPanel {
         });
         add(barsButton);
         barsButton.setBounds(500, 100, 140, 30);
-
-        shopLabel.setText("Sklepy:");
-        add(shopLabel);
-        shopLabel.setBounds(20, 850, 60, 14);
-
-        buttonGroup.add(bmxlifeCheckBox);
-        bmxlifeCheckBox.setText("BmxLife");
-        bmxlifeCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bmxlifeCheckBoxActionPerformed(evt);
-            }
-        });
-        add(bmxlifeCheckBox);
-        bmxlifeCheckBox.setBounds(90, 860, 110, 23);
-
-        buttonGroup.add(manyfestCheckBox);
-        manyfestCheckBox.setText("ManyfestBmx");
-        manyfestCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manyfestCheckBoxActionPerformed(evt);
-            }
-        });
-        add(manyfestCheckBox);
-        manyfestCheckBox.setBounds(200, 830, 130, 23);
-
-        buttonGroup.add(avebmxCheckBox);
-        avebmxCheckBox.setText("AveBmx");
-        avebmxCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                avebmxCheckBoxActionPerformed(evt);
-            }
-        });
-        add(avebmxCheckBox);
-        avebmxCheckBox.setBounds(90, 830, 110, 23);
-
-        buttonGroup.add(alldayCheckBox);
-        alldayCheckBox.setText("AlldayBmx");
-        alldayCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                alldayCheckBoxActionPerformed(evt);
-            }
-        });
-        add(alldayCheckBox);
-        alldayCheckBox.setBounds(200, 860, 130, 23);
 
         hubguardsButton.setText("HUBGUARDY");
         hubguardsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -376,105 +326,89 @@ public class MainPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void barsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barsButtonActionPerformed
-        setPartName("kierownice");
+        setPartName("kierownice",true);
     }//GEN-LAST:event_barsButtonActionPerformed
 
-    private void avebmxCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avebmxCheckBoxActionPerformed
-        setShop("avebmx",2);
-    }//GEN-LAST:event_avebmxCheckBoxActionPerformed
-
-    private void bmxlifeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmxlifeCheckBoxActionPerformed
-         setShop("bmxlife",1);
-    }//GEN-LAST:event_bmxlifeCheckBoxActionPerformed
-
-    private void manyfestCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manyfestCheckBoxActionPerformed
-        setShop("manyfestbmx",3);
-    }//GEN-LAST:event_manyfestCheckBoxActionPerformed
-
-    private void alldayCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alldayCheckBoxActionPerformed
-         setShop("allday",4);
-    }//GEN-LAST:event_alldayCheckBoxActionPerformed
- 
     private void framesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_framesButtonActionPerformed
-        setPartName("ramy");
+        setPartName("ramy",true);
     }//GEN-LAST:event_framesButtonActionPerformed
 
     private void tyresButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tyresButtonActionPerformed
-        setPartName("opony");
+        setPartName("opony",true);
     }//GEN-LAST:event_tyresButtonActionPerformed
 
     private void rimsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rimsButtonActionPerformed
-        setPartName("obrecze");
+        setPartName("obrecze",true);
     }//GEN-LAST:event_rimsButtonActionPerformed
 
     private void cranksButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cranksButtonActionPerformed
-        setPartName("korby");
+        setPartName("korby",true);
     }//GEN-LAST:event_cranksButtonActionPerformed
 
     private void supportsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supportsButtonActionPerformed
-        setPartName("suporty");
+        setPartName("suporty",true);
     }//GEN-LAST:event_supportsButtonActionPerformed
 
     private void stemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stemsButtonActionPerformed
         String stemName = "wsporniki";
         if(getShopName().equals("manyfestbmx")) stemName = "mosty";
-        setPartName(stemName);
+        setPartName(stemName,true);
     }//GEN-LAST:event_stemsButtonActionPerformed
 
     private void seatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatsButtonActionPerformed
-        setPartName("siodelka");
+        setPartName("siodelka",true);
     }//GEN-LAST:event_seatsButtonActionPerformed
 
     private void spokesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spokesButtonActionPerformed
-        setPartName("szprychy");
+        setPartName("szprychy",true);
     }//GEN-LAST:event_spokesButtonActionPerformed
 
     private void hubsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hubsButtonActionPerformed
-        setPartName("piasty");
+        setPartName("piasty",true);
     }//GEN-LAST:event_hubsButtonActionPerformed
 
     private void forksButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forksButtonActionPerformed
-        setPartName("widelce");
+        setPartName("widelce",true);
     }//GEN-LAST:event_forksButtonActionPerformed
 
     private void barendsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barendsButtonActionPerformed
         String barendsName = "barendy";
         if(getShopName().equals("allday")) barendsName = "korki";
-        setPartName(barendsName);
+        setPartName(barendsName,true);
     }//GEN-LAST:event_barendsButtonActionPerformed
 
     private void pegsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pegsButtonActionPerformed
-        setPartName("pegi");
+        setPartName("pegi",true);
     }//GEN-LAST:event_pegsButtonActionPerformed
 
     private void steersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_steersButtonActionPerformed
-        setPartName("stery");
+        setPartName("stery",true);
     }//GEN-LAST:event_steersButtonActionPerformed
 
     private void chainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chainButtonActionPerformed
-        setPartName("lancuchy");
+        setPartName("lancuchy",true);
     }//GEN-LAST:event_chainButtonActionPerformed
 
     private void chainwheelsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chainwheelsButtonActionPerformed
-        setPartName("zebatki");
+        setPartName("zebatki",true);
     }//GEN-LAST:event_chainwheelsButtonActionPerformed
 
     private void hubguardsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hubguardsButtonActionPerformed
         String hubguardName = "hubguardy";
         if(getShopName().equals("allday") || getShopName().equals("manyfestbmx")) hubguardName = "hubguard";
-        setPartName(hubguardName);
+        setPartName(hubguardName,true);
     }//GEN-LAST:event_hubguardsButtonActionPerformed
 
     private void seatpostsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatpostsButtonActionPerformed
-        setPartName("sztyce");
+        setPartName("sztyce",true);
     }//GEN-LAST:event_seatpostsButtonActionPerformed
 
     private void pedalsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedalsButtonActionPerformed
-        setPartName("pedaly");
+        setPartName("pedaly",true);
     }//GEN-LAST:event_pedalsButtonActionPerformed
 
     private void gripsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gripsButtonActionPerformed
-        setPartName("gripy");
+        setPartName("gripy",true);
     }//GEN-LAST:event_gripsButtonActionPerformed
 
     public BasketMainFrame getBasketFrame()
@@ -509,7 +443,9 @@ public class MainPanel extends javax.swing.JPanel {
                     System.out.println(part[4]);
                     System.out.println(part[5]);
                     System.out.println(part[6]);
+                    System.out.println(part[7]);
                     frame.getWearPanel().setPage(part[6]);
+                    frame.setComparisonShop(part[7]);
                     break;
                 }
                 
@@ -530,11 +466,13 @@ public class MainPanel extends javax.swing.JPanel {
                 case 2:
                 {
                     part[0] = part[0] + "?page=" + pageNumber;
+                    part[6] = part[6] + "?page=" + pageNumber;
                     break;
                 }
                 case 3:
                 {
                     part[0] = part[0] + "-bmx?resultsPerPage=99999";
+                    part[6] = part[6] + "-bmx?resultsPerPage=99999";
                 }
             }
              
@@ -550,14 +488,22 @@ public class MainPanel extends javax.swing.JPanel {
        {
         String[] parts = getHTMLElements(namePart,shopNumber,1);
         
-        //shopResearcher.setHTML(parts[0]);
-        //shopResearcher.setShopName(nameShop);
         String html;
         if(partSelection) html = parts[0];
-        else html = frame.getWearPanel().getHTML();
+        else {
+            frame.getWearPanel().setHTML(nameOfPart);
+            html = frame.getWearPanel().getHTML();
+        }
+        
         String[] htmlElements = {parts[1],parts[2],parts[3],parts[4],parts[5]};
         
-        shopResearcher = new ShopResearcher(html, nameShop, 2);
+        if(!this.isUsed(nameOfShop)){
+            shopResearcher = new ShopResearcher(html, nameShop, 2);
+            usedShopArray.add(shopResearcher);
+        }
+        else{
+            
+        }
         
         if(nameOfShop.equals("allday")){
             shopResearcher.setConnection();
@@ -581,6 +527,13 @@ public class MainPanel extends javax.swing.JPanel {
         partSearched = true;
        }
        
+       public boolean isUsed(String nameOfShop){
+        for(int i=0; i < usedShopArray.size(); i++){
+            if(usedShopArray.get(i).getShopName().equals(nameOfShop)) return true;
+        }
+        return false;
+       }
+       
        public void setHTML(String html)
        {
            
@@ -599,10 +552,10 @@ public class MainPanel extends javax.swing.JPanel {
            return null;
        }
        
-       private void setPartName(String name)
+       public void setPartName(String name, boolean value)
        {
            this.nameOfPart = name;
-           if(avebmxCheckBox.isSelected() || bmxlifeCheckBox.isSelected() || manyfestCheckBox.isSelected() || alldayCheckBox.isSelected()) setResearcher(nameOfPart,nameOfShop,shopNumber,true);
+           if(frame.getFeaturePanel().getAvebmxBox().isSelected() || frame.getFeaturePanel().getBmxlifeBox().isSelected() || frame.getFeaturePanel().getManyfestbmxBox().isSelected() || frame.getFeaturePanel().getAlldayBox().isSelected()) setResearcher(nameOfPart,nameOfShop,shopNumber,value);
        }
        
        public String getPartName()
@@ -610,7 +563,7 @@ public class MainPanel extends javax.swing.JPanel {
            return this.nameOfPart;
        }
        
-       private void setShop(String name, int number)
+       public void setShop(String name, int number)
        {
            this.nameOfShop = name;
            this.shopNumber = number;
@@ -622,11 +575,8 @@ public class MainPanel extends javax.swing.JPanel {
        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox alldayCheckBox;
-    private javax.swing.JCheckBox avebmxCheckBox;
     private javax.swing.JButton barendsButton;
     private javax.swing.JButton barsButton;
-    private javax.swing.JCheckBox bmxlifeCheckBox;
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JButton chainButton;
     private javax.swing.JButton chainwheelsButton;
@@ -637,13 +587,11 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JButton hubguardsButton;
     private javax.swing.JButton hubsButton;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JCheckBox manyfestCheckBox;
     private javax.swing.JButton pedalsButton;
     private javax.swing.JButton pegsButton;
     private javax.swing.JButton rimsButton;
     private javax.swing.JButton seatpostsButton;
     private javax.swing.JButton seatsButton;
-    private javax.swing.JLabel shopLabel;
     private javax.swing.JButton spokesButton;
     private javax.swing.JButton steersButton;
     private javax.swing.JButton stemsButton;

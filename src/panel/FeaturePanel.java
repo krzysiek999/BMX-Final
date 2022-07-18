@@ -10,6 +10,7 @@ import frame.MainFrame;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -50,6 +51,7 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         acceptButton.setText(mainFrame.getResourceBundle().getString("accept"));
         backButton.setText(mainFrame.getResourceBundle().getString("erase"));
         addBasketButton.setText(mainFrame.getResourceBundle().getString("addBasket"));
+        shopLabel.setText(mainFrame.getResourceBundle().getString("shop"));
         
         partsButton.addActionListener(mainFrame.getMenuPanel());
         exitButton.addActionListener(mainFrame.getMenuPanel());
@@ -69,7 +71,6 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
             discount = 100 - (int)discountSpinner.getModel().getValue();
             newPrice = oldPrice * ((float)discount/100.0);
             newPriceString = "'" +  String.format("%.2f", newPrice) + "'";    
-            //mainFrame.getMainPanel().getResearcher().getProductDatabaseHandler().updateElement(counter, newPriceString);
             mainFrame.getPartPanel().getJTable().getModel().setValueAt("" + newPrice,counter, 2);
             mainFrame.revalidate();
             mainFrame.repaint();
@@ -88,6 +89,7 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup = new javax.swing.ButtonGroup();
         partsButton = new javax.swing.JButton();
         settingsButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
@@ -101,6 +103,11 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         backButton = new javax.swing.JButton();
         acceptButton = new javax.swing.JButton();
         addBasketButton = new javax.swing.JButton();
+        manyfestCheckBox = new javax.swing.JCheckBox();
+        alldayCheckBox = new javax.swing.JCheckBox();
+        bmxlifeCheckBox = new javax.swing.JCheckBox();
+        shopLabel = new javax.swing.JLabel();
+        avebmxCheckBox = new javax.swing.JCheckBox();
 
         partsButton.setText("jButton1");
 
@@ -143,6 +150,41 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
             }
         });
 
+        buttonGroup.add(manyfestCheckBox);
+        manyfestCheckBox.setText("ManyfestBmx");
+        manyfestCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manyfestCheckBoxActionPerformed(evt);
+            }
+        });
+
+        buttonGroup.add(alldayCheckBox);
+        alldayCheckBox.setText("AlldayBmx");
+        alldayCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alldayCheckBoxActionPerformed(evt);
+            }
+        });
+
+        buttonGroup.add(bmxlifeCheckBox);
+        bmxlifeCheckBox.setText("BmxLife");
+        bmxlifeCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bmxlifeCheckBoxActionPerformed(evt);
+            }
+        });
+
+        shopLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        shopLabel.setText("Sklepy");
+
+        buttonGroup.add(avebmxCheckBox);
+        avebmxCheckBox.setText("AveBmx");
+        avebmxCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avebmxCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,20 +199,32 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(acceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addBasketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comparisonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(menuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tabsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accessoriesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(discountSpinnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(basketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(partsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(shopLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(120, 120, 120))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(bmxlifeCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(manyfestCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(45, 45, 45)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(avebmxCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(alldayCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(addBasketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comparisonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(menuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tabsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(accessoriesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(discountSpinnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(basketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(partsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,7 +255,17 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
                 .addComponent(comparisonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(311, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(shopLabel)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(manyfestCheckBox)
+                    .addComponent(avebmxCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bmxlifeCheckBox)
+                    .addComponent(alldayCheckBox))
+                .addContainerGap(214, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -223,20 +287,63 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         mainFrame.setActivePanel(mainFrame.getWearPanelLabel());
     }//GEN-LAST:event_accessoriesButtonActionPerformed
 
+    private void manyfestCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manyfestCheckBoxActionPerformed
+        mainFrame.getMainPanel().setShop("manyfestbmx",3);
+    }//GEN-LAST:event_manyfestCheckBoxActionPerformed
 
+    private void alldayCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alldayCheckBoxActionPerformed
+        mainFrame.getMainPanel().setShop("allday",4);
+    }//GEN-LAST:event_alldayCheckBoxActionPerformed
+
+    private void bmxlifeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmxlifeCheckBoxActionPerformed
+        mainFrame.getMainPanel().setShop("bmxlife",1);
+    }//GEN-LAST:event_bmxlifeCheckBoxActionPerformed
+
+    private void avebmxCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avebmxCheckBoxActionPerformed
+        mainFrame.getMainPanel().setShop("avebmx",2);
+    }//GEN-LAST:event_avebmxCheckBoxActionPerformed
+
+    public JCheckBox getAvebmxBox(){
+        return this.avebmxCheckBox;
+    }
+    
+    public JCheckBox getBmxlifeBox(){
+        return this.bmxlifeCheckBox;
+    }
+    
+    public JCheckBox getManyfestbmxBox(){
+        return this.manyfestCheckBox;
+    }
+
+    public JCheckBox getAlldayBox(){
+        return this.alldayCheckBox;
+    }
+    
+    public void setChoiceEnabled(boolean value){
+        this.avebmxCheckBox.setEnabled(value);
+        this.bmxlifeCheckBox.setEnabled(value);
+        this.manyfestCheckBox.setEnabled(value);
+        this.alldayCheckBox.setEnabled(value);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptButton;
     private javax.swing.JButton accessoriesButton;
     private javax.swing.JButton addBasketButton;
+    private javax.swing.JCheckBox alldayCheckBox;
+    private javax.swing.JCheckBox avebmxCheckBox;
     private javax.swing.JButton backButton;
     private javax.swing.JButton basketButton;
+    private javax.swing.JCheckBox bmxlifeCheckBox;
+    private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JButton comparisonButton;
     private javax.swing.JSpinner discountSpinner;
     private javax.swing.JLabel discountSpinnerLabel;
     private javax.swing.JButton exitButton;
+    private javax.swing.JCheckBox manyfestCheckBox;
     private javax.swing.JLabel menuLabel;
     private javax.swing.JButton partsButton;
     private javax.swing.JButton settingsButton;
+    private javax.swing.JLabel shopLabel;
     private javax.swing.JLabel tabsLabel;
     // End of variables declaration//GEN-END:variables
 

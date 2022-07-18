@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup">
+    </Component>
+  </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -28,21 +32,39 @@
               <Component id="acceptButton" min="-2" pref="136" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="29" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="addBasketButton" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="comparisonButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="menuLabel" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="tabsLabel" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="accessoriesButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="discountSpinnerLabel" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="basketButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="exitButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="settingsButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
-                  <Component id="partsButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="shopLabel" min="-2" pref="60" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="bmxlifeCheckBox" max="32767" attributes="0"/>
+                              <Component id="manyfestCheckBox" min="-2" pref="110" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="avebmxCheckBox" min="-2" pref="102" max="-2" attributes="0"/>
+                              <Component id="alldayCheckBox" min="-2" pref="116" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="addBasketButton" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="comparisonButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="menuLabel" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="tabsLabel" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="accessoriesButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="discountSpinnerLabel" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="basketButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="exitButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="settingsButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="partsButton" alignment="1" min="-2" pref="257" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -76,7 +98,19 @@
               <Component id="comparisonButton" min="-2" pref="32" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="exitButton" min="-2" pref="32" max="-2" attributes="0"/>
-              <EmptySpace pref="311" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="shopLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="manyfestCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="avebmxCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="bmxlifeCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="alldayCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="214" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -156,6 +190,56 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addBasketButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="manyfestCheckBox">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="ManyfestBmx"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manyfestCheckBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="alldayCheckBox">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="AlldayBmx"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="alldayCheckBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="bmxlifeCheckBox">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="BmxLife"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bmxlifeCheckBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="shopLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Sklepy"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="avebmxCheckBox">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="AveBmx"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="avebmxCheckBoxActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

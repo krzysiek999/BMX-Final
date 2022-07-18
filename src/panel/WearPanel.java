@@ -36,7 +36,7 @@ public class WearPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         helmetButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        padsButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 800));
@@ -51,9 +51,14 @@ public class WearPanel extends javax.swing.JPanel {
         add(helmetButton);
         helmetButton.setBounds(50, 40, 120, 30);
 
-        jButton2.setText("OCHRANIACZE");
-        add(jButton2);
-        jButton2.setBounds(50, 80, 120, 30);
+        padsButton.setText("OCHRANIACZE");
+        padsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                padsButtonActionPerformed(evt);
+            }
+        });
+        add(padsButton);
+        padsButton.setBounds(50, 80, 120, 30);
 
         jButton3.setText("jButton3");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -66,16 +71,26 @@ public class WearPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void helmetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helmetButtonActionPerformed
-        setHTML("kaski");
-       // frame.getMainPanel().setResearcher(true);
+        System.out.println("JESTEM TU");
+        //setHTML("kaski");
+        System.out.println("HTML KASKI: " + getHTML());
+        frame.getMainPanel().setPartName("kaski", false);
     }//GEN-LAST:event_helmetButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void padsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_padsButtonActionPerformed
+        System.out.println("JESTEM TU");
+        //setHTML("kaski");
+        System.out.println("HTML OCHRONKI: " + getHTML());
+        frame.getMainPanel().setPartName("ochraniacze", false);
+    }//GEN-LAST:event_padsButtonActionPerformed
+
     public void setPage(String page){
         this.page = page;
+        System.out.println("WEAR PANEL PAGE" + page);
     }
     
     public void setHTML(String part){
@@ -88,7 +103,7 @@ public class WearPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton helmetButton;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton padsButton;
     // End of variables declaration//GEN-END:variables
 }

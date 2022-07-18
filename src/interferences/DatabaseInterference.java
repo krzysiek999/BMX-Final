@@ -25,7 +25,7 @@ public interface DatabaseInterference {
 public void createTable(String tableName);
 public void deleteAllElements(String tableName);
 public String searchElement(String tableName, String attribute, String productName);
-public void insertElement(String productName, String category, String shopName, String imageURL);
+public void insertElement(String productName, String category, String shopName, String imageURL, String price);
 public void dropTable(String tableName);
 public void updateElement(int id, String value);
 public void closeConnection();

@@ -6,12 +6,17 @@ package classes;
 
 import frame.MainFrame;
 import frame.PartFrame;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 /**
@@ -21,7 +26,7 @@ import org.jsoup.select.Elements;
 public class ShopResearcher 
 {
 
-final int MAX_TRIES = 5;    
+final int MAX_TRIES = 20;    
     
 private String html, nameOfShop, category;
 private int numberOfElements = 0, counter = 0, number = 0, helpNumber = 0;
@@ -32,6 +37,9 @@ protected Document doc;
 private MainFrame frame;
 private boolean browserActivated = false;
 PartFrame partFrame; 
+
+Document.OutputSettings outputSettings = new Document.OutputSettings();
+
 
 int productIndexURL = 0, productIndex = 0, productImageIndex = 0;
 
@@ -46,6 +54,8 @@ private String [][] informationArray = new String[100][2];
 
 ArrayList<ShopProduct> products = new ArrayList<>();
 ArrayList<String> pagesArray = new ArrayList<>();
+ArrayList<String> pagesArrayAve = new ArrayList<>();
+
 
     public ShopResearcher()
     {
@@ -63,12 +73,14 @@ ArrayList<String> pagesArray = new ArrayList<>();
     this.html = html;
     this.nameOfShop = nameOfShop;
     this.numberOfElements = numberOfElements;
+    //usedShopArray.add(nameOfShop);
     
     }
     
     public void createTable(){
         this.productDatabase.createTable();
     }
+    
     
     public PartFrame getPartFrame()
     {
@@ -134,7 +146,6 @@ ArrayList<String> pagesArray = new ArrayList<>();
      }
      
      initialized = true;
-     
     }
     
     public ProductDatabaseHandler getProductDatabaseHandler()
@@ -154,12 +165,18 @@ ArrayList<String> pagesArray = new ArrayList<>();
         if(initialized)
         {
             Elements pages = new Elements();
-            int indexSearchPage = 0;
+            int indexSearchPage = 0, indexSearchPageAve = 0;
             if (getShopName().equals("avebmx")) 
             {
-               pages = doc.select("a.page");
-               if(pages.size() > 0) numberOfPages = Integer.parseInt(pages.get(pages.size()-2).text());
+               pages = doc.select("div.pagination > a.page");
+                System.out.println("PAGES SIZE: " + pages.size());
+               if(pages.size() > 0) numberOfPages = pages.size()/2 - 1;//numberOfPages = Integer.parseInt(pages.get(pages.size()-2).text());
                else numberOfPages = 1;
+               for(int index = 1; index < numberOfPages; index++)
+                {
+                    pagesArrayAve.add(pages.select("a").get(index).absUrl("href"));
+                    System.out.println("IND: " + index + " NR STRON ALLDAY 1: " + pages.select("a").get(index).absUrl("href"));
+                }
                 System.out.println("NR STRON: " + numberOfPages);
             }
             else if(getShopName().equals("allday"))
@@ -224,16 +241,13 @@ ArrayList<String> pagesArray = new ArrayList<>();
                             
                         }
                     }
-                    if(getShopName().equals("avebmx"))
-                    {
-                        int htmlLength = this.html.length();
-                        int addPageNumberInt = searchCounter + 2;
-                        String addPageNumber = "" + addPageNumberInt;
-                        this.html = this.html.substring(0, htmlLength-1);
-                        this.html = this.html + addPageNumber;
-                        System.out.println("xd: " + this.html);
+                    if(getShopName().equals("avebmx") && numberOfPages > 1){
+                        setHTML(pagesArrayAve.get(indexSearchPageAve));
+                        if(indexSearchPageAve == pagesArrayAve.size() - 1) indexSearchPageAve = pagesArrayAve.size() - 1;
+                        else indexSearchPageAve++;
                         setConnection();
                     }
+                    
                     else if(getShopName().equals("allday")){
                         setHTML(pagesArray.get(indexSearchPage));
                         if(indexSearchPage == pagesArray.size() - 1) indexSearchPage = pagesArray.size() - 1;
@@ -250,6 +264,7 @@ ArrayList<String> pagesArray = new ArrayList<>();
                     String priceDatabase;
                     String URLDatabase;
                     String imageURLDatabase;
+                    String category;
                     
                     for(int saveCounter=0;saveCounter<products.size();saveCounter++)
                     {
@@ -258,28 +273,33 @@ ArrayList<String> pagesArray = new ArrayList<>();
                         priceDatabase = "'" + products.get(saveCounter).getProductDetails()[1] + "'";
                         URLDatabase = "'" + products.get(saveCounter).getProductDetails()[2] + "'";
                         imageURLDatabase = "'" + products.get(saveCounter).getProductDetails()[3] + "'";
-                        productDatabase.insertElement(nameDatabase, priceDatabase, URLDatabase, imageURLDatabase);
+                        category = "'" + getCategory() + "'";
+                        productDatabase.insertElement(nameDatabase, priceDatabase, URLDatabase, imageURLDatabase, category);
                     }
                     
                     productDatabase.closeConnection();
-                        
-                
-                
-            
             }
-        
         else System.out.println("ARRAY NOT INITIALIZED");        
     }
     
-    public String getDescription(String className, String desClass)
-    {
-        Elements descriptionClass = doc.select(className);
-        String desc = "";
-        for(Element e: descriptionClass.select("li"))
-        {
-           desc = desc + e.text() + "\n";
-        }
-        return desc;
+    public String getDescription(String className) throws NullPointerException{   
+      String[] separator = className.split(",");
+      String finalS,str;
+      Document jsoupDoc;
+      for(int i=0; i < separator.length; i++){
+            finalS = doc.select(separator[i]).html();
+            jsoupDoc = Jsoup.parse(finalS);
+        //select all <br> tags and append \n after that
+            jsoupDoc.select("br").after("\\n");
+        //select all <p> tags and prepend \n before that
+            jsoupDoc.select("p").before("\\n");
+        //get the HTML from the document, and retaining original new lines            
+            System.out.println("SDHIUASHD: " + Jsoup.clean(jsoupDoc.html(),"", Whitelist.none(), outputSettings));
+            str = jsoupDoc.html().replaceAll("\\\\n", "\n").replaceAll("&nbsp;", "");
+            outputSettings.prettyPrint(false);
+            if(!Jsoup.clean(str,"", Whitelist.none(), outputSettings).trim().isEmpty()) return Jsoup.clean(str,"", Whitelist.none(), outputSettings);
+      }
+      throw new NullPointerException();
     }
     
     public ArrayList<ShopProduct> getInformations()
@@ -295,7 +315,6 @@ ArrayList<String> pagesArray = new ArrayList<>();
         browserActivated = true;
         this.searchHTMLElements();
         return this.browserHTML;
-        
     }
     
     public void setShopName(String name)

@@ -71,7 +71,7 @@ public class PartPanel extends javax.swing.JPanel {
         //this.frame = thisFrame;
         this.mainFrame = frame;
         this.basketFrame = frame.getMainPanel().getBasketFrame();
-        this.basketFrame.setResearcher(researcher);
+        //this.basketFrame.setResearcher(researcher);
         mainLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(mainLayout);
         

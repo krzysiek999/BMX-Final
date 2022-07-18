@@ -44,7 +44,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     int xPosition = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - WIDTH/2;
     int yPosition = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2 - HEIGHT/2;
-    String language;
+    String language, compareShopName;
     
     ResourceBundle resource;
     
@@ -94,6 +94,14 @@ public class MainFrame extends javax.swing.JFrame {
     }
     public void setProductTableExist(boolean value){
         this.productTableExist = value;
+    }
+    
+    public void setComparisonShop(String value){
+        this.compareShopName = value;
+    }
+    
+    public String getComparisonShop(){
+        return this.compareShopName;
     }
     
     public FeaturePanel getFeaturePanel(){
@@ -185,8 +193,13 @@ public class MainFrame extends javax.swing.JFrame {
     public void setActivePanel(String name)
     {
         this.getElementFirstLayout().show(centerPanel, name);
+        
         if(name.equals(PART_PANEL)) this.getFeaturePanel().setElementsEnabled(true);
         else this.getFeaturePanel().setElementsEnabled(false);
+        
+        if(name.equals(MAIN_PANEL) || name.equals(WEAR_PANEL)) this.getFeaturePanel().setChoiceEnabled(true);
+        else this.getFeaturePanel().setChoiceEnabled(false);
+        
         this.activePanel = name;
     }
       

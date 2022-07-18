@@ -10,6 +10,7 @@ import classes.ShopResearcher;
 import frame.MainFrame;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -23,6 +24,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
@@ -37,6 +39,7 @@ public class ComparisonPanel extends javax.swing.JPanel {
      * Creates new form ComparisonPanel
      */
     private JSplitPane splitPane;
+    private GridLayout comparisonLayout = new GridLayout(2,1,20,20);
     MainFrame mainFrame;
     Box box;
     JPanel splitPanel = new JPanel();
@@ -52,14 +55,19 @@ public class ComparisonPanel extends javax.swing.JPanel {
         
         buttonPanel = new ButtonPanel();
         
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, product1, product2);
-        splitPane.setPreferredSize(new Dimension(frame.getElementOneWidth(), frame.getElementOneHeight()));
-        splitPane.setDividerLocation(frame.getElementOneWidth()/2);
+        //splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, product1, product2);
         
-        splitPanel.add(splitPane);
+        //splitPane.setDividerLocation(frame.getElementOneHeight()/3);
+        
+        
+        //splitPanel.add(splitPane);
+        splitPanel.setLayout(comparisonLayout);
+        splitPanel.setMaximumSize(new Dimension(frame.getElementOneWidth(), frame.getElementOneHeight()));
         splitPanel.setBounds(0, 0, frame.getElementOneWidth(), frame.getElementOneHeight());
+        splitPanel.add(product1);
+        splitPanel.add(product2);
         box = Box.createVerticalBox();
-        box.setPreferredSize(new Dimension(800,750));
+        box.setPreferredSize(new Dimension(850,900));
        
      
         
@@ -98,12 +106,10 @@ public class ComparisonPanel extends javax.swing.JPanel {
         return this.mainFrame;
     }
     class ButtonPanel extends JPanel implements ActionListener
-    {
-        //String language = "properties/" + mainFrame.getLanguage();
-        //ResourceBundle resource = ResourceBundle.getBundle(language);
-        
+    {    
         JButton backButton = new JButton(getFrame().getResourceBundle().getString("back"));
         JButton basketButton = new JButton(getFrame().getResourceBundle().getString("basket"));
+        JButton okokButton = new JButton(getFrame().getResourceBundle().getString("erase"));
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, 20, 40);
 
         public ButtonPanel() {
@@ -111,9 +117,11 @@ public class ComparisonPanel extends javax.swing.JPanel {
             this.setLayout(layout);
             this.add(backButton);
             this.add(basketButton);
+            this.add(okokButton);
             
             backButton.addActionListener(this);
             basketButton.addActionListener(this);
+            okokButton.addActionListener(this);
             
         }
         
@@ -139,24 +147,30 @@ public class ComparisonPanel extends javax.swing.JPanel {
                mainFrame.getBasketFrame().setVisible(visibilty);
                mainFrame.setCompareButtonVisible(true);
             }
-            
         }
     }
     
-    class ProductPanel extends JPanel
+    class ProductPanel extends JScrollPane
     {
 
         Box productBox;
         JLabel productNameLabel = new JLabel();
         JLabel priceLabel = new JLabel();
+        //JScrollPane scrollPane = new JScrollPane();
+        JPanel elementsPanel = new JPanel();
         private boolean filled = false;
         private String nameOfShop = "";
-        private JTextArea description = new JTextArea(35,35);
+        private JTextArea description = new JTextArea();//150,60);
         private ConnectionHandler connectionHandler;
         private int numberOfShop = 0;
         
         public ProductPanel() 
         {
+            this.setMaximumSize(new Dimension(300,500));
+            this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            description.setWrapStyleWord(true);
+            //description.setMaximumSize(new Dimension(200, 400));
+            //scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             this.setPreferredSize(new Dimension(350,700));
             productBox = Box.createVerticalBox();
             productBox.add(productNameLabel);
@@ -164,8 +178,12 @@ public class ComparisonPanel extends javax.swing.JPanel {
             productBox.add(priceLabel);
             productBox.add(Box.createVerticalStrut(20));
             productBox.add(description);
-            
-            this.add(productBox);
+            elementsPanel.add(productBox);
+            description.setEditable(false);
+            this.setViewportView(elementsPanel);
+            //this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            //scrollPane.add(productBox);
+            //this.add(scrollPane);
             
         }
         
@@ -179,27 +197,15 @@ public class ComparisonPanel extends javax.swing.JPanel {
             this.filled = value;
         }
         
-        public void setDescription()
+        public void setDescription(String partHTML, String nameOfShop)
         {
-          URL url = this.getClass().getClassLoader().getResource("properties/searchInfo.txt"); 
-          int counter = 0;
-          try {
-                BufferedReader reader = new BufferedReader(new FileReader(url.getFile())); 
-                while(getNumberOfShop() > 1 && counter < getNumberOfShop())
-                {
-                    reader.readLine();
-                    counter++;
-                }
-                String[] lineSeparator = reader.readLine().split(";");
-                //lineSeparator[1] = lineSeparator[1] + 
-                reader.close();
-                connectionHandler = new ConnectionHandler("https://bmxlife.pl/czesci/pegi");
-                connectionHandler.searchAddress(lineSeparator[2], lineSeparator[3],lineSeparator[4],lineSeparator[5], "skny");
-                
-            } catch (IOException ex) {
-                Logger.getLogger(ComparisonPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-                
+            try{
+            mainFrame.getMainPanel().getResearcher(nameOfShop).setHTML(partHTML);
+            mainFrame.getMainPanel().getResearcher(nameOfShop).setConnection();
+            description.setText(mainFrame.getMainPanel().getResearcher(nameOfShop).getDescription(mainFrame.getComparisonShop())); 
+            }catch(NullPointerException ex){
+                description.setText(mainFrame.getResourceBundle().getString("nullDescription")); 
+            }
         }
         
         private void repaintPanel()

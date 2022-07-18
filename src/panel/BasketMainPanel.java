@@ -198,11 +198,15 @@ public class BasketMainPanel extends javax.swing.JPanel {
                        {
                             priceString = panel.getProductsPrice().get(counter).replace("zł", " "); 
                             priceString = priceString.replace(",", "."); 
+                            int count = priceString.length() - priceString.replace(".", "").length();
+                            System.out.println("COUUUUUUUNT: " + count);
                             priceString = priceString.replace(" ","");
                        }
                        priceString = priceString.replace(",", "");
+                       int count = priceString.length() - priceString.replace(".", "").length();
+                       System.out.println("COUUUUUUUNT: " + count);
+                       if(count > 1) priceString = priceString.replaceFirst("\\.", "");
                        float priceFloat = Float.parseFloat(priceString);
-                    
                     
                        if(previousExistance && (priceList.get(numberOfTab).floatValue() == 0.0) )
                         {
@@ -499,18 +503,25 @@ public class BasketMainPanel extends javax.swing.JPanel {
         int selectedRow = basketTabPanel.get(numberOfTab).getTable().getSelectedRow();
         int choice = 0;
         
-        if(!comparisonPanel.getProductOne().isFilled()) choice = 1;
-        else choice = 2;
+        if(!comparisonPanel.getProductOne().isFilled() || (comparisonPanel.getProductOne().isFilled() && comparisonPanel.getProductTwo().isFilled())) choice = 1;
+        else if(!comparisonPanel.getProductTwo().isFilled()) choice = 2;
         
-        switch(choice){
-            
+        ComparisonPanel.ProductPanel product = comparisonPanel.getProductOne();;
+        switch(choice){    
             case 1:{
-                ComparisonPanel.ProductPanel product = comparisonPanel.getProductOne();
-                product.setProductName(basketTabPanel.get(numberOfTab).getTable().getModel().getValueAt(selectedRow, 0).toString());
-                product.setDescription();
-                
+                product = comparisonPanel.getProductOne();
+                comparisonPanel.getProductOne().fill(true);
+                break;
+            }
+            case 2: {
+                product = comparisonPanel.getProductTwo();
+                comparisonPanel.getProductTwo().fill(true);
             }
         }
+                product.setProductName(basketTabPanel.get(numberOfTab).getTable().getModel().getValueAt(selectedRow, 0).toString());
+                product.setPrice(basketTabPanel.get(numberOfTab).getTable().getModel().getValueAt(selectedRow, 1).toString());
+                String sqlNamePart = "'" + basketTabPanel.get(numberOfTab).getTable().getModel().getValueAt(selectedRow, 0).toString() + "'";
+                product.setDescription(this.mainPanel.getResearcher(basketTabPanel.get(numberOfTab).getShopName()).getProductDatabaseHandler().getProductURL(sqlNamePart.toString()),basketTabPanel.get(numberOfTab).getShopName()); 
     }//GEN-LAST:event_compareButtonActionPerformed
 
     private void comparisonPanelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comparisonPanelButtonActionPerformed

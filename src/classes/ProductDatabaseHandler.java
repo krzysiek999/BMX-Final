@@ -52,7 +52,7 @@ public class ProductDatabaseHandler extends DatabaseHandler{
            statement = connection.createStatement();
            StringBuilder sql = new StringBuilder("CREATE TABLE ").append(this.tableName).append(" (ID int, ")
                    .append("productName VARCHAR(255), ").append(" price VARCHAR(255), ").append(" URL VARCHAR(255), ")
-                   .append(" imageURL VARCHAR(255))");
+                   .append("category VARCHAR(255), ").append(" imageURL VARCHAR(255))");
             
          statement.executeUpdate(sql.toString());
          statement.close();
@@ -76,12 +76,12 @@ public class ProductDatabaseHandler extends DatabaseHandler{
     }
     
     @Override
-    public void insertElement(String productName, String price, String url, String imageURL) {
+    public void insertElement(String productName, String price, String url, String imageURL, String category) {
         try {
            statement = connection.createStatement();
-           StringBuilder request = new StringBuilder("INSERT INTO ").append(this.tableName).append("(ID, productName, price, URL, imageURL) VALUES (")
+           StringBuilder request = new StringBuilder("INSERT INTO ").append(this.tableName).append("(ID, productName, price, URL, category, imageURL) VALUES (")
                                    .append(index).append(", ").append(productName).append(", ").append(price).append(", ").append(url)
-                                   .append(", ").append(imageURL).append(");");
+                                   .append(", ").append(category).append(", ").append(imageURL).append(");");
            
            statement.executeUpdate(request.toString()); 
            statement.close();
@@ -134,6 +134,10 @@ public class ProductDatabaseHandler extends DatabaseHandler{
                 e.printStackTrace();
             }
         return result;
+    }
+    
+    public String[] getProduct(String category){
+        return null;
     }
 
 
