@@ -64,7 +64,7 @@ public class PartPanel extends javax.swing.JPanel {
     InnerActionHandler actionHandler = new InnerActionHandler();
     ImageHandler imageHandler = new ImageHandler();
     
-    public PartPanel(ShopResearcher researcher, MainFrame frame) 
+    public PartPanel(ShopResearcher researcher, MainFrame frame, boolean firstInitialized) 
     {
         
         this.researcher = researcher;
@@ -97,7 +97,7 @@ public class PartPanel extends javax.swing.JPanel {
         buttonPanel.add(basketButton);
         
         this.add(buttonPanel);
-        setLabel();
+        setLabel(firstInitialized);
     }
     
     public JButton getAddBasketButton(){
@@ -108,9 +108,11 @@ public class PartPanel extends javax.swing.JPanel {
         return this.researcher;
     }
     
-    private void setLabel()
+    private void setLabel(boolean firstInitialized)
     {
-        ArrayList<ShopProduct> arrayInformation = researcher.getInformations();
+        ArrayList<ShopProduct> arrayInformation = new ArrayList<ShopProduct>();
+        if(firstInitialized) arrayInformation = researcher.getInformations();
+        else arrayInformation = researcher.getSpecificInformations();
         
         shopPanel = new ShopPanel();
         
@@ -233,6 +235,7 @@ public class PartPanel extends javax.swing.JPanel {
             {
                 mainFrame.setActivePanel(mainFrame.getMainLabel());
                 mainFrame.getFeaturePanel().getAddBasketButton().setEnabled(false);
+                
             }
             else if(e.getSource().equals(basketButton))
             {

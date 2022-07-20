@@ -53,6 +53,7 @@ String[] shopArray = {"bmxlife","avebmx","manyfestbmx","allday"};
 private String [][] informationArray = new String[100][2];
 
 ArrayList<ShopProduct> products = new ArrayList<>();
+ArrayList<ShopProduct> specificProducts = new ArrayList<>();
 ArrayList<String> pagesArray = new ArrayList<>();
 ArrayList<String> pagesArrayAve = new ArrayList<>();
 
@@ -75,6 +76,10 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
     this.numberOfElements = numberOfElements;
     //usedShopArray.add(nameOfShop);
     
+    }
+    
+    public ArrayList<ShopProduct> getProductsArray(){
+        return this.products;
     }
     
     public void createTable(){
@@ -111,14 +116,12 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
     
     public void searchPage(String nameOfPart){
         Elements partPage = doc.select("div.category-miniature.no-image > p > a[href]");
-        for(Element e : partPage)
-        {
+        for(Element e : partPage){
             if(e.absUrl("href").contains(nameOfPart)){
                 setHTML(e.absUrl("href"));
                 return;
             }
         }
-        System.out.println("ALLDAY: " + partPage);
     }
     
     
@@ -130,7 +133,10 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                 doc = Jsoup.connect(this.html).timeout(6000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36").get();
                 break;
             } catch (IOException ex) {
-                if(++counter == MAX_TRIES) JOptionPane.showMessageDialog(null, this.frame.getResourceBundle().getString("warningTimeoutInformation"), this.frame.getResourceBundle().getString("warning"), JOptionPane.ERROR_MESSAGE);
+                if(++counter == MAX_TRIES) {
+                    JOptionPane.showMessageDialog(null, this.frame.getResourceBundle().getString("warningTimeoutInformation"), this.frame.getResourceBundle().getString("warning"), JOptionPane.ERROR_MESSAGE);
+                    throw new NullPointerException();
+                }
             }
         }
     }
@@ -158,19 +164,21 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
         this.arrayOfElements = new Elements[numberOfElements];
         int numberOfPages = 1;
 
-        productIndex=0;
-        productIndexURL=0;
-        productImageIndex=0;
+        pagesArrayAve.clear();
+        pagesArray.clear();
+        
+        productIndex = products.size();
+        productIndexURL = products.size();
+        productImageIndex = products.size();
         
         if(initialized)
         {
-            Elements pages = new Elements();
+            Elements pages;// = new Elements();
             int indexSearchPage = 0, indexSearchPageAve = 0;
-            if (getShopName().equals("avebmx")) 
-            {
+            if (getShopName().equals("avebmx")){
                pages = doc.select("div.pagination > a.page");
-                System.out.println("PAGES SIZE: " + pages.size());
-               if(pages.size() > 0) numberOfPages = pages.size()/2 - 1;//numberOfPages = Integer.parseInt(pages.get(pages.size()-2).text());
+               System.out.println("PAGES SIZE: " + pages.size());
+               if(pages.size() > 0) numberOfPages = pages.size()/2 - 1;
                else numberOfPages = 1;
                for(int index = 1; index < numberOfPages; index++)
                 {
@@ -179,8 +187,7 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                 }
                 System.out.println("NR STRON: " + numberOfPages);
             }
-            else if(getShopName().equals("allday"))
-            {
+            else if(getShopName().equals("allday")){
                 pages = doc.select("ul.page-list.clearfix.text-xs-center");
                 if(pages.size() > 0) numberOfPages = pages.size();//Integer.parseInt(pages.get(pages.size()-1).text());
                 else numberOfPages = 1;
@@ -219,7 +226,7 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                         for(Element element: categoryElements[i]){
                             switch (i){
                                     case 0 ->  {
-                                        products.add(new ShopProduct(element.text()));
+                                        products.add(new ShopProduct(element.text(), getCategory()));
                                     }
                                     case 1 ->  {
                                         products.get(productIndex).setProductPrice(element.text().replaceAll(",", "."));
@@ -257,7 +264,7 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                 }    
             
                 for(int z=0;z<products.size();z++){
-                    System.out.println("z: " + z + " l: " + products.get(z).getProductDetails()[0] + " , " + products.get(z).getProductDetails()[1] + " , " + products.get(z).getProductDetails()[2]);   
+                    System.out.println("z: " + z + " l: " + products.get(z).getProductDetails()[0] + " , " + products.get(z).getProductDetails()[1] + " , " + products.get(z).getProductDetails()[2] + " , ");   
                 }
             
                     String nameDatabase;;
@@ -307,6 +314,20 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
         return this.products;
     }
     
+    public ArrayList<ShopProduct> getSpecificInformations(){
+        return this.specificProducts;
+    }
+    
+    public void setSpecificInformations(String category){
+        for(int i=0; i < products.size(); i++){
+            if(products.get(i).getCategory().equals(category)) specificProducts.add(products.get(i));
+        }
+    }
+    
+    public void clearProductsArray(){
+        this.specificProducts.clear();
+    }
+    
     public String searchProduct(String html, String nameOfPart)
     {
         this.setHTML(html);
@@ -337,9 +358,9 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
         this.frame = frame;
     }
     
-    public void initializePartPanel()
+    public void initializePartPanel(boolean firstInitialized)
     {
-        frame.setPartPanel(this);
+        frame.setPartPanel(this, firstInitialized);
         frame.setActivePanel(frame.getPartLabel());
         //frame.getFeaturePanel().discountApply();
     }

@@ -80,6 +80,7 @@ public class InitialPanel extends javax.swing.JPanel implements ActionListener{
          
         eastPanel.add(languageBox);
         
+        nextB.setSize(new Dimension(200, 100));
         centerPanel.add(nextB);
         
         nextB.addActionListener(this);

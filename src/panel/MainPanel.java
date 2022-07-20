@@ -42,12 +42,12 @@ public class MainPanel extends javax.swing.JPanel {
     //Initialize database handler
     private DatabaseHandler databaseHandler = new DatabaseHandler();
     
-    ArrayList<ShopResearcher> arrayOfResearcher = new ArrayList<ShopResearcher>();
     
     private int shopIndex = 0;
     private boolean partSelection = false;
     ArrayList<ShopResearcher> usedShopArray = new ArrayList<ShopResearcher>();
     
+    boolean notFirstSearch = false;
     
     public MainPanel( MainFrame frame, boolean tableExists) {
         
@@ -91,6 +91,8 @@ public class MainPanel extends javax.swing.JPanel {
         this.pegsButton.setText(this.getFrame().getResourceBundle().getString("pegs"));
         this.rimsButton.setText(this.getFrame().getResourceBundle().getString("rims"));
         this.framesButton.setText(this.getFrame().getResourceBundle().getString("frames"));
+        this.helmetButton.setText(this.getFrame().getResourceBundle().getString("helmets"));
+        this.padsButton.setText(this.getFrame().getResourceBundle().getString("pads"));
         repaint();
     }
     
@@ -137,6 +139,8 @@ public class MainPanel extends javax.swing.JPanel {
         framesButton = new javax.swing.JButton();
         gripsButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        helmetButton = new javax.swing.JButton();
+        padsButton = new javax.swing.JButton();
 
         setLayout(null);
 
@@ -323,6 +327,24 @@ public class MainPanel extends javax.swing.JPanel {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bmxIcon2.png"))); // NOI18N
         add(jLabel3);
         jLabel3.setBounds(90, -70, 810, 1050);
+
+        helmetButton.setText("jButton1");
+        helmetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helmetButtonActionPerformed(evt);
+            }
+        });
+        add(helmetButton);
+        helmetButton.setBounds(110, 210, 130, 40);
+
+        padsButton.setText("jButton1");
+        padsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                padsButtonActionPerformed(evt);
+            }
+        });
+        add(padsButton);
+        padsButton.setBounds(110, 150, 130, 40);
     }// </editor-fold>//GEN-END:initComponents
 
     private void barsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barsButtonActionPerformed
@@ -408,8 +430,18 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_pedalsButtonActionPerformed
 
     private void gripsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gripsButtonActionPerformed
-        setPartName("gripy",true);
+        String gripName = "gripy";
+        if(getShopName().equals("allday")) gripName = "chwyty";
+        setPartName(gripName,true);
     }//GEN-LAST:event_gripsButtonActionPerformed
+
+    private void helmetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helmetButtonActionPerformed
+        setPartName("kaski", false);
+    }//GEN-LAST:event_helmetButtonActionPerformed
+
+    private void padsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_padsButtonActionPerformed
+        setPartName("ochraniacze", false);
+    }//GEN-LAST:event_padsButtonActionPerformed
 
     public BasketMainFrame getBasketFrame()
     {
@@ -444,7 +476,7 @@ public class MainPanel extends javax.swing.JPanel {
                     System.out.println(part[5]);
                     System.out.println(part[6]);
                     System.out.println(part[7]);
-                    frame.getWearPanel().setPage(part[6]);
+                    //frame.getWearPanel().setPage(part[6]);
                     frame.setComparisonShop(part[7]);
                     break;
                 }
@@ -459,6 +491,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
            
             part[0] = part[0] + namePart; 
+            part[6] = part[6] + namePart;
             
             switch(shopNumber)
             {
@@ -471,7 +504,8 @@ public class MainPanel extends javax.swing.JPanel {
                 }
                 case 3:
                 {
-                    part[0] = part[0] + "-bmx?resultsPerPage=99999";
+                    if(namePart.equals("pedaly")) part[0] = part[0] + "?resultsPerPage=99999";
+                    else part[0] = part[0] + "-bmx?resultsPerPage=99999";                    
                     part[6] = part[6] + "-bmx?resultsPerPage=99999";
                 }
             }
@@ -484,47 +518,77 @@ public class MainPanel extends javax.swing.JPanel {
            setResearcher(nameOfPart, nameOfShop, shopNumber, partSelection);
        }
        
-       private void setResearcher(String namePart, String nameShop, int shopNumber, boolean partSelection)
-       {
-        String[] parts = getHTMLElements(namePart,shopNumber,1);
+       private void setResearcher(String namePart, String nameShop, int shopNumber, boolean partSelection){
         
-        String html;
-        if(partSelection) html = parts[0];
-        else {
-            frame.getWearPanel().setHTML(nameOfPart);
-            html = frame.getWearPanel().getHTML();
-        }
+        try{   
+            String[] parts = getHTMLElements(namePart,shopNumber,1);
         
-        String[] htmlElements = {parts[1],parts[2],parts[3],parts[4],parts[5]};
+            String html = "";
+            if(partSelection) html = parts[0];
+            else html = parts[6];
         
-        if(!this.isUsed(nameOfShop)){
-            shopResearcher = new ShopResearcher(html, nameShop, 2);
-            usedShopArray.add(shopResearcher);
-        }
-        else{
+        
+            String[] htmlElements = {parts[1],parts[2],parts[3],parts[4],parts[5]};
+        
+            if(!this.isUsed(nameShop) || !this.partPreviousSearched(namePart)){
+           
+                // notFirstSearch = false;
             
-        }
+                if(!this.isUsed(nameShop)) {
+                    shopResearcher = new ShopResearcher(html, nameShop, 2);
+                    usedShopArray.add(shopResearcher);
+                }
+                else if(!this.partPreviousSearched(namePart)) {
+                    shopResearcher = this.getResearcher(nameShop);
+                    shopResearcher.clearProductsArray();
+                    shopResearcher.setHTML(html); 
+                  //  notFirstSearch = true;
+                }
         
-        if(nameOfShop.equals("allday")){
-            shopResearcher.setConnection();
-            shopResearcher.searchPage(nameOfPart);
-        }
+                //System.err.println("CHUUUUUUUUUUUUUUUJKA");
+            
+                if(nameShop.equals("allday")){
+                    shopResearcher.setConnection();
+                    shopResearcher.searchPage(namePart);
+                }
         
-        if(!this.getFrame().productTableExists() && firstInitialized) {
-            shopResearcher.createTable();
-            this.getFrame().getFilesHandler().writeToFile("true;", 2);   
-        }
-        else if(firstInitialized) shopResearcher.getProductDatabaseHandler().deleteAllElements(shopResearcher.getProductDatabaseHandler().getTableTitle());
+                if(!this.getFrame().productTableExists() && firstInitialized) {
+                    shopResearcher.createTable();
+                    this.getFrame().getFilesHandler().writeToFile("true;", 2);   
+                }
+                else if(firstInitialized) shopResearcher.getProductDatabaseHandler().deleteAllElements(shopResearcher.getProductDatabaseHandler().getTableTitle());
 
-        shopResearcher.setFrame(this.frame);
-        shopResearcher.setCategory(namePart);
-        shopResearcher.setConnection();
-        shopResearcher.initializeArrayOfElements(htmlElements);
-        shopResearcher.searchHTMLElements();
-        shopResearcher.initializePartPanel();
-        arrayOfResearcher.add(shopResearcher);
-        firstInitialized = false;
-        partSearched = true;
+                shopResearcher.setFrame(this.frame);
+                shopResearcher.setCategory(namePart);
+                shopResearcher.setConnection();
+                shopResearcher.initializeArrayOfElements(htmlElements);
+                shopResearcher.searchHTMLElements();
+                // if(notFirstSearch){
+                shopResearcher.setSpecificInformations(namePart);
+                shopResearcher.initializePartPanel(false);
+           // }
+           // else shopResearcher.initializePartPanel(true);
+            }
+            else{
+                getResearcher(nameShop).clearProductsArray();
+                getResearcher(nameShop).setSpecificInformations(namePart);
+                getResearcher(nameShop).initializePartPanel(false);
+            }
+            firstInitialized = false;
+            partSearched = true;
+            }catch(NullPointerException ex){
+                frame.setActivePanel(frame.getMainLabel());
+                removeElement(getResearcher(nameShop));
+            }
+       }
+       
+       public boolean partPreviousSearched(String category){
+           for(int i=0; i < usedShopArray.size(); i++){
+            for(int j=0; j < usedShopArray.get(i).getProductsArray().size(); j++){
+                if(usedShopArray.get(i).getProductsArray().get(j).getCategory().equals(category)) return true;
+            }
+        }
+        return false;
        }
        
        public boolean isUsed(String nameOfShop){
@@ -534,11 +598,6 @@ public class MainPanel extends javax.swing.JPanel {
         return false;
        }
        
-       public void setHTML(String html)
-       {
-           
-       }
-       
        public boolean getSearchState()
        {
            return this.partSearched;
@@ -546,10 +605,14 @@ public class MainPanel extends javax.swing.JPanel {
        
        public ShopResearcher getResearcher(String nameOfShop)
        {
-           for(int index = 0; index < arrayOfResearcher.size(); index++){
-               if(arrayOfResearcher.get(index).getShopName().equals(nameOfShop)) return this.arrayOfResearcher.get(index);
+           for(int index = 0; index < usedShopArray.size(); index++){
+               if(usedShopArray.get(index).getShopName().equals(nameOfShop)) return this.usedShopArray.get(index);
            }
            return null;
+       }
+       
+       public void removeElement(ShopResearcher researcher){
+           usedShopArray.remove(researcher);
        }
        
        public void setPartName(String name, boolean value)
@@ -584,9 +647,11 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JButton forksButton;
     private javax.swing.JButton framesButton;
     private javax.swing.JButton gripsButton;
+    private javax.swing.JButton helmetButton;
     private javax.swing.JButton hubguardsButton;
     private javax.swing.JButton hubsButton;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton padsButton;
     private javax.swing.JButton pedalsButton;
     private javax.swing.JButton pegsButton;
     private javax.swing.JButton rimsButton;

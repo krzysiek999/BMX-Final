@@ -136,10 +136,31 @@ public class ProductDatabaseHandler extends DatabaseHandler{
         return result;
     }
     
-    public String[] getProduct(String category){
-        return null;
+    public void dropTable(){
+                Connection conn = null;
+        Statement stmt = null;
+        try{
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt = conn.createStatement();
+            String sql = "DROP TABLE ProductTable";
+            
+            stmt.execute(sql);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+               
+            }
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
     }
-
 
     @Override
     public boolean tableExists() {

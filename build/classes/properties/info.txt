@@ -1,4 +1,4 @@
-https://bmxlife.pl/czesci/;h2.title;span.price;a;div#products-container;img;https://bmxlife.pl/ochrona/;"div.tab
+https://bmxlife.pl/czesci/;h2.title;span.price;a;div#products-container;img;https://bmxlife.pl/ochrona/;div.tab
 https://www.avebmx.pl/czesci/;div.product-name;div.product-prices;div.col-lg-3.col-md-6.col-6 > a;div.row;div.product-image > img[class=first];https://www.avebmx.pl/ochrona/;div.tab-content.active > p
 https://manyfestbmx.pl/;h2.h3.product-title;span.product-price;h2.h3.product-title > a;div.product-description;a.thumbnail.product-thumbnail;https://manyfestbmx.pl/;div.rte-content
-https://allday.pl/12-czesci;h3.h3.product-title > a;span.price;div.thumbnail-wrapper > a;div.products.catalog-products.row;div.thumbnail-wrapper > a > img[data-full-size-image-url];https://allday.pl/;div.product-description.rte.tab-pane-inner > p,div.product-description-short.rte
+https://allday.pl/12-czesci;h3.h3.product-title > a;span.price;div.thumbnail-wrapper > a;div.products.catalog-products.row;div.thumbnail-wrapper > a > img[data-full-size-image-url];https://allday.pl/63-ochrona;div.product-description.rte.tab-pane-inner > p,div.product-description-short.rte

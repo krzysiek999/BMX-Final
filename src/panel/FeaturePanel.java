@@ -39,19 +39,7 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         this.heigth = this.mainFrame.getElementTwoHeigth();
         this.setSize(width, heigth);
         
-        exitButton.setText(mainFrame.getResourceBundle().getString("exit"));
-        settingsButton.setText(mainFrame.getResourceBundle().getString("settings"));
-        basketButton.setText(mainFrame.getResourceBundle().getString("basket"));
-        comparisonButton.setText(mainFrame.getResourceBundle().getString("compareButton"));
-        partsButton.setText(mainFrame.getResourceBundle().getString("mainPanel"));
-        accessoriesButton.setText(mainFrame.getResourceBundle().getString("accessories"));
-        discountSpinnerLabel.setText(mainFrame.getResourceBundle().getString("discountLabel"));
-        menuLabel.setText(mainFrame.getResourceBundle().getString("menuLabel"));
-        tabsLabel.setText(mainFrame.getResourceBundle().getString("tabsLabel"));
-        acceptButton.setText(mainFrame.getResourceBundle().getString("accept"));
-        backButton.setText(mainFrame.getResourceBundle().getString("erase"));
-        addBasketButton.setText(mainFrame.getResourceBundle().getString("addBasket"));
-        shopLabel.setText(mainFrame.getResourceBundle().getString("shop"));
+        setButtonsText();
         
         partsButton.addActionListener(mainFrame.getMenuPanel());
         exitButton.addActionListener(mainFrame.getMenuPanel());
@@ -60,6 +48,22 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         comparisonButton.addActionListener(mainFrame.getMenuPanel());
         
         addBasketButton.setEnabled(false);
+    }
+    
+    public void setButtonsText(){
+        exitButton.setText(mainFrame.getResourceBundle().getString("exit"));
+        settingsButton.setText(mainFrame.getResourceBundle().getString("settings"));
+        basketButton.setText(mainFrame.getResourceBundle().getString("basket"));
+        comparisonButton.setText(mainFrame.getResourceBundle().getString("compareButton"));
+        partsButton.setText(mainFrame.getResourceBundle().getString("mainPanel"));
+        //accessoriesButton.setText(mainFrame.getResourceBundle().getString("accessories"));
+        discountSpinnerLabel.setText(mainFrame.getResourceBundle().getString("discountLabel"));
+        menuLabel.setText(mainFrame.getResourceBundle().getString("menuLabel"));
+        tabsLabel.setText(mainFrame.getResourceBundle().getString("tabsLabel"));
+        acceptButton.setText(mainFrame.getResourceBundle().getString("accept"));
+        backButton.setText(mainFrame.getResourceBundle().getString("erase"));
+        addBasketButton.setText(mainFrame.getResourceBundle().getString("addBasket"));
+        shopLabel.setText(mainFrame.getResourceBundle().getString("shop"));
     }
     
     public void discountApply(){
@@ -96,7 +100,6 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         basketButton = new javax.swing.JButton();
         discountSpinnerLabel = new javax.swing.JLabel();
         discountSpinner = new javax.swing.JSpinner();
-        accessoriesButton = new javax.swing.JButton();
         tabsLabel = new javax.swing.JLabel();
         menuLabel = new javax.swing.JLabel();
         comparisonButton = new javax.swing.JButton();
@@ -120,13 +123,6 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
         discountSpinnerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         discountSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
-
-        accessoriesButton.setText("jButton1");
-        accessoriesButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                accessoriesButtonActionPerformed(evt);
-            }
-        });
 
         tabsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -219,7 +215,6 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
                             .addComponent(comparisonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(menuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tabsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(accessoriesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(discountSpinnerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(basketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,9 +236,7 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
                 .addComponent(tabsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(partsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(accessoriesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(66, 66, 66)
                 .addComponent(menuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(basketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,10 +275,6 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
     private void addBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBasketButtonActionPerformed
         mainFrame.getPartPanel().getAddBasketButton().doClick();
     }//GEN-LAST:event_addBasketButtonActionPerformed
-
-    private void accessoriesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accessoriesButtonActionPerformed
-        mainFrame.setActivePanel(mainFrame.getWearPanelLabel());
-    }//GEN-LAST:event_accessoriesButtonActionPerformed
 
     private void manyfestCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manyfestCheckBoxActionPerformed
         mainFrame.getMainPanel().setShop("manyfestbmx",3);
@@ -327,7 +316,6 @@ public class FeaturePanel extends javax.swing.JPanel implements ListSelectionLis
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptButton;
-    private javax.swing.JButton accessoriesButton;
     private javax.swing.JButton addBasketButton;
     private javax.swing.JCheckBox alldayCheckBox;
     private javax.swing.JCheckBox avebmxCheckBox;

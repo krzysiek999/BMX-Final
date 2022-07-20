@@ -35,7 +35,7 @@ import panel.*;
  */
 public class MainFrame extends javax.swing.JFrame {
     
-    final String MAIN_PANEL = "Main Panel", SETTING_PANEL = "Setting Panel", COMPARISON_PANEL = "Comparison Panel", LOADING_PANEL = "Loading Panel", WEAR_PANEL = "Wear Panel", PART_PANEL = "Part Panel";
+    final String MAIN_PANEL = "Main Panel", SETTING_PANEL = "Setting Panel", COMPARISON_PANEL = "Comparison Panel", LOADING_PANEL = "Loading Panel", PART_PANEL = "Part Panel";
     
     private boolean tableExist = false, productTableExist = false;
     
@@ -67,7 +67,7 @@ public class MainFrame extends javax.swing.JFrame {
     MenuPanel menuPanel;
     
     private LoadingPanel loadingPanel;
-    private WearPanel wearPanel;
+    
     
     String activePanel;
     
@@ -139,21 +139,19 @@ public class MainFrame extends javax.swing.JFrame {
         settingsPanel = new SettingsPanel(this);
         comparisonPanel = new ComparisonPanel(this);
         loadingPanel = new LoadingPanel(this);
-        wearPanel = new WearPanel(this);
         
         
         this.centerPanel.add(mainPanel, MAIN_PANEL);
         this.centerPanel.add(settingsPanel, SETTING_PANEL);
         this.centerPanel.add(comparisonPanel, COMPARISON_PANEL);
-        this.centerPanel.add(wearPanel, WEAR_PANEL);
         this.centerPanel.add(loadingPanel, LOADING_PANEL);
         
         this.setActivePanel(MAIN_PANEL);                
     }
     
-    public void setPartPanel(ShopResearcher researcher)
+    public void setPartPanel(ShopResearcher researcher, boolean firstInitialized)
     {
-        this.partPanel = new PartPanel(researcher, this);
+        this.partPanel = new PartPanel(researcher, this, firstInitialized);
         this.centerPanel.add(partPanel, PART_PANEL);
     }
     
@@ -197,7 +195,7 @@ public class MainFrame extends javax.swing.JFrame {
         if(name.equals(PART_PANEL)) this.getFeaturePanel().setElementsEnabled(true);
         else this.getFeaturePanel().setElementsEnabled(false);
         
-        if(name.equals(MAIN_PANEL) || name.equals(WEAR_PANEL)) this.getFeaturePanel().setChoiceEnabled(true);
+        if(name.equals(MAIN_PANEL)) this.getFeaturePanel().setChoiceEnabled(true);
         else this.getFeaturePanel().setChoiceEnabled(false);
         
         this.activePanel = name;
@@ -207,6 +205,7 @@ public class MainFrame extends javax.swing.JFrame {
     {
         setLanguage(language);
         this.setButtonText();
+        this.getFeaturePanel().setButtonsText();
     }
     
     public void startSearching()
@@ -263,10 +262,6 @@ public class MainFrame extends javax.swing.JFrame {
         return this.mainPanel;
     }
     
-    public WearPanel getWearPanel()
-    {
-        return this.wearPanel;
-    }
     
     public int getAppWidth()
     {
@@ -302,10 +297,7 @@ public class MainFrame extends javax.swing.JFrame {
         return this.SETTING_PANEL;
     }
     
-    public String getWearPanelLabel()
-    {
-        return this.WEAR_PANEL;
-    }
+
 
     public String getLanguage()
     {

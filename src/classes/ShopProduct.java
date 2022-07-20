@@ -10,15 +10,20 @@ package classes;
  */
 public class ShopProduct {
     
-    String productName, productPrice, URL;
-    String[] details = new String[4];
+    String productName, productPrice, URL, category;
+    String[] details = new String[5];
     
-    public ShopProduct(String productName) {
+    public ShopProduct(String productName, String category) {
         details[0] = productName;
+        details[4] = category;       
     }
     
     public String[] getProductDetails(){
         return details;
+    }
+    
+    public String getCategory(){
+        return this.details[4];
     }
     
     public void setImageURL(String imageURL){
@@ -35,5 +40,9 @@ public class ShopProduct {
     
     public void setProductURL(String URL){
         details[2] = URL;
+    }
+    
+    public void setCategory(String category){
+        details[4] = category;
     }
 }
