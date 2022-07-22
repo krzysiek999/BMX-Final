@@ -188,6 +188,8 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                 System.out.println("NR STRON: " + numberOfPages);
             }
             else if(getShopName().equals("allday")){
+                //Elements pagesA = doc.select("div#js-product-list-top.products-selection");// > div.row.sort-by-row > ul.page-list.clearfix.text-xs-center");
+                //pages = pagesA.select("div.row.sort-by-row > nav.pagination > ul.page-list.clearfix.text-xs-center");
                 pages = doc.select("ul.page-list.clearfix.text-xs-center");
                 if(pages.size() > 0) numberOfPages = pages.size();//Integer.parseInt(pages.get(pages.size()-1).text());
                 else numberOfPages = 1;

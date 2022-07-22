@@ -4,14 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/appka/application/src/panel/MainPanel.java</file>
+            <file>file:/D:/appka/application/src/frame/InitialFrame.java</file>
             <file>file:/D:/appka/application/src/frame/MainFrame.java</file>
-            <file>file:/D:/appka/application/src/classes/BrowserHandler.java</file>
-            <file>file:/D:/appka/application/src/properties/English.properties</file>
+            <file>file:/D:/appka/application/src/panel/InitialPanel.java</file>
+            <file>file:/D:/appka/application/src/panel/SettingsPanel.java</file>
             <file>file:/D:/appka/application/src/panel/PartPanel.java</file>
             <file>file:/D:/appka/application/src/properties/info.txt</file>
             <file>file:/D:/appka/application/src/properties/Polish.properties</file>
             <file>file:/D:/appka/application/src/classes/ShopResearcher.java</file>
-            <file>file:/D:/appka/application/src/classes/ProductDatabaseHandler.java</file>
             <file>file:/D:/appka/application/src/panel/FeaturePanel.java</file>
         </group>
     </open-files>
