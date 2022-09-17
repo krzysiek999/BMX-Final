@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import panel.InitialPanel;
@@ -79,8 +80,9 @@ public class FilesHandler {
         return this.writer;
     }
     
-    public String getSettings(InitialPanel initPanel)
+  /*  public String getSettings()
     {
+        
         Color color;
         counter = 0;
         String conf;
@@ -124,7 +126,7 @@ public class FilesHandler {
         }
         
         return "";
-    }
+    }*/
     
     private void setOriginalFile()
     {
@@ -152,9 +154,10 @@ public class FilesHandler {
         }
     }
     
-    public void writeToFile(String text, int setting)
+    public void saveSettings(String key, String newValue, ResourceBundle resource)
     {
-        File tempFile;
+       // resource.
+        /*File tempFile;
         File tempDirectory = new File(System.getProperty("java.io.tmpdir"));
         counter = 0;
         try {
@@ -184,7 +187,7 @@ public class FilesHandler {
         } catch (IOException ex) {
             JOptionPane.showConfirmDialog(null, "File not found", "ERROR", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
-        }
+        }*/
         
     }
     

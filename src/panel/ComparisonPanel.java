@@ -38,6 +38,7 @@ public class ComparisonPanel extends javax.swing.JPanel {
     /**
      * Creates new form ComparisonPanel
      */
+    
     private JSplitPane splitPane;
     private GridLayout comparisonLayout = new GridLayout(2,1,20,20);
     MainFrame mainFrame;
@@ -107,9 +108,9 @@ public class ComparisonPanel extends javax.swing.JPanel {
     }
     class ButtonPanel extends JPanel implements ActionListener
     {    
-        JButton backButton = new JButton(getFrame().getResourceBundle().getString("back"));
-        JButton basketButton = new JButton(getFrame().getResourceBundle().getString("basket"));
-        JButton okokButton = new JButton(getFrame().getResourceBundle().getString("erase"));
+        JButton backButton = new JButton(getFrame().getPropertyReader().getProperty("back"));
+        JButton basketButton = new JButton(getFrame().getPropertyReader().getProperty("basket"));
+        JButton okokButton = new JButton(getFrame().getPropertyReader().getProperty("erase"));
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, 20, 40);
 
         public ButtonPanel() {
@@ -127,8 +128,8 @@ public class ComparisonPanel extends javax.swing.JPanel {
         
         public void setButtonText()
         {
-            this.backButton.setText(getFrame().getResourceBundle().getString("back"));
-            this.basketButton.setText(getFrame().getResourceBundle().getString("basket"));
+            this.backButton.setText(getFrame().getPropertyReader().getProperty("back"));
+            this.basketButton.setText(getFrame().getPropertyReader().getProperty("basket"));
             this.repaint();
         }
 
@@ -204,7 +205,7 @@ public class ComparisonPanel extends javax.swing.JPanel {
             mainFrame.getMainPanel().getResearcher(nameOfShop).setConnection();
             description.setText(mainFrame.getMainPanel().getResearcher(nameOfShop).getDescription(mainFrame.getComparisonShop())); 
             }catch(NullPointerException ex){
-                description.setText(mainFrame.getResourceBundle().getString("nullDescription")); 
+                description.setText(mainFrame.getPropertyReader().getProperty("nullDescription")); 
             }
         }
         

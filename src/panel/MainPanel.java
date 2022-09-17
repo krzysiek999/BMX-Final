@@ -5,9 +5,13 @@
 package panel;
 
 import classes.DatabaseHandler;
+import classes.ImageHandler;
 import classes.ShopResearcher;
 import frame.BasketMainFrame;
 import frame.MainFrame;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,8 +19,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
 
 /**
  *
@@ -42,12 +50,14 @@ public class MainPanel extends javax.swing.JPanel {
     //Initialize database handler
     private DatabaseHandler databaseHandler = new DatabaseHandler();
     
+        ArrayList<ShopResearcher> usedShopArray = new ArrayList<ShopResearcher>();
     
     private int shopIndex = 0;
     private boolean partSelection = false;
-    ArrayList<ShopResearcher> usedShopArray = new ArrayList<ShopResearcher>();
     
     boolean notFirstSearch = false;
+    
+    ImageHandler imageHandler = new ImageHandler();
     
     public MainPanel( MainFrame frame, boolean tableExists) {
         
@@ -59,9 +69,26 @@ public class MainPanel extends javax.swing.JPanel {
         databaseHandler.deleteAllElements(TABLE_NAME);
         initComponents(); 
         setButtonText();
-        
     }
     
+    public void setButtonsPosition(double widthDifference, double heightDifference){
+        
+        List<AbstractButton> buttonsList = Collections.list(buttonGroup1.getElements());
+        
+        for(int buttonCounter = 0; buttonCounter < buttonsList.size(); buttonCounter++){
+            buttonsList.get(buttonCounter).setLocation((int)(buttonsList.get(buttonCounter).getLocation().x * widthDifference), (int)(buttonsList.get(buttonCounter).getLocation().y * heightDifference));
+            buttonsList.get(buttonCounter).setSize((int)(buttonsList.get(buttonCounter).getSize().width * (widthDifference + 0.1)), (int)(buttonsList.get(buttonCounter).getSize().height * (heightDifference + 0.1)));
+        }
+    }
+    
+    public void setLabelSize(int width, int height){
+         imageHandler.resizeJLabelIcon(frame.getLabelWidth(),frame.getLabelHeight(),jLabel3);
+         this.revalidate();
+         this.repaint();
+         //jLabel3.setLocation(0, 0);
+         jLabel3.setLocation(0,-80);
+         barendsButton.setLocation(14, 24);
+    }
 
     
     public String getTableName()
@@ -71,28 +98,29 @@ public class MainPanel extends javax.swing.JPanel {
     
     public void setButtonText()
     {
-        this.barendsButton.setText(this.getFrame().getResourceBundle().getString("barends"));
-        this.barsButton.setText(this.getFrame().getResourceBundle().getString("bars"));
-        this.stemsButton.setText(this.getFrame().getResourceBundle().getString("stems"));
-        this.gripsButton.setText(this.getFrame().getResourceBundle().getString("grips"));
-        this.steersButton.setText(this.getFrame().getResourceBundle().getString("steers"));
-        this.forksButton.setText(this.getFrame().getResourceBundle().getString("forks"));
-        this.tyresButton.setText(this.getFrame().getResourceBundle().getString("tires"));
-        this.hubsButton.setText(this.getFrame().getResourceBundle().getString("hubs"));
-        this.spokesButton.setText(this.getFrame().getResourceBundle().getString("spokes"));
-        this.hubguardsButton.setText(this.getFrame().getResourceBundle().getString("hubguards"));
-        this.cranksButton.setText(this.getFrame().getResourceBundle().getString("cranks"));
-        this.chainButton.setText(this.getFrame().getResourceBundle().getString("chains"));
-        this.chainwheelsButton.setText(this.getFrame().getResourceBundle().getString("sprockets"));
-        this.pedalsButton.setText(this.getFrame().getResourceBundle().getString("pedals"));
-        this.seatpostsButton.setText(this.getFrame().getResourceBundle().getString("posts"));
-        this.seatsButton.setText(this.getFrame().getResourceBundle().getString("seats"));
-        this.supportsButton.setText(this.getFrame().getResourceBundle().getString("supports"));
-        this.pegsButton.setText(this.getFrame().getResourceBundle().getString("pegs"));
-        this.rimsButton.setText(this.getFrame().getResourceBundle().getString("rims"));
-        this.framesButton.setText(this.getFrame().getResourceBundle().getString("frames"));
-        this.helmetButton.setText(this.getFrame().getResourceBundle().getString("helmets"));
-        this.padsButton.setText(this.getFrame().getResourceBundle().getString("pads"));
+        this.getFrame().setLanguage(this.getFrame().getLanguage());
+        this.barendsButton.setText(this.getFrame().getPropertyReader().getProperty("barends"));
+        this.barsButton.setText(this.getFrame().getPropertyReader().getProperty("bars"));
+        this.stemsButton.setText(this.getFrame().getPropertyReader().getProperty("stems"));
+        this.gripsButton.setText(this.getFrame().getPropertyReader().getProperty("grips"));
+        this.steersButton.setText(this.getFrame().getPropertyReader().getProperty("steers"));
+        this.forksButton.setText(this.getFrame().getPropertyReader().getProperty("forks"));
+        this.tyresButton.setText(this.getFrame().getPropertyReader().getProperty("tires"));
+        this.hubsButton.setText(this.getFrame().getPropertyReader().getProperty("hubs"));
+        this.spokesButton.setText(this.getFrame().getPropertyReader().getProperty("spokes"));
+        this.hubguardsButton.setText(this.getFrame().getPropertyReader().getProperty("hubguards"));
+        this.cranksButton.setText(this.getFrame().getPropertyReader().getProperty("cranks"));
+        this.chainButton.setText(this.getFrame().getPropertyReader().getProperty("chains"));
+        this.chainwheelsButton.setText(this.getFrame().getPropertyReader().getProperty("sprockets"));
+        this.pedalsButton.setText(this.getFrame().getPropertyReader().getProperty("pedals"));
+        this.seatpostsButton.setText(this.getFrame().getPropertyReader().getProperty("posts"));
+        this.seatsButton.setText(this.getFrame().getPropertyReader().getProperty("seats"));
+        this.supportsButton.setText(this.getFrame().getPropertyReader().getProperty("supports"));
+        this.pegsButton.setText(this.getFrame().getPropertyReader().getProperty("pegs"));
+        this.rimsButton.setText(this.getFrame().getPropertyReader().getProperty("rims"));
+        this.framesButton.setText(this.getFrame().getPropertyReader().getProperty("frames"));
+        this.helmetButton.setText(this.getFrame().getPropertyReader().getProperty("helmets"));
+        this.padsButton.setText(this.getFrame().getPropertyReader().getProperty("pads"));
         repaint();
     }
     
@@ -118,6 +146,8 @@ public class MainPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup = new javax.swing.ButtonGroup();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jRadioButton1 = new javax.swing.JRadioButton();
         barsButton = new javax.swing.JButton();
         hubguardsButton = new javax.swing.JButton();
         chainwheelsButton = new javax.swing.JButton();
@@ -141,192 +171,218 @@ public class MainPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         helmetButton = new javax.swing.JButton();
         padsButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+
+        jRadioButton1.setText("jRadioButton1");
 
         setLayout(null);
 
         barsButton.setText("KIEROWNICE");
+        buttonGroup1.add(barsButton);
         barsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 barsButtonActionPerformed(evt);
             }
         });
         add(barsButton);
-        barsButton.setBounds(500, 100, 140, 30);
+        barsButton.setBounds(420, 70, 140, 30);
 
         hubguardsButton.setText("HUBGUARDY");
+        buttonGroup1.add(hubguardsButton);
         hubguardsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hubguardsButtonActionPerformed(evt);
             }
         });
         add(hubguardsButton);
-        hubguardsButton.setBounds(600, 670, 130, 30);
+        hubguardsButton.setBounds(510, 640, 130, 30);
 
         chainwheelsButton.setText("ZĘBATKI");
+        buttonGroup1.add(chainwheelsButton);
+        chainwheelsButton.setDefaultCapable(false);
         chainwheelsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chainwheelsButtonActionPerformed(evt);
             }
         });
         add(chainwheelsButton);
-        chainwheelsButton.setBounds(260, 530, 120, 30);
+        chainwheelsButton.setBounds(180, 510, 120, 30);
 
         chainButton.setText("ŁAŃCUCHY");
+        buttonGroup1.add(chainButton);
+        chainButton.setDefaultCapable(false);
         chainButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chainButtonActionPerformed(evt);
             }
         });
         add(chainButton);
-        chainButton.setBounds(160, 440, 110, 30);
+        chainButton.setBounds(120, 570, 110, 30);
 
         steersButton.setText("STERY");
+        buttonGroup1.add(steersButton);
         steersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 steersButtonActionPerformed(evt);
             }
         });
         add(steersButton);
-        steersButton.setBounds(560, 270, 90, 30);
+        steersButton.setBounds(480, 240, 90, 30);
 
         pegsButton.setText("PEGI");
+        pegsButton.setBorderPainted(false);
+        buttonGroup1.add(pegsButton);
         pegsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pegsButtonActionPerformed(evt);
             }
         });
         add(pegsButton);
-        pegsButton.setBounds(80, 600, 100, 30);
+        pegsButton.setBounds(0, 580, 100, 30);
 
         barendsButton.setText("BARENDY");
+        buttonGroup1.add(barendsButton);
         barendsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 barendsButtonActionPerformed(evt);
             }
         });
         add(barendsButton);
-        barendsButton.setBounds(180, 30, 120, 30);
+        barendsButton.setBounds(80, 10, 120, 30);
 
         forksButton.setText("WIDELCE");
+        buttonGroup1.add(forksButton);
         forksButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 forksButtonActionPerformed(evt);
             }
         });
         add(forksButton);
-        forksButton.setBounds(510, 510, 100, 30);
+        forksButton.setBounds(430, 510, 100, 30);
 
         hubsButton.setText("PIASTY");
+        buttonGroup1.add(hubsButton);
         hubsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hubsButtonActionPerformed(evt);
             }
         });
         add(hubsButton);
-        hubsButton.setBounds(620, 630, 100, 30);
+        hubsButton.setBounds(540, 590, 100, 30);
 
         spokesButton.setText("SZPRYCHY");
+        buttonGroup1.add(spokesButton);
         spokesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 spokesButtonActionPerformed(evt);
             }
         });
         add(spokesButton);
-        spokesButton.setBounds(580, 740, 120, 30);
+        spokesButton.setBounds(500, 710, 120, 30);
 
         seatsButton.setText("SIODEŁKO");
+        buttonGroup1.add(seatsButton);
         seatsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 seatsButtonActionPerformed(evt);
             }
         });
         add(seatsButton);
-        seatsButton.setBounds(290, 320, 120, 30);
+        seatsButton.setBounds(200, 290, 120, 30);
 
         stemsButton.setText("MOSTKI");
+        buttonGroup1.add(stemsButton);
         stemsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stemsButtonActionPerformed(evt);
             }
         });
         add(stemsButton);
-        stemsButton.setBounds(550, 230, 100, 30);
+        stemsButton.setBounds(460, 170, 100, 30);
 
         supportsButton.setText("SUPPORTY");
+        buttonGroup1.add(supportsButton);
         supportsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 supportsButtonActionPerformed(evt);
             }
         });
         add(supportsButton);
-        supportsButton.setBounds(350, 590, 130, 30);
+        supportsButton.setBounds(270, 560, 130, 30);
 
         cranksButton.setText("KORBY");
+        buttonGroup1.add(cranksButton);
         cranksButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cranksButtonActionPerformed(evt);
             }
         });
         add(cranksButton);
-        cranksButton.setBounds(300, 640, 100, 30);
+        cranksButton.setBounds(220, 630, 100, 30);
 
         rimsButton.setText("OBRĘCZE");
+        buttonGroup1.add(rimsButton);
         rimsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rimsButtonActionPerformed(evt);
             }
         });
         add(rimsButton);
-        rimsButton.setBounds(100, 530, 110, 30);
+        rimsButton.setBounds(30, 470, 110, 30);
 
         tyresButton.setText("OPONY");
+        buttonGroup1.add(tyresButton);
         tyresButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tyresButtonActionPerformed(evt);
             }
         });
         add(tyresButton);
-        tyresButton.setBounds(700, 460, 90, 30);
+        tyresButton.setBounds(620, 460, 90, 30);
 
         seatpostsButton.setText("SZTYCE");
+        buttonGroup1.add(seatpostsButton);
         seatpostsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 seatpostsButtonActionPerformed(evt);
             }
         });
         add(seatpostsButton);
-        seatpostsButton.setBounds(310, 390, 110, 30);
+        seatpostsButton.setBounds(230, 360, 110, 30);
 
         pedalsButton.setText("PEDAŁY");
+        buttonGroup1.add(pedalsButton);
         pedalsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pedalsButtonActionPerformed(evt);
             }
         });
         add(pedalsButton);
-        pedalsButton.setBounds(380, 430, 100, 30);
+        pedalsButton.setBounds(300, 420, 100, 30);
 
         framesButton.setText("RAMY");
+        buttonGroup1.add(framesButton);
         framesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 framesButtonActionPerformed(evt);
             }
         });
         add(framesButton);
-        framesButton.setBounds(460, 320, 90, 30);
+        framesButton.setBounds(370, 300, 90, 30);
 
         gripsButton.setText("GRIPY");
+        buttonGroup1.add(gripsButton);
         gripsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gripsButtonActionPerformed(evt);
             }
         });
         add(gripsButton);
-        gripsButton.setBounds(310, 30, 90, 30);
+        gripsButton.setBounds(230, 20, 90, 30);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bmxIcon2.png"))); // NOI18N
         add(jLabel3);
-        jLabel3.setBounds(90, -70, 810, 1050);
+        jLabel3.setBounds(0, 0, 720, 870);
 
         helmetButton.setText("jButton1");
         helmetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -345,6 +401,10 @@ public class MainPanel extends javax.swing.JPanel {
         });
         add(padsButton);
         padsButton.setBounds(110, 150, 130, 40);
+
+        jButton1.setText("jButton1");
+        add(jButton1);
+        jButton1.setBounds(40, 70, 77, 25);
     }// </editor-fold>//GEN-END:initComponents
 
     private void barsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barsButtonActionPerformed
@@ -411,6 +471,7 @@ public class MainPanel extends javax.swing.JPanel {
         setPartName("lancuchy",true);
     }//GEN-LAST:event_chainButtonActionPerformed
 
+    
     private void chainwheelsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chainwheelsButtonActionPerformed
         setPartName("zebatki",true);
     }//GEN-LAST:event_chainwheelsButtonActionPerformed
@@ -448,7 +509,7 @@ public class MainPanel extends javax.swing.JPanel {
         return basketFrame;
     }
     
-    private String[] getHTMLElements(String namePart, int shopNumber,int pageNumber)
+    private String[] getHTMLElements(String partName, int shopNumber,int pageNumber)
     {
            URL url = this.getClass().getClassLoader().getResource("properties/info.txt");
            
@@ -490,8 +551,8 @@ public class MainPanel extends javax.swing.JPanel {
                 Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
            
-            part[0] = part[0] + namePart; 
-            part[6] = part[6] + namePart;
+            part[0] = part[0] + partName; 
+            part[6] = part[6] + partName;
             
             switch(shopNumber)
             {
@@ -504,7 +565,7 @@ public class MainPanel extends javax.swing.JPanel {
                 }
                 case 3:
                 {
-                    if(namePart.equals("pedaly")) part[0] = part[0] + "?resultsPerPage=99999";
+                    if(partName.equals("pedaly")) part[0] = part[0] + "?resultsPerPage=99999";
                     else part[0] = part[0] + "-bmx?resultsPerPage=99999";                    
                     part[6] = part[6] + "-bmx?resultsPerPage=99999";
                 }
@@ -518,67 +579,67 @@ public class MainPanel extends javax.swing.JPanel {
            setResearcher(nameOfPart, nameOfShop, shopNumber, partSelection);
        }
        
-       private void setResearcher(String namePart, String nameShop, int shopNumber, boolean partSelection){
+       private void setResearcher(String partName, String shopName, int shopNumber, boolean partSelection){
         
         try{   
-            String[] parts = getHTMLElements(namePart,shopNumber,1);
-        
+            //String[] parts = getHTMLElements(partName,shopNumber,1);
+                   // System.out.println("JESTEM TU");
+            frame.setPropertyReader(shopName);
+
             String html = "";
-            if(partSelection) html = parts[0];
-            else html = parts[6];
-        
-        
-            String[] htmlElements = {parts[1],parts[2],parts[3],parts[4],parts[5]};
-        
-            if(!this.isUsed(nameShop) || !this.partPreviousSearched(namePart)){
+            if(partSelection) html = frame.getPropertyReader().getProperty("url");
+            else html = frame.getPropertyReader().getProperty("safetyURL");
+            
+            System.out.println("htmmml: " + html);
+            
+            if(!this.isUsed(shopName) || !this.partPreviousSearched(partName)){
            
                 // notFirstSearch = false;
-            
-                if(!this.isUsed(nameShop)) {
-                    shopResearcher = new ShopResearcher(html, nameShop, 2);
+
+                if(!this.isUsed(shopName)) {                
+                    shopResearcher = new ShopResearcher(html, shopName);
                     usedShopArray.add(shopResearcher);
                 }
-                else if(!this.partPreviousSearched(namePart)) {
-                    shopResearcher = this.getResearcher(nameShop);
+                else if(!this.partPreviousSearched(partName)) {
+                    shopResearcher = this.getResearcher(shopName);
                     shopResearcher.clearProductsArray();
                     shopResearcher.setHTML(html); 
                   //  notFirstSearch = true;
                 }
-        
-                //System.err.println("CHUUUUUUUUUUUUUUUJKA");
-            
-                if(nameShop.equals("allday")){
-                    shopResearcher.setConnection();
-                    shopResearcher.searchPage(namePart);
-                }
-        
+                shopResearcher.setFrame(this.frame);
+                shopResearcher.setConnection();
+                shopResearcher.searchPage(partName);
+                
                 if(!this.getFrame().productTableExists() && firstInitialized) {
                     shopResearcher.createTable();
-                    this.getFrame().getFilesHandler().writeToFile("true;", 2);   
+                    this.getFrame().getPropertyReader().saveProperty("pTExist", "true");//getFilesHandler().saveSettings("pTExist", "true");   
                 }
                 else if(firstInitialized) shopResearcher.getProductDatabaseHandler().deleteAllElements(shopResearcher.getProductDatabaseHandler().getTableTitle());
 
-                shopResearcher.setFrame(this.frame);
-                shopResearcher.setCategory(namePart);
+                shopResearcher.setCategory(partName);
                 shopResearcher.setConnection();
-                shopResearcher.initializeArrayOfElements(htmlElements);
+                shopResearcher.setInitialized(true);
+                //shopResearcher.initializeArrayOfElements(htmlElements);
                 shopResearcher.searchHTMLElements();
                 // if(notFirstSearch){
-                shopResearcher.setSpecificInformations(namePart);
-                shopResearcher.initializePartPanel(false);
+                shopResearcher.setSpecificInformations(partName);
+                shopResearcher.initializePartPanel(true);
            // }
            // else shopResearcher.initializePartPanel(true);
             }
             else{
-                getResearcher(nameShop).clearProductsArray();
-                getResearcher(nameShop).setSpecificInformations(namePart);
-                getResearcher(nameShop).initializePartPanel(false);
+                getResearcher(shopName).clearProductsArray();
+                getResearcher(shopName).setSpecificInformations(partName);
+                getResearcher(shopName).initializePartPanel(false);
             }
             firstInitialized = false;
             partSearched = true;
             }catch(NullPointerException ex){
+                
                 frame.setActivePanel(frame.getMainLabel());
-                removeElement(getResearcher(nameShop));
+                removeElement(getResearcher(shopName));
+                System.out.println("SIEMANO JESTEM TU");
+                ex.printStackTrace();
             }
        }
        
@@ -618,7 +679,8 @@ public class MainPanel extends javax.swing.JPanel {
        public void setPartName(String name, boolean value)
        {
            this.nameOfPart = name;
-           if(frame.getFeaturePanel().getAvebmxBox().isSelected() || frame.getFeaturePanel().getBmxlifeBox().isSelected() || frame.getFeaturePanel().getManyfestbmxBox().isSelected() || frame.getFeaturePanel().getAlldayBox().isSelected()) setResearcher(nameOfPart,nameOfShop,shopNumber,value);
+           if(frame.getFeaturePanel().getAvebmxBox().isSelected() || frame.getFeaturePanel().getBmxlifeBox().isSelected() || frame.getFeaturePanel().getManyfestbmxBox().isSelected() || frame.getFeaturePanel().getAlldayBox().isSelected())setResearcher(nameOfPart,nameOfShop,shopNumber,value);
+           else if(frame.getFeaturePanel().getAllShopsBox().isSelected()) setResearcher(nameOfPart,nameOfShop,shopNumber,value);
        }
        
        public String getPartName()
@@ -641,6 +703,7 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JButton barendsButton;
     private javax.swing.JButton barsButton;
     private javax.swing.ButtonGroup buttonGroup;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton chainButton;
     private javax.swing.JButton chainwheelsButton;
     private javax.swing.JButton cranksButton;
@@ -650,7 +713,9 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JButton helmetButton;
     private javax.swing.JButton hubguardsButton;
     private javax.swing.JButton hubsButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JButton padsButton;
     private javax.swing.JButton pedalsButton;
     private javax.swing.JButton pegsButton;

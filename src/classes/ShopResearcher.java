@@ -9,13 +9,10 @@ import frame.PartFrame;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
@@ -29,7 +26,7 @@ public class ShopResearcher
 final int MAX_TRIES = 20;    
     
 private String html, nameOfShop, category;
-private int numberOfElements = 0, counter = 0, number = 0, helpNumber = 0;
+private int numberOfElements = 0, counter = 0, number = 0, helpNumber = 0, productIndex = 0, productIndexURL = 0, productImageIndex=0, pageSearchCounter = 0, numberOfPages = 0, indexSearchPage = 0;
 private Elements[] arrayOfElements;
 private String[] htmlElements;
 private boolean initialized = false;
@@ -39,9 +36,8 @@ private boolean browserActivated = false;
 PartFrame partFrame; 
 
 Document.OutputSettings outputSettings = new Document.OutputSettings();
+private Elements div, productName, productPrice, productURL, imageURL, pages;
 
-
-int productIndexURL = 0, productIndex = 0, productImageIndex = 0;
 
 ProductDatabaseHandler productDatabase = new ProductDatabaseHandler();
 
@@ -68,14 +64,10 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
         this.html = html;
     }
 
-    public ShopResearcher(String html, String nameOfShop, int numberOfElements) 
+    public ShopResearcher(String html, String nameOfShop) 
     {
-    
-    this.html = html;
-    this.nameOfShop = nameOfShop;
-    this.numberOfElements = numberOfElements;
-    //usedShopArray.add(nameOfShop);
-    
+        this.html = html;
+        this.nameOfShop = nameOfShop;
     }
     
     public ArrayList<ShopProduct> getProductsArray(){
@@ -115,7 +107,9 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
     }
     
     public void searchPage(String nameOfPart){
-        Elements partPage = doc.select("div.category-miniature.no-image > p > a[href]");
+        Elements partPage = doc.select(frame.getPropertyReader().getProperty("urlSearch"));//doc.select("div.category-miniature.no-image > p > a[href]");
+        System.out.println("JESTEM TU KURWWY: " + partPage);
+        
         for(Element e : partPage){
             if(e.absUrl("href").contains(nameOfPart)){
                 setHTML(e.absUrl("href"));
@@ -123,7 +117,6 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
             }
         }
     }
-    
     
     public void setConnection()
     {
@@ -134,7 +127,7 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                 break;
             } catch (IOException ex) {
                 if(++counter == MAX_TRIES) {
-                    JOptionPane.showMessageDialog(null, this.frame.getResourceBundle().getString("warningTimeoutInformation"), this.frame.getResourceBundle().getString("warning"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, this.frame.getPropertyReader().getProperty("warningTimeoutInformation"), this.frame.getPropertyReader().getProperty("warning"), JOptionPane.ERROR_MESSAGE);
                     throw new NullPointerException();
                 }
             }
@@ -154,14 +147,133 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
      initialized = true;
     }
     
+    public void setInitialized(boolean value){
+        this.initialized = value;
+    }
+    
+    public boolean isInitialized() {
+        return this.initialized;
+    }
+    
     public ProductDatabaseHandler getProductDatabaseHandler()
     {
         return this.productDatabase;
     }
     
-    public void searchHTMLElements()
-    {
+    // --- Get url to pages with products ---
+    public void setPagesArray() {
+    	pages = doc.select(this.frame.getPropertyReader().getProperty("pageSearchElementMain"));
+        //System.out.println("SIEEEEEEEEEEMA CO TAM KUREWKI: " + pages.select(this.frame.getPropertyReader().getProperty("pageSearchElementSub")));
+    	numberOfPages=0;
+        for(int i=0; i < pages.first().select(this.frame.getPropertyReader().getProperty("pageSearchElementSub")).text().replaceAll("\\s+","").length(); i++){
+            if(Character.isDigit(pages.first().select(this.frame.getPropertyReader().getProperty("pageSearchElementSub")).text().replaceAll("\\s+","").charAt(i))) numberOfPages+=1;
+        }
+        System.out.println("ILOSC STRON: " + numberOfPages);
+        pagesArray.add(pages.first().select(this.frame.getPropertyReader().getProperty("pageSearchElementSub")).get(1).absUrl(this.frame.getPropertyReader().getProperty("pageSearchAttribute")).substring(0, pages.first().select(this.frame.getPropertyReader().getProperty("pageSearchElementSub")).get(1).absUrl(this.frame.getPropertyReader().getProperty("pageSearchAttribute")).length()-1) + "1");
+        for(int index = 1; index < numberOfPages; index++)
+        {
+            pagesArray.add(pages.first().select(this.frame.getPropertyReader().getProperty("pageSearchElementSub")).get(index).absUrl(this.frame.getPropertyReader().getProperty("pageSearchAttribute")));
+           System.out.println("IND: " + index + " NR STRON ALLDAY 1: " + pagesArray .get(index));
+        }
+    }
+    
+    public void searchHTMLElements() {
+    
+
         this.arrayOfElements = new Elements[numberOfElements];
+        numberOfPages = 1;
+
+        productIndex=0;
+        productIndexURL=0;
+        productImageIndex=0;
+        
+        pagesArray.clear();
+                    
+        
+        this.setPagesArray();
+        
+        if(initialized)
+        {
+            
+           // System.out.println("ILOSC STRON PRZED WYSZ " + numberOfPages);
+            
+            for(int searchCounter = 0; searchCounter < numberOfPages; searchCounter++){
+            
+            	if(numberOfPages > 1) {
+            		setHTML(pagesArray.get(indexSearchPage));
+            		if(indexSearchPage == pagesArray.size() - 1) indexSearchPage = pagesArray.size() - 1;
+            		else indexSearchPage++;
+                        System.out.println("ZMIANA STRONY");
+            		setConnection();                    	
+            	}
+            	
+                div = doc.select(this.frame.getPropertyReader().getProperty("div"));
+                productName = div.select(this.frame.getPropertyReader().getProperty("productNameElement"));
+                productPrice = div.select(this.frame.getPropertyReader().getProperty("productPriceElement"));
+                productURL = div.select(this.frame.getPropertyReader().getProperty("productURLElement"));
+                imageURL = doc.select(this.frame.getPropertyReader().getProperty("imageURLElement"));
+                Document document;
+                    
+                    Elements[] categoryElements =  {productName, productPrice, productURL, imageURL};     
+                    
+                    for(int i=0;i<categoryElements.length;i++){
+                     //j=0;
+                     
+                        for(Element element: categoryElements[i]){
+                            switch (i){
+                                    case 0 ->  {
+                                        products.add(new ShopProduct(element.text(), getCategory()));
+                                        System.out.println("NIE WIEM" + element.text());
+                                    }
+                                    case 1 ->  {
+                                        products.get(productIndex).setProductPrice(element.text());
+                                        System.out.println("HAHAL: " + products.get(productIndex).getProductDetails()[1]);
+                                        productIndex += 1;
+                                    }
+                                    case 2 -> {  
+                                                products.get(productIndexURL).setProductURL(element.attr("href"));
+                                                if(getShopName().equals("avebmx")) products.get(productIndexURL).setProductURL("https://www.avebmx.pl" + element.attr("href"));
+                                                System.out.println("L" + productIndexURL + " " + element.attr("href"));
+                                                productIndexURL += 1;                           
+                                    } 
+                                    case 3 -> {
+                                                products.get(productImageIndex).setImageURL(element.attr("src"));
+                                                System.out.println("I: " + productImageIndex + " " + element.attr("src"));
+                                                productImageIndex += 1;
+                                    }
+                            	}
+                        	}
+                    	}
+            		}
+           
+                for(int z=0;z<products.size();z++){
+                    System.out.println("z: " + z + " l: " + products.get(z).getProductDetails()[0] + " , " + products.get(z).getProductDetails()[1] + " , " + products.get(z).getProductDetails()[2]);   
+                }
+            
+                    String nameDatabase;;
+                    String priceDatabase;
+                    String URLDatabase;
+                    String imageURLDatabase;
+                    String categoryDatabase;
+                    
+                    for(int saveCounter=0;saveCounter<products.size();saveCounter++)
+                    {
+                        products.get(saveCounter).setProductName(products.get(saveCounter).getProductDetails()[0].replace("'", "")); 
+                        nameDatabase = "'" + products.get(saveCounter).getProductDetails()[0] + "'";
+                        priceDatabase = "'" + products.get(saveCounter).getProductDetails()[1] + "'";
+                        URLDatabase = "'" + products.get(saveCounter).getProductDetails()[2] + "'";
+                        imageURLDatabase = "'" + products.get(saveCounter).getProductDetails()[3] + "'";
+                        categoryDatabase = "'" + category + "'";
+                        productDatabase.insertElement(nameDatabase, priceDatabase, URLDatabase, imageURLDatabase, categoryDatabase);
+                    }
+                    
+                    productDatabase.closeConnection();
+            }
+
+        else System.out.println("ARRAY NOT INITIALIZED");        
+        
+    }
+     /*   this.arrayOfElements = new Elements[numberOfElements];
         int numberOfPages = 1;
 
         pagesArrayAve.clear();
@@ -173,24 +285,38 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
         
         if(initialized)
         {
+            try{
+            Elements test = doc.select(" ");
+            }catch(SelectorParseException ex){
+                System.out.println("SELECTOR PARSE EXCEPTION");
+            }
             Elements pages;// = new Elements();
-            int indexSearchPage = 0, indexSearchPageAve = 0;
+            int indexSearchPage = 0, indexSearchPageAve = 1;
             if (getShopName().equals("avebmx")){
-               pages = doc.select("div.pagination > a.page");
+               pages = doc.select("div.pagination");// > a.page");
+                System.out.println("TESTTESTETSTETS: " + pages.first().select("a.page").text() + "  ,  " + pages.first().select("a.page").text().replaceAll("\\s+","").length());
+                numberOfPages = 0;
+                for(int i=0; i < pages.first().select("a.page").text().replaceAll("\\s+","").length(); i++){
+                    if(Character.isDigit(pages.first().select("a.page").text().replaceAll("\\s+","").charAt(i))) numberOfPages+=1;
+                }
                System.out.println("PAGES SIZE: " + pages.size());
-               if(pages.size() > 0) numberOfPages = pages.size()/2 - 1;
-               else numberOfPages = 1;
+                System.out.println("PAGESSSSS SIZE: " + numberOfPages);
+               //if(pages.size() > 0) numberOfPages = pages.size()/2 - 1;
+               //else numberOfPages = 1;
+               pagesArrayAve.add(pages.first().select("a.page").get(1).absUrl("href").substring(0, pages.first().select("a.page").select("a").get(1).absUrl("href").length()-1) + "1");
+                System.out.println("IND 0 NR STRONY: " + pagesArrayAve.get(0));
                for(int index = 1; index < numberOfPages; index++)
                 {
-                    pagesArrayAve.add(pages.select("a").get(index).absUrl("href"));
-                    System.out.println("IND: " + index + " NR STRON ALLDAY 1: " + pages.select("a").get(index).absUrl("href"));
+                    pagesArrayAve.add(pages.first().select("a.page").select("a").get(index).absUrl("href"));
+                    //pagesArrayAve.add(pages.select("a").get(index).absUrl("href"));
+                    System.out.println("IND: " + index + " NR STRON ALLDAY 1: " + pagesArrayAve.get(index));
                 }
                 System.out.println("NR STRON: " + numberOfPages);
             }
             else if(getShopName().equals("allday")){
                 //Elements pagesA = doc.select("div#js-product-list-top.products-selection");// > div.row.sort-by-row > ul.page-list.clearfix.text-xs-center");
                 //pages = pagesA.select("div.row.sort-by-row > nav.pagination > ul.page-list.clearfix.text-xs-center");
-                pages = doc.select("ul.page-list.clearfix.text-xs-center");
+               /* --- pages = doc.select("ul.page-list.clearfix.text-xs-center");
                 if(pages.size() > 0) numberOfPages = pages.size();//Integer.parseInt(pages.get(pages.size()-1).text());
                 else numberOfPages = 1;
                 for(int index = 1; index < pages.size(); index++)
@@ -198,8 +324,29 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                     pagesArray.add(pages.select("a").get(index).absUrl("href"));
                     System.out.println("NR STRON ALLDAY: " + pages.select("a").get(index).absUrl("href"));
                 }
+                System.out.println("NR STRON: " + numberOfPages); --- 
+                               pages = doc.select("ul.page-list.clearfix.text-xs-center");// > a.page");
+                System.out.println("TESTTESTETSTETS: " + pages.first().select("a").text() + "  ,  " + pages.first().select("a").text().replaceAll("\\s+","").length());
+                numberOfPages = 0;
+                for(int i=0; i < pages.first().select("a").text().replaceAll("\\s+","").length(); i++){
+                    if(Character.isDigit(pages.first().select("a").text().replaceAll("\\s+","").charAt(i))) numberOfPages+=1;
+                }
+               System.out.println("PAGES SIZE: " + pages.size());
+                System.out.println("PAGESSSSS SIZE: " + numberOfPages);
+               //if(pages.size() > 0) numberOfPages = pages.size()/2 - 1;
+               //else numberOfPages = 1;
+               pagesArray.add(pages.first().select("a").get(1).absUrl("href").substring(0, pages.first().select("a").select("a").get(1).absUrl("href").length()-1) + "1");
+                System.out.println("IND 0 NR STRONY: " + pagesArray.get(0));
+               for(int index = 1; index < numberOfPages; index++)
+                {
+                    pagesArray.add(pages.first().select("a").select("a").get(index).absUrl("href"));
+                    //pagesArrayAve.add(pages.select("a").get(index).absUrl("href"));
+                    System.out.println("IND: " + index + " NR STRON ALLDAY 1: " + pagesArray.get(index));
+                }
                 System.out.println("NR STRON: " + numberOfPages);
             }
+            
+
             
             for(int searchCounter = 0; searchCounter < numberOfPages; searchCounter++)
             {
@@ -210,12 +357,15 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
                     Elements productURL = div.select(htmlElements[2]);
                     Elements imageURL;
                     String imageAttribute;
+                    
+                                System.out.println();
+                    
                     if(frame.getMainPanel().getShopName().equals("manyfestbmx")) {
                         imageURL = doc.select(htmlElements[4]).select("img[data-full-size-image-url]");
                         imageAttribute = "data-src";
                     }
                     else {
-                        imageURL = div.select(htmlElements[4]);
+                        imageURL = doc.select(htmlElements[4]);
                         System.out.println("IMAGEEEEEE: " + imageURL);
                         imageAttribute = "src";
                     }
@@ -290,7 +440,7 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
             }
         else System.out.println("ARRAY NOT INITIALIZED");        
     }
-    
+    */
     public String getDescription(String className) throws NullPointerException{   
       String[] separator = className.split(",");
       String finalS,str;
@@ -338,6 +488,19 @@ ArrayList<String> pagesArrayAve = new ArrayList<>();
         browserActivated = true;
         this.searchHTMLElements();
         return this.browserHTML;
+    }
+    
+    public void test(){
+        setHTML("https://bmxlife.pl/czesci");
+        setConnection();
+        Elements partPage = doc.select("div#producers-container > ul#products.producers.main-category.clearfix > li > a[href]");
+        for(Element e : partPage){
+            if(e.absUrl("href").contains("kierownice")){
+                        System.out.println("TESTTESTTEST: " + e.absUrl("href"));
+                return;
+            }
+        }
+
     }
     
     public void setShopName(String name)

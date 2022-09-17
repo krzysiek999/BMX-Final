@@ -13,9 +13,12 @@ import classes.ShopResearcher;
 import frame.*;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -77,9 +80,9 @@ public class PartPanel extends javax.swing.JPanel {
         
         
         
-        backButton = new JButton(mainFrame.getResourceBundle().getString("back"));
-        basketButton = new JButton(mainFrame.getResourceBundle().getString("basket"));
-        addBasketButton = new JButton(mainFrame.getResourceBundle().getString("addBasket"));
+        backButton = new JButton(mainFrame.getPropertyReader().getProperty("back"));
+        basketButton = new JButton(mainFrame.getPropertyReader().getProperty("basket"));
+        addBasketButton = new JButton(mainFrame.getPropertyReader().getProperty("addBasket"));
         
         addBasketButton.addActionListener(actionHandler);
         backButton.addActionListener(actionHandler);
@@ -116,22 +119,27 @@ public class PartPanel extends javax.swing.JPanel {
         
         shopPanel = new ShopPanel();
         
+        /*
+        for(int i=0; i < arrayInformation.size(); i++) {
+            shopPanel.addProduct(arrayInformation.get(i).getProductName(), arrayInformation.get(i).getProductPrice(), arrayInformation.get(i).getImageURL());
+        }*/
+        
         shopPanel.setLabel(arrayInformation);
         
         tableModel = shopPanel.getJTableModel();
         table = shopPanel.getTable();
         table.getSelectionModel().addListSelectionListener(actionHandler);
 
-        scrollPane.getViewport().add(shopPanel,0);
+        scrollPane.getViewport().add(table,0);
         scrollPanel.add(scrollPane);
         this.add(scrollPanel);
     }
     
     public void setButtonText()
     {
-        this.backButton.setText(mainFrame.getResourceBundle().getString("back"));
-        this.basketButton.setText(mainFrame.getResourceBundle().getString("basket"));
-        this.addBasketButton.setText(mainFrame.getResourceBundle().getString("addBasket"));
+        this.backButton.setText(mainFrame.getPropertyReader().getProperty("back"));
+        this.basketButton.setText(mainFrame.getPropertyReader().getProperty("basket"));
+        this.addBasketButton.setText(mainFrame.getPropertyReader().getProperty("addBasket"));
         this.repaint();  
     }
     
@@ -140,11 +148,12 @@ public class PartPanel extends javax.swing.JPanel {
     }
     
     public int getTablePriceColumn(){
-        return this.shopPanel.getPriceColumn();
+      //  return this.shopPanel.getPriceColumn();
+      return 0;
     }
 
     public void updatePrice(int row, String value){
-        this.getJTable().setValueAt(value, row, this.shopPanel.getPriceColumn());
+        //this.getJTable().setValueAt(value, row, this.shopPanel.getPriceColumn());
     }
     
     public JButton getBasketButton(){
@@ -152,16 +161,56 @@ public class PartPanel extends javax.swing.JPanel {
     }
 
     
-    class ShopPanel extends JPanel
-    {
+    class ShopPanel extends JPanel {
+        
+      /*  JButton productButton;
+        private int buttonSize = 120, buttonGap = 20, elementSize = 150;
+        private JLabel productNameLabel, productPriceLabel;
+        private JPanel productPanel;
+        FlowLayout layout = new FlowLayout(FlowLayout.CENTER, buttonGap, buttonGap);
+        GridLayout productLayout = new GridLayout(3,1,0,20); 
+        
+        public ShopPanel() {
+            this.setLayout(layout);
+            //productPanel = new JPanel(productLayout);
+            this.setPreferredSize(new Dimension(mainFrame.getElementOneWidth() - 200,800));
+        }
+        
+        public void addProduct(String productName, String price, String imageURL) {
+            productButton = new JButton();
+            productPanel = new JPanel(productLayout);
+            productPanel.setLayout(productLayout);
+            //productLayout = new BoxLayout(productPanel, BoxLayout.PAGE_AXIS);
+            
+            productButton.setPreferredSize(new Dimension(buttonSize,buttonSize));
+            productPanel.setPreferredSize(new Dimension(buttonSize,elementSize));
+            
+            imageHandler.setImage(imageURL);
+            imageHandler.resizeImage();
+            
+            productButton.setIcon(imageHandler.getImage());
+            productButton.addActionListener(actionHandler);
+            
+            this.productNameLabel = new JLabel(productName);
+            this.productPriceLabel = new JLabel(price);
+            
+            productPanel.add(productButton);
+            productPanel.add(this.productNameLabel);
+            productPanel.add(this.productPriceLabel);
+            
+            this.add(productPanel);
+        }*/
+        
         JLabel numberLabel = new JLabel();
         JLabel partLabel = new JLabel();
         JLabel priceLabel = new JLabel();
         
         private final int NUMBER_COLUMN = 0, PART_COLUMN = 1, PRICE_COLUMN = 2, IMAGE_COLUMN = 3;
         
-        final String[] TABLE_COLUMNS = {"Number","Part","Price","Image"};
+        final String[] TABLE_COLUMNS = {"Nr","Part","Price","Image"};
         private static final int ROW_HEIGHT = 100;
+        
+        private JButton productButton;
         
         final DefaultTableModel tableModel = new DefaultTableModel(TABLE_COLUMNS, 4){
             @Override
@@ -184,10 +233,10 @@ public class PartPanel extends javax.swing.JPanel {
         table.setDefaultEditor(Object.class, null);
         
         TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(0).setPreferredWidth(20);
         columnModel.getColumn(1).setPreferredWidth(300);
         columnModel.getColumn(2).setPreferredWidth(250);
-        columnModel.getColumn(3).setPreferredWidth(300);
+        columnModel.getColumn(3).setPreferredWidth(150);
         
         }
         
@@ -198,10 +247,11 @@ public class PartPanel extends javax.swing.JPanel {
         public void setLabel(ArrayList<ShopProduct> arrayL)
         {
             
-            for(int i = 0; i < arrayL.size(); i++) 
+            for(int i = 0; i < arrayL.size() - 1; i++) 
             {
                 imageHandler.setImage(arrayL.get(i).getProductDetails()[3]);
                 imageHandler.resizeImage();
+                
                 Object[] data = {"" + (i+1), arrayL.get(i).getProductDetails()[0], arrayL.get(i).getProductDetails()[1], imageHandler.getImage()};                
                 tableModel.addRow(data);
             }

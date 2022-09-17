@@ -23,6 +23,14 @@ public class DatabaseHandler implements DatabaseInterference{
    
    private String basketTableName = "BasketTable";
    
+       // JDBC driver name and database URL 
+   static final String JDBC_DRIVER = "org.h2.Driver";   
+   static final String DB_URL = "jdbc:h2:~/test";  
+   
+   //  Database credentials 
+   static final String USER = "sa"; 
+   static final String PASS = ""; 
+   
    int index = 0;
 
    private MainPanel mainPanel;
@@ -36,10 +44,12 @@ public class DatabaseHandler implements DatabaseInterference{
    
     public DatabaseHandler() {
     
+        System.out.println("CO TAM XS" + getClass());
        try { 
            Class.forName(JDBC_DRIVER);
            connection = DriverManager.getConnection(DB_URL,USER,PASS); 
-       } catch (ClassNotFoundException ex) {
+       } catch (ClassNotFoundException ex) { 
+           
            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
        }catch(SQLException ex1)
        {

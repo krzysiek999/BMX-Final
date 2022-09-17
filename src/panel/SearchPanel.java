@@ -32,8 +32,8 @@ public class SearchPanel extends javax.swing.JPanel {
         //this.resourceLanguage = "properties/" + frame.getLanguage();
         //languageChoice = ResourceBundle.getBundle(this.resourceLanguage);
         
-        searchButton.setText(frame.getResourceBundle().getString("search"));
-        exitButton.setText(frame.getResourceBundle().getString("exit"));
+        searchButton.setText(frame.getPropertyReader().getProperty("search"));
+        exitButton.setText(frame.getPropertyReader().getProperty("exit"));
     }
 
     /**

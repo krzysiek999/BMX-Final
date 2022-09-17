@@ -13,14 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -131,13 +123,13 @@ public class SettingsPanel extends javax.swing.JPanel{
     class ColorChooserPanel extends JPanel implements ActionListener
     {
         private final JColorChooser colorChooser = new JColorChooser();
-        private JButton colorButton = new JButton(frame.getResourceBundle().getString("chooseColor"));
-        private JLabel backgroundColorLabel = new JLabel(frame.getResourceBundle().getString("bColor"));
+        private JButton colorButton = new JButton(frame.getPropertyReader().getProperty("chooseColor"));
+        private JLabel backgroundColorLabel = new JLabel(frame.getPropertyReader().getProperty("bColor"));
         private JTextArea colorLabel = new JTextArea(4,8);
         private JScrollPane colorScrollPane = new JScrollPane(colorLabel);
         private SettingsPanel mainPanel;
         private JScrollPane scrollPane;
-        private JButton defaultColorButton = new JButton(frame.getResourceBundle().getString("defaultColorButton"));
+        private JButton defaultColorButton = new JButton(frame.getPropertyReader().getProperty("defaultColorButton"));
         
         FlowLayout layout = new FlowLayout(80,20,20);
         public ColorChooserPanel(SettingsPanel mainPanel) 
@@ -172,14 +164,15 @@ public class SettingsPanel extends javax.swing.JPanel{
         private void changeConfigColor(Color color)
         {
             
-            getFrame().getFilesHandler().writeToFile("bColor:" + Integer.toString(color.getRGB())+ "\n",0);   
+            //getFrame().getFilesHandler().writeToFile("bColor:" + Integer.toString(color.getRGB())+ "\n",0);   
+            getFrame().getPropertyReader().saveProperty("bColor", (Integer.toString(color.getRGB())+ "\n"));
         }
                 
         public void setButtonText()
         {
-            this.backgroundColorLabel.setText(frame.getResourceBundle().getString("bColor"));
-            this.colorButton.setText(frame.getResourceBundle().getString("chooseColor"));
-            this.defaultColorButton.setText(frame.getResourceBundle().getString("defaultColorButton"));
+            this.backgroundColorLabel.setText(frame.getPropertyReader().getProperty("bColor"));
+            this.colorButton.setText(frame.getPropertyReader().getProperty("chooseColor"));
+            this.defaultColorButton.setText(frame.getPropertyReader().getProperty("defaultColorButton"));
             this.repaint();
         }
 
@@ -213,7 +206,7 @@ public class SettingsPanel extends javax.swing.JPanel{
     {       
         private JComboBox languageComboBox = new JComboBox();
         private FlowLayout layout = new FlowLayout(60, 30, 30);
-        private JLabel languageLabel = new JLabel(frame.getResourceBundle().getString("language")); 
+        private JLabel languageLabel = new JLabel(frame.getPropertyReader().getProperty("language")); 
 
         public LanguagePanel(String language)
         {            
@@ -233,7 +226,7 @@ public class SettingsPanel extends javax.swing.JPanel{
         
         public void setButtonText()
         {
-            languageLabel.setText(frame.getResourceBundle().getString("language"));
+            languageLabel.setText(frame.getPropertyReader().getProperty("language"));
             this.repaint();
         }
 
@@ -252,8 +245,8 @@ public class SettingsPanel extends javax.swing.JPanel{
         String language = "properties/" + frame.getLanguage();
         //ResourceBundle resource = ResourceBundle.getBundle(language);
         
-        JButton eraseButton = new JButton(frame.getResourceBundle().getString("erase"));
-        JButton acceptButton = new JButton(frame.getResourceBundle().getString("accept"));
+        JButton eraseButton = new JButton(frame.getPropertyReader().getProperty("erase"));
+        JButton acceptButton = new JButton(frame.getPropertyReader().getProperty("accept"));
         FlowLayout layout = new FlowLayout(FlowLayout.RIGHT, 20, 40);
 
         public ButtonPanel() {
@@ -269,8 +262,8 @@ public class SettingsPanel extends javax.swing.JPanel{
         
         public void setButtonText()
         {
-            this.acceptButton.setText(frame.getResourceBundle().getString("accept"));
-            this.eraseButton.setText(frame.getResourceBundle().getString("erase"));
+            this.acceptButton.setText(frame.getPropertyReader().getProperty("accept"));
+            this.eraseButton.setText(frame.getPropertyReader().getProperty("erase"));
             
             this.repaint();
         }

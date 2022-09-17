@@ -135,19 +135,24 @@ public class InitialPanel extends javax.swing.JPanel implements ActionListener{
             }
         }
         
-            fileHandler.setURL("properties/config.txt");
-            fileHandler.getSettings(this);
+            //fileHandler.setURL("properties/config.txt");
+            //fileHandler.getSettings(this);
         
-            System.out.println("tEx: " + this.tableExist);
-            System.out.println("pTeX: " + this.productTableExist);
+            //System.out.println("tEx: " + this.tableExist);
+            //System.out.println("pTeX: " + this.productTableExist);
             
         MainFrame mainFrame = new MainFrame(language);
+        mainFrame.setPropertyReader("config");
+        tableExist = Boolean.valueOf(mainFrame.getPropertyReader().getProperty("tExist"));
+        productTableExist = Boolean.valueOf(mainFrame.getPropertyReader().getProperty("pTExist"));
+        System.out.println("tEx: " + tableExist);
+        productTableExist = Boolean.valueOf(mainFrame.getPropertyReader().getProperty("pTExist"));
         mainFrame.setTableExist(tableExist);
         mainFrame.setProductTableExist(productTableExist);
         mainFrame.setFilesHandler(fileHandler);
         mainFrame.setMainFeature();
         mainFrame.setPanelBackground(color);
-        mainFrame.saveTableExistConfig("true;");
+        //mainFrame.saveTableExistConfig("true;");
         mainFrame.repaint();
         mainFrame.setVisible(true);  
         

@@ -39,11 +39,11 @@ public class MenuPanel extends JMenu implements ActionListener
     
     public void addMenuElement()
     {
-        basketButton = new JMenuItem(this.frame.getResourceBundle().getString("purchaseBasket"));
-        settingsButton = new JMenuItem(this.frame.getResourceBundle().getString("settings"));
-        comparisonButton = new JMenuItem(this.frame.getResourceBundle().getString("compareButton"));
-        exitButton = new JMenuItem(this.frame.getResourceBundle().getString("exit"));
-        setMainPanelVisibleButton = new JMenuItem(this.frame.getResourceBundle().getString("mainPanel"));
+        basketButton = new JMenuItem(this.frame.getPropertyReader().getProperty("purchaseBasket"));
+        settingsButton = new JMenuItem(this.frame.getPropertyReader().getProperty("settings"));
+        comparisonButton = new JMenuItem(this.frame.getPropertyReader().getProperty("compareButton"));
+        exitButton = new JMenuItem(this.frame.getPropertyReader().getProperty("exit"));
+        setMainPanelVisibleButton = new JMenuItem(this.frame.getPropertyReader().getProperty("mainPanel"));
         
         basketButton.addActionListener(this);
         settingsButton.addActionListener(this);
@@ -66,12 +66,12 @@ public class MenuPanel extends JMenu implements ActionListener
     
     public void setButtonText()
     {
-        this.basketButton.setText(this.frame.getResourceBundle().getString("purchaseBasket"));
-        this.settingsButton.setText(this.frame.getResourceBundle().getString("settings"));
-        this.comparisonButton.setText(this.frame.getResourceBundle().getString("compareButton"));
-        this.exitButton.setText(this.frame.getResourceBundle().getString("exit"));
-        this.setMainPanelVisibleButton.setText(this.frame.getResourceBundle().getString("mainPanel"));
-        this.setText(this.frame.getResourceBundle().getString("userButton"));
+        this.basketButton.setText(this.frame.getPropertyReader().getProperty("purchaseBasket"));
+        this.settingsButton.setText(this.frame.getPropertyReader().getProperty("settings"));
+        this.comparisonButton.setText(this.frame.getPropertyReader().getProperty("compareButton"));
+        this.exitButton.setText(this.frame.getPropertyReader().getProperty("exit"));
+        this.setMainPanelVisibleButton.setText(this.frame.getPropertyReader().getProperty("mainPanel"));
+        this.setText(this.frame.getPropertyReader().getProperty("userButton"));
         this.repaint();
     }
     
@@ -83,33 +83,33 @@ public class MenuPanel extends JMenu implements ActionListener
        if(source instanceof JButton) actionName = ((JButton)e.getSource()).getText();
        else actionName = ((JMenuItem)e.getSource()).getText();
        
-       if(!frame.getActivePanel().equals(frame.getMainLabel()) && actionName.equals(previousButton) && !actionName.equals(frame.getResourceBundle().getString("basket"))) 
+       if(!frame.getActivePanel().equals(frame.getMainLabel()) && actionName.equals(previousButton) && !actionName.equals(frame.getPropertyReader().getProperty("basket"))) 
        {
            this.frame.setActivePanel(this.frame.getMainLabel());
            return;
        }
        
-        if(e.getSource() == basketButton || actionName.equals(frame.getResourceBundle().getString("basket")))
+        if(e.getSource() == basketButton || actionName.equals(frame.getPropertyReader().getProperty("basket")))
         {
             if(this.frame.getMainPanel().getBasketFrame().isVisible()) this.frame.getMainPanel().getBasketFrame().setVisible(false);
             else this.frame.getMainPanel().getBasketFrame().setVisible(true);
         }
-        else if((e.getSource() == setMainPanelVisibleButton || actionName.equals(frame.getResourceBundle().getString("mainPanel")))&& !this.frame.getMainPanel().isVisible() ) 
+        else if((e.getSource() == setMainPanelVisibleButton || actionName.equals(frame.getPropertyReader().getProperty("mainPanel")))&& !this.frame.getMainPanel().isVisible() ) 
         {
             this.frame.setActivePanel(this.frame.getMainLabel());
             this.frame.setCompareButtonVisible(false);
         }
-        else if(e.getSource() == settingsButton || actionName.equals(frame.getResourceBundle().getString("settings")))
+        else if(e.getSource() == settingsButton || actionName.equals(frame.getPropertyReader().getProperty("settings")))
         {
             this.frame.setActivePanel(this.frame.getSettingsLabel());
             this.frame.setCompareButtonVisible(false);
         }
-        else if(e.getSource() == comparisonButton || actionName.equals(frame.getResourceBundle().getString("compareButton")))
+        else if(e.getSource() == comparisonButton || actionName.equals(frame.getPropertyReader().getProperty("compareButton")))
         {
             this.frame.setActivePanel(this.frame.getComparisonLabel());
             this.frame.setCompareButtonVisible(true);
         }
-        else if(e.getSource() == exitButton || actionName.equals(frame.getResourceBundle().getString("exit"))) System.exit(0);  
+        else if(e.getSource() == exitButton || actionName.equals(frame.getPropertyReader().getProperty("exit"))) System.exit(0);  
         
         if(source instanceof JButton) previousButton = ((JButton)e.getSource()).getText();
         else previousButton = ((JMenuItem)e.getSource()).getText();

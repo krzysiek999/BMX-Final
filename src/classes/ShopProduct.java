@@ -26,6 +26,22 @@ public class ShopProduct {
         return this.details[4];
     }
     
+    public String getProductName() {
+        return this.details[0];
+    }
+    
+    public String getProductPrice() {
+        return this.details[1];
+    }
+    
+    public String getProductURL() {
+        return this.details[2];
+    }
+    
+    public String getImageURL() {
+        return this.details[3];
+    }
+    
     public void setImageURL(String imageURL){
         details[3] = imageURL;
     }

@@ -20,7 +20,7 @@ public class BasketMainFrame extends javax.swing.JFrame{
     int xPosition = Toolkit.getDefaultToolkit().getScreenSize().width/2 + 500;
     int yPosition = Toolkit.getDefaultToolkit().getScreenSize().height/2 - height/2;
     
-   static MainPanel mainPanel;
+    static MainPanel mainPanel;
     BasketMainPanel panel;
     static ShopResearcher researcher;
     

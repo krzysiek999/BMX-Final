@@ -5,6 +5,7 @@
 package classes;
 
 
+import interferences.DatabaseInterference;
 import static interferences.DatabaseInterference.DB_URL;
 import static interferences.DatabaseInterference.JDBC_DRIVER;
 import static interferences.DatabaseInterference.PASS;
@@ -32,6 +33,8 @@ public class ProductDatabaseHandler extends DatabaseHandler{
    private ResultSet rsSearchElement = null;
    private String result = "";
     
+   //int index;
+   
    public ProductDatabaseHandler() {
        try { 
            Class.forName(JDBC_DRIVER);
@@ -62,7 +65,7 @@ public class ProductDatabaseHandler extends DatabaseHandler{
        }
     }
 
-   @Override
+   //@Override
     public void updateElement(int id, String value){
         try {
            statement = connection.createStatement();
@@ -75,7 +78,7 @@ public class ProductDatabaseHandler extends DatabaseHandler{
        }
     }
     
-    @Override
+    //@Override
     public void insertElement(String productName, String price, String url, String imageURL, String category) {
         try {
            statement = connection.createStatement();
@@ -174,5 +177,7 @@ public class ProductDatabaseHandler extends DatabaseHandler{
         }
         return false;
     }
+
+    
     
 }

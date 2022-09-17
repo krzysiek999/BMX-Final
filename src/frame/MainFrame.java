@@ -6,6 +6,7 @@ package frame;
 
 
 import classes.FilesHandler;
+import classes.PropertyReader;
 import classes.ShopResearcher;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -13,19 +14,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.beans.PropertyChangeEvent;
 import java.util.ResourceBundle;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicComboBoxUI;
-import java.beans.PropertyChangeListener;
 import panel.*;
+
 
 
 
@@ -39,14 +32,17 @@ public class MainFrame extends javax.swing.JFrame {
     
     private boolean tableExist = false, productTableExist = false;
     
-   final int WIDTH = 1300, HEIGHT = 1000, FIRST_ELEMENT_WIDTH = 900, FIRST_ELEMENT_HEIGHT = 900, SECOND_ELEMENT_WIDTH = 300, SECOND_ELEMENT_HEIGTH = 900;
-   
+    int WIDTH = 1300, HEIGHT = 1000, FIRST_ELEMENT_WIDTH = 900, FIRST_ELEMENT_HEIGHT = 900, SECOND_ELEMENT_WIDTH = 300, SECOND_ELEMENT_HEIGTH = 900, LABEL_SIZE_WIDTH = 0, LABEL_SIZE_HEIGHT = 0;
+    final int HEIGHT_REFERENCE = 1080, WIDTH_REFERENCE = 1920;
     
     int xPosition = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - WIDTH/2;
     int yPosition = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2 - HEIGHT/2;
+    final int SCREEN_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().height, SCREEN_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().width;
     String language, compareShopName;
     
-    ResourceBundle resource;
+    //ResourceBundle resource, propertyReader;
+    PropertyReader propertyReader = PropertyReader.getInstance();
+    //ResourceBundle resource
     
     BorderLayout mainFrameLayout_0ld = new BorderLayout();
     FlowLayout mainFrameLayout = new FlowLayout(FlowLayout.LEADING,5,5);
@@ -66,6 +62,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     MenuPanel menuPanel;
     
+    double widthDifference, heightDifference;
+    
     private LoadingPanel loadingPanel;
     
     
@@ -79,6 +77,10 @@ public class MainFrame extends javax.swing.JFrame {
     {
         setLanguage(language);
         setMenu();
+        System.out.println("WYS: " + SCREEN_HEIGHT + " , SZER: " + SCREEN_WIDTH);
+        setAppSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+        xPosition = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 - WIDTH/2;
+        yPosition = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2 - HEIGHT/2;
         featurePanel = new FeaturePanel(this);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setBounds(xPosition,yPosition,WIDTH,HEIGHT);
@@ -89,9 +91,38 @@ public class MainFrame extends javax.swing.JFrame {
         this.add(panel);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         this.setResizable(false);
-
-        
     }
+    
+    private void setAppSize(int width, int height){
+        
+        heightDifference = height / (HEIGHT_REFERENCE * 1.0); 
+        widthDifference = width / (WIDTH_REFERENCE * 1.0);
+        
+        System.out.println("DIFFERENCES: " + heightDifference + " , " + widthDifference);
+        
+        this.WIDTH = (int)(widthDifference * 1300);
+        this.HEIGHT = (int)(heightDifference * 1000);
+        this.FIRST_ELEMENT_HEIGHT = (int)(heightDifference * 900);
+        this.SECOND_ELEMENT_HEIGTH = (int)(heightDifference * 900);
+        this.LABEL_SIZE_HEIGHT = (int)(heightDifference * 870);// - 200;
+        this.FIRST_ELEMENT_WIDTH = (int)(widthDifference * 900);
+        this.SECOND_ELEMENT_WIDTH = (int)(widthDifference * 300);
+        this.LABEL_SIZE_WIDTH = (int)(widthDifference * 720);// - 120;
+        
+        System.out.println("HEIGHT: " + heightDifference + " , WIDTH: " + widthDifference);
+        
+        centerPanel.setPreferredSize(new Dimension(FIRST_ELEMENT_WIDTH, FIRST_ELEMENT_HEIGHT));
+        System.out.println("WYMIARY: " + WIDTH + " , " + HEIGHT + " , " + FIRST_ELEMENT_HEIGHT + " , " + FIRST_ELEMENT_WIDTH + " , " + SECOND_ELEMENT_HEIGTH + " , " + SECOND_ELEMENT_WIDTH); //+ "");
+    }
+    
+    public int getLabelWidth(){
+        return this.LABEL_SIZE_WIDTH;
+    }
+    
+      public int getLabelHeight(){
+        return this.LABEL_SIZE_HEIGHT;
+    }
+    
     public void setProductTableExist(boolean value){
         this.productTableExist = value;
     }
@@ -103,6 +134,12 @@ public class MainFrame extends javax.swing.JFrame {
     public String getComparisonShop(){
         return this.compareShopName;
     }
+    
+   /* public void setPropertyReader(String filename) {
+        //this.propertyReader = ResourceBundle.getBundle("properties/" +filename);
+        this.resource.setPropertyFilename("properties/" +filename);
+        this.resource.setConnection();
+    }*/
     
     public FeaturePanel getFeaturePanel(){
         return this.featurePanel;
@@ -140,6 +177,8 @@ public class MainFrame extends javax.swing.JFrame {
         comparisonPanel = new ComparisonPanel(this);
         loadingPanel = new LoadingPanel(this);
         
+        mainPanel.setLabelSize(400, 400);
+        mainPanel.setButtonsPosition(widthDifference, heightDifference);
         
         this.centerPanel.add(mainPanel, MAIN_PANEL);
         this.centerPanel.add(settingsPanel, SETTING_PANEL);
@@ -162,13 +201,14 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void saveTableExistConfig(String value)
     {
-        StringBuilder modValue = new StringBuilder("tExist:");
-        this.filesHandler.writeToFile((modValue.append(value)).toString(), 1);
+        //StringBuilder modValue = new StringBuilder("tExist:");
+        //this.filesHandler.writeToFile((modValue.append(value)).toString(), 1);
+        this.propertyReader.saveProperty("tExist", value);
     }
     
     public void setMenu()
     {
-        menuPanel = new MenuPanel(resource.getString("userButton"),this);
+        menuPanel = new MenuPanel(propertyReader.getProperty("userButton"),this);
         menuBar = new JMenuBar();
         menuBar.add(menuPanel);
         this.setJMenuBar(menuBar);
@@ -230,15 +270,17 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     //SETTERS
-    public void setResourceBundle()
+    public void setPropertyReader(String filename)
     {
-        this.resource = ResourceBundle.getBundle("properties/" + getLanguage());
+        //this.resource = ResourceBundle.getBundle("properties/" + getLanguage());
+        this.propertyReader.setPropertyFilename("properties/" + filename + ".properties");
+        this.propertyReader.setConnection();
     }
     
     public void setLanguage(String language)
     {
         this.language = language;
-        setResourceBundle();
+        setPropertyReader(getLanguage());
     }
     
     //GETTERS
@@ -314,9 +356,9 @@ public class MainFrame extends javax.swing.JFrame {
         return this.mainFrameLayout;
     }
     
-    public ResourceBundle getResourceBundle()
+    public PropertyReader getPropertyReader()
     {
-        return this.resource;
+        return this.propertyReader;
     }
     
     public BasketMainPanel getBasketPanel()
@@ -333,10 +375,6 @@ public class MainFrame extends javax.swing.JFrame {
     {
         return this.settingsPanel;
     }
-    
-   
-    
-    
     
     public void setButtonText()
     {

@@ -54,10 +54,10 @@ public class BasketMainPanel extends javax.swing.JPanel {
         //resource = ResourceBundle.getBundle(this.resourceLanguage);
         
         initComponents(); 
-        deleteButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("delete"));
-        browserButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("search"));
-        compareButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("compare"));
-        comparisonPanelButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("comparisonPanel"));
+        deleteButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("delete"));
+        browserButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("search"));
+        compareButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("compare"));
+        comparisonPanelButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("comparisonPanel"));
         setButtonEnabled(false);
         
         shopTabbedPane.addChangeListener(new ChangeListener() {
@@ -75,10 +75,10 @@ public class BasketMainPanel extends javax.swing.JPanel {
     
     public void setTextButton()
     {
-        deleteButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("delete"));
-        browserButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("search"));
-        compareButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("compare"));
-        comparisonPanelButton.setText(this.mainPanel.getFrame().getResourceBundle().getString("comparisonPanel"));
+        deleteButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("delete"));
+        browserButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("search"));
+        compareButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("compare"));
+        comparisonPanelButton.setText(this.mainPanel.getFrame().getPropertyReader().getProperty("comparisonPanel"));
         this.repaint();
     }
     
